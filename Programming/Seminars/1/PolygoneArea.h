@@ -5,6 +5,7 @@
 
 #define ERROR_NULL_REFERENCE -1
 #define ERROR_STREAM -2
+#define ERROR_VALUES -3
 
 typedef struct 
 {

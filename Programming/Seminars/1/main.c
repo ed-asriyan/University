@@ -5,8 +5,14 @@
 int main(void)
 {
     double result;
-    calc_area(stdin, &result);
+    int result_code = calc_area(stdin, &result);
 
-    printf("%lf\n", result);
+    if (result_code){
+        printf("Error occured (code %d)", result_code);
+    } else {
+        printf("%lf", result);
+    }
+
+    printf("\n");
 	return 0;
 }
