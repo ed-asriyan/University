@@ -17,3 +17,12 @@ int point_cmp(Point* p1, Point* p2)
         return 1;
     }
 }
+
+// returns square of distance between two points
+double sqr_dist(Point* a, Point* b)
+{
+    double dx = a->x - b->x;
+    double dy = a->y - b->y;
+
+    return dx * dx + dy * dy;
+}
