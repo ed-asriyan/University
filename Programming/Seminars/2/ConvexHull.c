@@ -84,3 +84,51 @@ void quick_sort_points(Point* pivot, Point* a, int count)
     quick_sort_points(pivot, a, i);
     quick_sort_points(pivot, a + i, count - i);
 }
+
+// graham scan algorithm
+int graham_scan(Point* source, int count, Point* result)
+{
+    if (count < 2) {
+        return -1;
+    }
+    if (count < 3) {
+        memcpy(result, source, sizeof(Point) * count);
+        return count;
+    }
+
+    // find the point having the least y coordinate (pivot),
+    // ties are broken in favor of lower x coordinate
+    int least_y = 0;
+    for (int i = 1; i < count; ++i) {
+        if (point_cmp(source + i, source + least_y) < 0) {
+            least_y = i;
+        }
+    }
+
+    // swapping the pivot with the 1st point
+    Point tmp = source[0];
+    source[0] = source[least_y];
+    source[least_y] = tmp;
+
+    // sorting remaining roints by polar angle
+    quick_sort_points(source, source + 1, count - 1);
+
+    // the last algorithm part
+    memcpy(result, source, sizeof(Point) * 3); // the first three points 
+                                               // are identical with source
+    int result_size = 3;
+    for (int i = 3; i < count; ++i) {
+        Point top = result[result_size - 1];
+        --result_size;
+
+        while (ccw(result + (result_size - 1), &top, source + i) != 0) {
+            top = result[result_size - 1];
+            --result_size;
+        }
+
+        result[result_size++] = top;
+        result[result_size++] = source[i];
+    }
+
+    return result_size;
+}
