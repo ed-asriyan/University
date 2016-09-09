@@ -42,3 +42,14 @@ int ccw(Point* a, Point* b, Point* c)
         return 0;
     }
 }
+
+// compares two points (a and b) in sort algorithm
+int sort_cmp(Point* pivot, Point* a, Point* b)
+{
+    int turn = ccw(pivot, a, b);
+    if (turn == 0) {
+        return sqr_dist(pivot, a) < sqr_dist(pivot, b);
+    } else {
+        return turn == -1;
+    }
+}
