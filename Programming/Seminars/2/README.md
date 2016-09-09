@@ -1,0 +1,1 @@
+There are 2D points. Construct the convex hull.
