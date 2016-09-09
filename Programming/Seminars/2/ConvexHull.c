@@ -53,3 +53,34 @@ int sort_cmp(Point* pivot, Point* a, Point* b)
         return turn == -1;
     }
 }
+
+// sorts the point array a by polar angle relative to the point pivot
+void quick_sort_points(Point* pivot, Point* a, int count)
+{
+    if (count < 2) {
+        return;
+    }
+
+    int i, j;
+    Point* p = a + (count / 2);
+    Point tmp;
+
+    for (i = 0, j = count - 1; ; ++i, --j) {
+        while (sort_cmp(pivot, a + i, p) < 0) {
+            ++i;
+        }
+        while (sort_cmp(pivot, p, a + j) < 0) {
+            --j;
+        }
+        if (i >= j) {
+            break;
+        }
+
+        tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+    }
+
+    quick_point_sort(pivot, a, i);
+    quick_point_sort(pivot, a + i, count - i);
+}
