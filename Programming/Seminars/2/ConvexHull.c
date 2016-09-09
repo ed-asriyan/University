@@ -26,3 +26,19 @@ double sqr_dist(Point* a, Point* b)
 
     return dx * dx + dy * dy;
 }
+
+//  1 - if ABC forms clockwise turn;
+//  0 - if ABC are collinear;
+// -1 - if ABC forms couner-clockwise turn
+int ccw(Point* a, Point* b, Point* c)
+{
+    int area = (b->x - a->x) * (c->y - a->y) - (b->y - a->y) * (c->x - a->x);
+
+    if (area > 0) {
+        return -1;
+    } else if (area < 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
