@@ -66,10 +66,10 @@ void quick_sort_points(Point* pivot, Point* a, int count)
     Point tmp;
 
     for (i = 0, j = count - 1; ; ++i, --j) {
-        while (sort_cmp(pivot, a + i, p) < 0) {
+        while (sort_cmp(pivot, a + i, p) > 0) {
             ++i;
         }
-        while (sort_cmp(pivot, p, a + j) < 0) {
+        while (sort_cmp(pivot, p, a + j) > 0) {
             --j;
         }
         if (i >= j) {
