@@ -12,6 +12,13 @@ int scan_point(FILE* stream, Point* p)
     return fscanf(stream, "%lf %lf", &(p->x), &(p->y));
 }
 
+// swap two points
+void swap(Point* a, Point* b)
+{
+    Point tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
 
 // comparing two points
 int point_cmp(Point* p1, Point* p2)
@@ -89,9 +96,7 @@ void quick_sort_points(Point* pivot, Point* a, int count)
             break;
         }
 
-        tmp = a[i];
-        a[i] = a[j];
-        a[j] = tmp;
+        swap(a + i, a + j);
     }
 
     quick_sort_points(pivot, a, i);
@@ -119,9 +124,7 @@ int graham_scan(Point* source, int count, Point* result)
     }
 
     // swapping the pivot with the 1st point
-    Point tmp = source[0];
-    source[0] = source[least_y];
-    source[least_y] = tmp;
+    swap(source, source + least_y);
 
     // sorting remaining roints by polar angle
     quick_sort_points(source, source + 1, count - 1);
