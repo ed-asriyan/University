@@ -14,4 +14,11 @@ typedef struct
 // graham scan algorithm
 int graham_scan(Point* source, int count, Point* result);
 
+
+// prints point into the stream
+int print_point(FILE* stream, Point* p);
+
+// scans point from the stream
+int scan_point(FILE* stream, Point* p);
+
 #endif // __CONVEX_HULL__

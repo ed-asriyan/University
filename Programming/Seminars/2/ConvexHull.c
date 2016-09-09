@@ -1,5 +1,18 @@
 #include "ConvexHull.h"
 
+// prints point into the stream
+int print_point(FILE* stream, Point* p)
+{
+    return fprintf(stream, "%3.0lf %3.0lf", p->x, p->y);
+}
+
+// scans point from the stream
+int scan_point(FILE* stream, Point* p)
+{
+    return fscanf(stream, "%lf %lf", &(p->x), &(p->y));
+}
+
+
 // comparing two points
 int point_cmp(Point* p1, Point* p2)
 {
