@@ -81,6 +81,6 @@ void quick_sort_points(Point* pivot, Point* a, int count)
         a[j] = tmp;
     }
 
-    quick_point_sort(pivot, a, i);
-    quick_point_sort(pivot, a + i, count - i);
+    quick_sort_points(pivot, a, i);
+    quick_sort_points(pivot, a + i, count - i);
 }
