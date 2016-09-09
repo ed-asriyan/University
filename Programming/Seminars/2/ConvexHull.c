@@ -121,7 +121,11 @@ int graham_scan(Point* source, int count, Point* result)
         Point top = result[result_size - 1];
         --result_size;
 
-        while (ccw(result + (result_size - 1), &top, source + i) != 0) {
+        // wikipedia tells that the following while condition must be such as
+        //  ccw(result + (result_size - 1), &top, source + i) <= 0
+        // but it doesn't works in this code. i tried "play with code" and
+        // i think i found a solution
+        while (ccw(result + (result_size - 1), &top, source + i) >= 0) {
             top = result[result_size - 1];
             --result_size;
         }
