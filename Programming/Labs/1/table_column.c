@@ -49,11 +49,11 @@ int add_cell(TableColumn* table_column, char* data) {
 
 		if (left_width > table_column->left_width) {
 			table_column->left_width = left_width;
-			table_column->width = table_column->right_width + left_width;
+			data_length = table_column->right_width + left_width;
 		}
 		if (right_width > table_column->right_width) {
 			table_column->right_width = right_width;
-			table_column->width = table_column->left_width + right_width;
+			data_length = table_column->left_width + right_width;
 		}
 	}
 	if (!data_length) {
