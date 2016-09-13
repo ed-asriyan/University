@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "table.h"
+
 int main(int argc, char* argv[]) 
 {
 	if (argc != 2) { 
@@ -13,7 +15,10 @@ int main(int argc, char* argv[])
 		return -2; 
 	}
 
-	// todo
+	Table* table = create_table(input_stream);
+	print_table(stdout, table);
+
+	free_table(table);
 
 	fclose(input_stream); 
  
