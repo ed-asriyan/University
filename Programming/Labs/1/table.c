@@ -111,6 +111,7 @@ void print_horizontal_sep(FILE* output_stream, Table* table) {
 }
 
 // returns pointer to a Table object
+// if read failed returns NULL
 Table* create_table(FILE* input_stream)
 {
 	Table* result = (Table*)malloc(sizeof(Table));
@@ -121,16 +122,22 @@ Table* create_table(FILE* input_stream)
 	seek_begin(input_stream);
 	int columns_count = result->columns_count = get_columns_count(input_stream);
 
-	result->columns = (TableColumn**)malloc(sizeof(TableColumn*));
+	result->columns = (TableColumn**)malloc(sizeof(TableColumn*) * columns_count);
 	for (int i = 0; i < columns_count; ++i) {
 		result->columns[i] = create_table_column(rows_count);
 	}
 
 	TableColumn** columns = result->columns;
 
+	int is_fail = 0;
+
 	seek_begin(input_stream);
 	for (int i = 0; i < rows_count; ++i) {
 		for (int j = 0; j < columns_count; ++j) {
+			if (is_fail) {
+				break;
+			}
+
 			if (feof(input_stream)) {
 				fprintf(stderr, "Unexpected EOF (row %d, col %d)\n", i, j);
 			}
@@ -144,26 +151,36 @@ Table* create_table(FILE* input_stream)
 				case Tab:
 					if (j >= columns_count - 1) {
 						fprintf(stderr, "Expected end of line, but tab was received (row %d, col %d)\n", i, j);
+						is_fail = 1;
 					}
 					break;
 				case LineBreak:
 					if (j != columns_count - 1) {
 						fprintf(stderr, "Expected tab, but end of line was received (row %d, col %d)\n", i, j);
+						is_fail = 1;
 					}
 					break;
 				case End:
 					if (j != columns_count - 1 && i != rows_count - 1) {
 						fprintf(stderr, "Unexpected EOF (row %d, col %d)\n", i, j);
+						is_fail = 1;
 					}
 					break;
 			}
 
-			add_cell(columns[j], cell_data);
+			if (!is_fail) {
+				add_cell(columns[j], cell_data);
+			}
 			free(cell_data);
 		}
 	}
 
-	return result;
+	if (is_fail) {
+		free_table(result);
+		return NULL;
+	} else {
+		return result;
+	}
 }
 
 // prints the table to the stream in formatted view
@@ -180,18 +197,26 @@ void print_table(FILE* output_stream, Table* table) {
 			TableCell* cell = get_cell(columns[j], i);
 			int curr_width = get_width(*(columns + j));
 			int curr_right_width = get_right_width(*(columns + j));
+			char* curr_data = get_data(cell);
 
+			int temp_str_len;
+			int temp_int;
 			double temp_double;
 
 			switch (get_data_type(cell)) {
 				case Integer:
-					fprintf(output_stream, "%*s", curr_width, get_data(cell));
+					sscanf(get_data(cell), "%d", &temp_int);
+					fprintf(output_stream, "%*d%*s", curr_width - curr_right_width, temp_int, curr_right_width, "");
 					break;
 				case String:
-					fprintf(output_stream, "%-*s", curr_width, get_data(cell));
+					temp_str_len = strlen(curr_data);
+					if (temp_str_len) {
+						fprintf(output_stream, "%-*s", curr_width, curr_data);
+					} else {
+						fprintf(output_stream, "%-*s", curr_width, "None");
+					}
 					break;
 				case Double:
-					// todo
 					sscanf(get_data(cell), "%lf", &temp_double);
 					fprintf(output_stream, "%*.*lf", curr_width, curr_right_width - 1, temp_double);
 					break;
@@ -217,6 +242,5 @@ void free_table(Table* table) {
 		free_table_column(*column);
 	}
 	free(table->columns);
-	printf("%p\n", table->columns);
 	free(table);
 }

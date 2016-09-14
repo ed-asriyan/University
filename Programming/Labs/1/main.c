@@ -16,9 +16,12 @@ int main(int argc, char* argv[])
 	}
 
 	Table* table = create_table(input_stream);
-	print_table(stdout, table);
 
-	free_table(table);
+	if (table != NULL) {
+		print_table(stdout, table);
+
+		free_table(table);
+	}
 
 	fclose(input_stream); 
  

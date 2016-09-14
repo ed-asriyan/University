@@ -18,6 +18,7 @@ typedef struct
 } Table;
 
 // returns pointer to a Table object
+// if read failed returns NULL
 Table* create_table(FILE* input_stream);
 
 // destroys Table by pointer to it
