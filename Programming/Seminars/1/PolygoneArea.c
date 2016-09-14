@@ -1,5 +1,7 @@
 #include "PolygoneArea.h" 
 
+#define ABS(a) ((a) > 0 ? (a) : -(a))
+
 int read_point(FILE* input, Point* result)
 {
     if (input == NULL ||
@@ -41,6 +43,6 @@ int calc_area(FILE* input, double* result)
     }
     _result += double_area(&point1, &first_point);
 
-    *result = _result / 2;
-    return count > 2 && _result > 0 ? 0 : ERROR_VALUES;
+    *result = ABS(_result) / 2;
+    return 0;
 }
