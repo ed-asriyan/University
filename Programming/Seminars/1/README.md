@@ -1,0 +1,1 @@
+Program reads polygone by points (x, y) in counter-clockwise order from stdin & calculates it's area.
