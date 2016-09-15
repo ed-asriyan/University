@@ -236,9 +236,9 @@ void print_table(FILE* output_stream, Table* table) {
 
 // destroys Table by pointer to it
 void free_table(Table* table) {
-	int rows_count = table->rows_count;
+	int columns_count = table->columns_count;
 	TableColumn** column = table->columns;
-	for (int i = 0; i < rows_count; ++i, ++column) {
+	for (int i = 0; i < columns_count; ++i, ++column) {
 		free_table_column(*column);
 	}
 	free(table->columns);

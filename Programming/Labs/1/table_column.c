@@ -17,6 +17,7 @@ TableColumn* create_table_column(int cells_count) {
 	result->width = 0;
 	result->left_width = 0;
 	result->right_width = 0;
+	result->filled_cells_count = 0;
 
 	return result;
 }

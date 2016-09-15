@@ -49,7 +49,7 @@ TableCell* create_table_cell(char* data) {
 	TableCell* result = (TableCell*)malloc(sizeof(TableCell));
 
 	result->type = recognize_data_type(data);
-	result->data = (char*)malloc(sizeof(char) * strlen(data));
+	result->data = (char*)malloc(sizeof(char) * (strlen(data) + 1));
 	strcpy(result->data, data);
 
 	return result;
