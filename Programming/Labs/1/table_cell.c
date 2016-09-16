@@ -13,33 +13,33 @@ enum DataType recognize_data_type(char* data)
 
 	int digits_count = 0;
 	int dot_count = 0;
+	int minus_pos = -1;
+	int minus_count = 0;
 	int symbols_count = 0;
 
 	while (*data != '\0') {
 		digits_count += is_digit(*data);
 		dot_count += *data == '.';
+		if (*data == '-') {
+			minus_pos = length;
+			++minus_count;
+		}
 		++length;
 
 		++data;
 	}
-	symbols_count = length - digits_count - dot_count;
+	symbols_count = length - digits_count - dot_count - minus_count;
 
-	if (!length) {
-		return String;
-	} else if (!symbols_count) {
-		if (!dot_count) {
-			return Integer;
-		} else if (length != 1) {
-			return Double;
-		} else {
-			return Character;
-		}
+	if (minus_pos <= 0 && digits_count && 
+	    digits_count + minus_count == length) {
+		return Integer;
+	} else if (minus_pos <= 0 && dot_count <= 1 && digits_count &&
+	           digits_count + dot_count + minus_count == length) {
+		return Double;
+	} else if (!digits_count && length == 1) {
+		return Character;
 	} else {
-		if (length == 1) {
-			return Character;
-		} else {
-			return String;
-		}
+		return String;
 	}
 
 	// if this algorithm doesn't work as it should work
