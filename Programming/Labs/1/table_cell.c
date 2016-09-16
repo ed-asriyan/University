@@ -1,12 +1,14 @@
 #include "table_cell.h"
 
 // returns 1 if c is digit
-int is_digit(char c) {
+int is_digit(char c)
+{
 	return c >= '0' && c <= '9';
 }
 
 // returns real data type
-enum DataType recognize_data_type(char* data) {
+enum DataType recognize_data_type(char* data)
+{
 	int length = 0;
 
 	int digits_count = 0;
@@ -45,28 +47,30 @@ enum DataType recognize_data_type(char* data) {
 }
 
 // returns pointer to a TableCell object
-TableCell* create_table_cell(char* data) {
+TableCell* create_table_cell(char* data)
+{
 	TableCell* result = (TableCell*)malloc(sizeof(TableCell));
 
 	result->type = recognize_data_type(data);
-	result->data = (char*)malloc(sizeof(char) * (strlen(data) + 1));
-	strcpy(result->data, data);
+	result->width = strlen(data);
 
 	return result;
 }
 
 // destroys TableCell by pointer to it
-void free_table_cell(TableCell* table_cell) {
-	free(table_cell->data);
+void free_table_cell(TableCell* table_cell)
+{
 	free(table_cell);
 }
 
 // returns data type in the cell
-enum DataType get_data_type(TableCell* table_cell) {
+enum DataType get_data_type_cell(TableCell* table_cell)
+{
 	return table_cell->type;
 }
 
-// returns data in the cell
-char* get_data(TableCell* table_cell) {
-	return table_cell->data;
+// returns cell width
+int get_width_cell(TableCell* table_cell)
+{
+	return table_cell->width;
 }

@@ -9,20 +9,23 @@ enum SeparatorType
 };
 
 // returns 1 if c is separator
-int is_separator(char c) {
+int is_separator(char c)
+{
 	return c == '\t' ||
 	       c == '\n' ||
 	       c == '\0';
 }
 
 // returns 1 if c is linesbreaker
-int is_linebreak(char c) {
+int is_linebreak(char c)
+{
 	return c == '\n' ||
 	       c == '\0';
 }
 
 // goes to the beginning of the stream
-void seek_begin(FILE* input_stream) {
+void seek_begin(FILE* input_stream)
+{
 	fseek(input_stream, 0, SEEK_SET);
 }
 
@@ -43,7 +46,8 @@ int get_columns_count(FILE* input_stream)
 
 // returns number of rows in the table
 // (in input_stream) 
-int get_rows_count(FILE* input_stream) {
+int get_rows_count(FILE* input_stream)
+{
 	int rows_count = 1;
 
 	char c;
@@ -59,7 +63,8 @@ int get_rows_count(FILE* input_stream) {
 // cell if there is no linebreaker after this
 // in another way moves stream carret on the 
 // linebreaker
-int get_cell_length(FILE* input_stream) {
+int get_cell_length(FILE* input_stream)
+{
 	int length = 0;
 
 	char c;
@@ -96,12 +101,13 @@ enum SeparatorType read_cell(FILE* input_stream, int width, char* result)
 }
 
 // prints horizontal separator
-void print_horizontal_sep(FILE* output_stream, Table* table) {
+void print_horizontal_sep(FILE* output_stream, Table* table)
+{
 	int cols_count = table->columns_count;
 
 	fprintf(output_stream, "+");
 	for (int i = 0; i < cols_count; ++i) {
-		int width = get_width(table->columns[i]) + 2;
+		int width = get_width_column(table->columns[i]) + 2;
 		for (int j = 0; j < width; ++j) {
 			fprintf(output_stream, "-");
 		}
@@ -115,6 +121,8 @@ void print_horizontal_sep(FILE* output_stream, Table* table) {
 Table* create_table(FILE* input_stream)
 {
 	Table* result = (Table*)malloc(sizeof(Table));
+
+	result->stream = input_stream;
 
 	seek_begin(input_stream);
 	int rows_count = result->rows_count = get_rows_count(input_stream);
@@ -169,7 +177,7 @@ Table* create_table(FILE* input_stream)
 			}
 
 			if (!is_fail) {
-				add_cell(columns[j], cell_data);
+				add_cell_column(columns[j], cell_data);
 			}
 			free(cell_data);
 		}
@@ -184,46 +192,53 @@ Table* create_table(FILE* input_stream)
 }
 
 // prints the table to the stream in formatted view
-void print_table(FILE* output_stream, Table* table) {
+void print_table(FILE* output_stream, Table* table)
+{
 	int rows_count = table->rows_count;
 	int cols_count = table->columns_count;
 
 	TableColumn** columns = table->columns;
 
+	seek_begin(table->stream);
+
 	print_horizontal_sep(output_stream, table);
 	for (int i = 0; i < rows_count; ++i) {
 		fprintf(output_stream, "| ");
 		for (int j = 0 ; j < cols_count; ++j) {
-			TableCell* cell = get_cell(columns[j], i);
-			int curr_width = get_width(*(columns + j));
-			int curr_right_width = get_right_width(*(columns + j));
-			char* curr_data = get_data(cell);
+			int curr_width = get_width_column(columns[j]);
+			int curr_right_width = get_right_width_column(columns[j]);
+			
+			TableCell* cell = get_cell_column(columns[j], i);
+			int curr_cell_width = get_width_cell(cell);
+			char* curr_data = (char*)malloc(sizeof(char) * (curr_cell_width + 1));
+			read_cell(table->stream, curr_cell_width, curr_data);
+			int curr_data_length = get_width_cell(cell);
 
-			int temp_str_len;
 			int temp_int;
 			double temp_double;
 
-			switch (get_data_type(cell)) {
+			switch (get_data_type_cell(cell)) {
 				case Integer:
-					sscanf(get_data(cell), "%d", &temp_int);
+					sscanf(curr_data, "%d", &temp_int);
 					fprintf(output_stream, "%*d%*s", curr_width - curr_right_width, temp_int, curr_right_width, "");
 					break;
 				case String:
-					temp_str_len = strlen(curr_data);
-					if (temp_str_len) {
+					if (curr_data_length) {
 						fprintf(output_stream, "%-*s", curr_width, curr_data);
 					} else {
 						fprintf(output_stream, "%-*s", curr_width, "None");
 					}
 					break;
 				case Double:
-					sscanf(get_data(cell), "%lf", &temp_double);
+					sscanf(curr_data, "%lf", &temp_double);
 					fprintf(output_stream, "%*.*lf", curr_width, curr_right_width - 1, temp_double);
 					break;
 				case Character:
-					fprintf(output_stream, "%*s%*s", (curr_width + 1) / 2, get_data(cell), curr_width / 2, "");
+					fprintf(output_stream, "%*s%*s", (curr_width + 1) / 2, curr_data, curr_width / 2, "");
 					break;
 			}
+			free(curr_data);
+
 			fprintf(output_stream, " | ");
 		}
 		fprintf(output_stream, "\n");
@@ -235,7 +250,8 @@ void print_table(FILE* output_stream, Table* table) {
 }
 
 // destroys Table by pointer to it
-void free_table(Table* table) {
+void free_table(Table* table)
+{
 	int columns_count = table->columns_count;
 	TableColumn** column = table->columns;
 	for (int i = 0; i < columns_count; ++i, ++column) {

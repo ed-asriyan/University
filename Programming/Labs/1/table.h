@@ -4,11 +4,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "table_cell.h"
 #include "table_column.h"
 
 // represents the table
 typedef struct
 {
+	FILE* stream;
+
 	int columns_count;
 	int rows_count;
 
