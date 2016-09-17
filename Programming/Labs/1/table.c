@@ -142,12 +142,13 @@ Table* create_table(FILE* input_stream)
 	seek_begin(input_stream);
 	for (int i = 0; i < rows_count; ++i) {
 		for (int j = 0; j < columns_count; ++j) {
-			if (is_fail) {
-				break;
+			if (!is_fail && feof(input_stream)) {
+				fprintf(stderr, "Unexpected EOF (row %d, col %d)\n", i, j);
+				is_fail = 1;
 			}
 
-			if (feof(input_stream)) {
-				fprintf(stderr, "Unexpected EOF (row %d, col %d)\n", i, j);
+			if (is_fail) {
+				break;
 			}
 
 			size_t curr_pos = ftell(input_stream);
@@ -179,6 +180,7 @@ Table* create_table(FILE* input_stream)
 			if (!is_fail) {
 				add_cell_column(columns[j], cell_data);
 			}
+
 			free(cell_data);
 		}
 	}
