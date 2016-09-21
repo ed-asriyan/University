@@ -159,7 +159,7 @@ void to_stepped_form_matrix(Matrix* a)
 	int b_col = 0;
 
 	for (int i = 0; i < width; ++i) {
-		// searching the leading element (leading, i)
+		// searching the leading element (leading, b_col)
 		int leading = -1;
 		for (int j = b_row; j < height; ++j) {
 			if (data[j][i]) {
@@ -181,14 +181,17 @@ void to_stepped_form_matrix(Matrix* a)
 			data[leading] = temp;
 
 			leading = b_row;
+
 		}
 
-		// the leading element already is (leading, i)
+		// the leading element already is (leading, b_col)
 
 		// divide the whole row by the leading item
+		double divider = data[leading][b_col];
 		for (int j = 0; j < width; ++j) {
-			data[leading][j] /= data[leading][i];
+			data[leading][j] /= divider;
 		}
+
 
 		// adding the following row by leading one
 		for (int j = leading + 1; j < height; ++j) {
