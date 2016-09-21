@@ -43,4 +43,7 @@ int get_height_matrix(Matrix* matrix);
 // returns matrix width
 int get_width_matrix(Matrix* matrix);
 
+// recasts the matrix to stepped form
+void to_stepped_form_matrix(Matrix* a);
+
 #endif // __ED_ASRIYAN_MATRIX_H__

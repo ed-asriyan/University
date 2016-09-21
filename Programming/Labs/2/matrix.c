@@ -145,3 +145,60 @@ int get_width_matrix(Matrix* matrix)
 {
 	return matrix->width;
 }
+
+// recasts the matrix to stepped form
+void to_stepped_form_matrix(Matrix* a)
+{
+	int height = a->height;
+	int width = a->width;
+	double** data = a->data;
+
+	// removed columns & rows count
+	// q. v. algorithm
+	int b_row = 0;
+	int b_col = 0;
+
+	for (int i = 0; i < width; ++i) {
+		// searching the leading element (leading, i)
+		int leading = -1;
+		for (int j = b_row; j < height; ++j) {
+			if (data[j][i]) {
+				leading = j;
+			}
+		}
+
+		// if there are no the leading element
+		if (leading < 0) {
+			++b_col;
+			continue;
+		}
+
+		// if the leading row is not the first
+		// swapping the first row & the leading one
+		if (leading) {
+			double* temp = data[b_row];
+			data[b_row] = data[leading];
+			data[leading] = temp;
+
+			leading = b_row;
+		}
+
+		// the leading element already is (leading, i)
+
+		// divide the whole row by the leading item
+		for (int j = 0; j < width; ++j) {
+			data[leading][j] /= data[leading][i];
+		}
+
+		// adding the following row by leading one
+		for (int j = leading + 1; j < height; ++j) {
+			double mn = data[j][i];
+			for (int k = 0; k < width; ++k) {
+				data[j][k] -= data[leading][k] * mn;
+			}
+		}
+
+		++b_col;
+		++b_row;
+	}
+}
