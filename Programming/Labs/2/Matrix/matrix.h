@@ -1,17 +1,19 @@
-#ifndef __ED_ASRIYAN_MATRIX_H__
-#define __ED_ASRIYAN_MATRIX_H__
+//
+// Created by ed on 10/5/16.
+//
+
+#ifndef EQUATIONSYSTEMSOLVER_MATRIX_H
+#define EQUATIONSYSTEMSOLVER_MATRIX_H
 
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef struct
-{
+typedef struct {
 	int height;
 	int width;
 
 	double** data;
 } Matrix;
-
 
 // returns pointer to the new Matrix object
 // if input values is out of range returns NULL
@@ -46,4 +48,4 @@ int get_width_matrix(Matrix* matrix);
 // recasts the matrix to stepped form
 void to_stepped_form_matrix(Matrix* a);
 
-#endif // __ED_ASRIYAN_MATRIX_H__
+#endif //EQUATIONSYSTEMSOLVER_MATRIX_H

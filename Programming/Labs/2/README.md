@@ -1,4 +1,4 @@
-# Solving linear equations by Gauss method.
+# Solving linear equations by Gauss & Iterations method.
 
 ### Input data:
 The first line of the input data stream contains the value n - size (order) of the linear system. In the following lines of the input data stream contains the values of the elements of the matrix, including the free terms. The numbers in the lines are separated by spaces.

@@ -1,10 +1,13 @@
+//
+// Created by ed on 10/5/16.
+//
+
 #include "matrix.h"
 
 // set the new matrix size
 // if operation completed returns 0
 // in another way returns -1
-int set_size_matrix(Matrix* matrix, int height, int width)
-{
+int set_size_matrix(Matrix* matrix, int height, int width) {
 	if (height < 0 || width < 0) {
 		fprintf(stderr, "set_matrix_size: size is negative (%d, %d)\n", height, width);
 		return -1;
@@ -37,12 +40,12 @@ int set_size_matrix(Matrix* matrix, int height, int width)
 	double** new_data = init_data;
 	if (init_height != height) {
 		matrix->height = height;
-		new_data = matrix->data = (double**)realloc(matrix->data, sizeof(double*) * height);
+		new_data = matrix->data = (double**) realloc(matrix->data, sizeof(double*) * height);
 	}
 	if (init_width != width) {
 		matrix->width = width;
 		for (int i = 0; i < height; ++i) {
-			new_data[i] = (double*)realloc(new_data[i], sizeof(double) * width);
+			new_data[i] = (double*) realloc(new_data[i], sizeof(double) * width);
 		}
 	}
 
@@ -51,24 +54,21 @@ int set_size_matrix(Matrix* matrix, int height, int width)
 
 // returns pointer to the new Matrix object
 // if input values is out of range returns NULL
-Matrix* create_matrix(int height, int width)
-{
+Matrix* create_matrix(int height, int width) {
 	if (height < 0 || width < 0) {
 		return NULL;
 	}
 
-	Matrix* result = (Matrix*)malloc(sizeof(Matrix));
+	Matrix* result = (Matrix*) malloc(sizeof(Matrix));
 	result->data = NULL;
 
 	set_size_matrix(result, height, width);
-	
 
 	return result;
 }
 
 // destroys the Matrix object
-void free_matrix(Matrix* matrix)
-{
+void free_matrix(Matrix* matrix) {
 	set_size_matrix(matrix, 0, 0);
 	free(matrix);
 }
@@ -76,13 +76,12 @@ void free_matrix(Matrix* matrix)
 // returns pointer to the new Matrix object,
 // which is read from input_stream
 // if reading is failed returns NULL
-Matrix* scan_matrix(FILE* input_stream)
-{
+Matrix* scan_matrix(FILE* input_stream) {
 	int height;
 	fscanf(input_stream, "%d", &height);
 	int width = height + 1;
 
-	Matrix* result = (Matrix*)malloc(sizeof(Matrix));
+	Matrix* result = (Matrix*) malloc(sizeof(Matrix));
 	result->data = NULL;
 	set_size_matrix(result, height, width);
 
@@ -113,8 +112,7 @@ Matrix* scan_matrix(FILE* input_stream)
 }
 
 // prints the matrix into output_stream
-void print_matrix(FILE* output_stream, Matrix* matrix)
-{
+void print_matrix(FILE* output_stream, Matrix* matrix) {
 	int height = matrix->height;
 	int width = matrix->width;
 	double** data = matrix->data;
@@ -129,26 +127,22 @@ void print_matrix(FILE* output_stream, Matrix* matrix)
 
 // returns pointer to two-dimensional array
 // which represents a matrix
-double** get_data_matrix(Matrix* matrix)
-{
+double** get_data_matrix(Matrix* matrix) {
 	return matrix->data;
 }
 
 // returns matrix height
-int get_height_matrix(Matrix* matrix)
-{
+int get_height_matrix(Matrix* matrix) {
 	return matrix->height;
 }
 
 // returns matrix width
-int get_width_matrix(Matrix* matrix)
-{
+int get_width_matrix(Matrix* matrix) {
 	return matrix->width;
 }
 
 // recasts the matrix to stepped form
-void to_stepped_form_matrix(Matrix* a)
-{
+void to_stepped_form_matrix(Matrix* a) {
 	int height = a->height;
 	int width = a->width;
 	double** data = a->data;

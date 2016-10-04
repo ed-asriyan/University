@@ -1,10 +1,13 @@
+//
+// Created by ed on 10/5/16.
+//
+
 #include "gauss.h"
 
 // retuns stepped matrix (a) rank
 // if include_right_column == 0 the last
 // column will bo ignored
-int calc_rank_stepped_matrix(Matrix* a, int include_right_column)
-{
+int calc_rank_stepped_matrix(Matrix* a, int include_right_column) {
 	int height = get_height_matrix(a);
 	int width = get_width_matrix(a) - !include_right_column;
 	double** data = get_data_matrix(a);
@@ -29,8 +32,7 @@ int calc_rank_stepped_matrix(Matrix* a, int include_right_column)
 // solves a equation system by Gauss method
 // if solution completed returns 0
 // if the system has not any solution result size is 0
-int solve_gauss(Matrix* a, Matrix* result)
-{
+int solve_gauss(Matrix* a, Matrix* result) {
 	int a_height = get_height_matrix(a);
 	int a_width = get_width_matrix(a);
 
@@ -38,7 +40,7 @@ int solve_gauss(Matrix* a, Matrix* result)
 		fprintf(stderr, "solve_gauss: unsupported matrix (a) size: %dx%d", a_height, a_width);
 		return -1;
 	}
-	
+
 	to_stepped_form_matrix(a);
 
 	int rank = calc_rank_stepped_matrix(a, 1);
