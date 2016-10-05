@@ -70,7 +70,7 @@ int main() {
 		return -10;
 	}
 
-	if (!solve_iterations(matrix_iterations, result_iterations, 5, 1e-3)) {
+	if (!solve_iterations(matrix_iterations, result_iterations, 1000, 1e-3)) {
 		if (get_height_matrix(result_iterations)) {
 			print_matrix(stdout, result_iterations);
 		} else {
