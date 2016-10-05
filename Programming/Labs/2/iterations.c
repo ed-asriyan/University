@@ -4,13 +4,6 @@
 
 #include "iterations.h"
 
-void FreeData(double* a, double* b, double* c, double* d) {
-	free(a);
-	free(b);
-	free(c);
-	free(d);
-}
-
 int solve_iterations(Matrix* a, Matrix* result, int iter_count, double epsilon) {
 	if (iter_count <= 0) {
 		fprintf(stderr, "solve_iterations: iteration count must be positive\n");
@@ -69,7 +62,10 @@ int solve_iterations(Matrix* a, Matrix* result, int iter_count, double epsilon) 
 
 	if (euclid_norm > 1) {
 		fprintf(stderr, "ERROR: INVALID_MATRIX!!!\n");
-		FreeData(curr_x, prev_x, temp_x, buf_row);
+		free(curr_x);
+		free(prev_x);
+		free(temp_x);
+		free(buf_row);
 		return -1;
 	}
 
