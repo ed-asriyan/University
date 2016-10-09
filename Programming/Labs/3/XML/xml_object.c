@@ -9,8 +9,8 @@ XmlObject* ParseXml(char* str, char** xml_end) {
 	while (*str != '<') {
 		// if xml object is invalid
 		if (*str != ' ' &&
-			*str != '\n' &&
-			*str != '\r') {
+		    *str != '\n' &&
+		    *str != '\r') {
 			return NULL;
 		}
 
