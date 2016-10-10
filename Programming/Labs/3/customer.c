@@ -7,7 +7,6 @@
 Customer* CreateCustomerFromXml(char* str, char** xml_end) {
 	XmlObject* xml = ParseXml(str, xml_end);
 	if (xml == NULL) {
-		fprintf(stderr, "Error parsing customer xml object\n");
 		return NULL;
 	}
 
@@ -15,7 +14,7 @@ Customer* CreateCustomerFromXml(char* str, char** xml_end) {
 
 	// if it is not a customer object
 	if (strcmp(get_xml_object_tag_name(xml), "Customer")) {
-		fprintf(stderr, "Not a xml customer object\n");
+
 	} else {
 		char* customer_id = "-1";
 		char* customer_title = "";
@@ -35,7 +34,6 @@ Customer* CreateCustomerFromXml(char* str, char** xml_end) {
 			// parsing xml property
 			XmlObject* property = ParseXml(properties_str, &properties_str);
 			if (property == NULL) {
-				fprintf(stderr, "Error parsing customer property\n");
 				break;
 			}
 
@@ -78,7 +76,6 @@ Customer* CreateCustomerFromXml(char* str, char** xml_end) {
 			customer_company_name == NULL ||
 			customer_email_address == NULL ||
 			customer_phone == NULL) {
-			fprintf(stderr, "Not all customer properties are exist\n");
 		} else {
 			result = (Customer*) malloc(sizeof(Customer));
 			result->id = atoi(customer_id);
