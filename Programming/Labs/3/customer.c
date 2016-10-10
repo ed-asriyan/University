@@ -100,6 +100,10 @@ int get_customer_id(Customer* customer) {
 	return customer->id;
 }
 
+char* get_customer_title(Customer* customer) {
+	return customer->title;
+}
+
 char* get_customer_first_name(Customer* customer) {
 	return customer->first_name;
 }
