@@ -26,6 +26,8 @@ void FreeCustomer(Customer*);
 
 int get_customer_id(Customer*);
 
+int CustomerCmp(Customer* a, Customer* b);
+
 char* get_customer_first_name(Customer*);
 
 char* get_customer_last_name(Customer*);

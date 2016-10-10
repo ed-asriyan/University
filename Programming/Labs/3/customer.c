@@ -2,7 +2,7 @@
 // Created by ed on 10.10.16.
 //
 
-#include "Customer.h"
+#include "customer.h"
 
 Customer* CreateCustomerFromXml(char* str, char** xml_end) {
 	XmlObject* xml = ParseXml(str, xml_end);
