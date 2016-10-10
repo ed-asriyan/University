@@ -4,8 +4,8 @@
 
 #include "Customer.h"
 
-Customer* CreateCustomerFromXml(char* str) {
-	XmlObject* xml = ParseXml(str, &str);
+Customer* CreateCustomerFromXml(char* str, char** xml_end) {
+	XmlObject* xml = ParseXml(str, xml_end);
 	if (xml == NULL) {
 		fprintf(stderr, "Error parsing customer xml object\n");
 		return NULL;
@@ -17,13 +17,13 @@ Customer* CreateCustomerFromXml(char* str) {
 	if (strcmp(get_xml_object_tag_name(xml), "Customer")) {
 		fprintf(stderr, "Not a xml customer object\n");
 	} else {
-		char* customer_id = NULL;
-		char* customer_title = NULL;
-		char* customer_first_name = NULL;
-		char* customer_last_name = NULL;
-		char* customer_company_name = NULL;
-		char* customer_email_address = NULL;
-		char* customer_phone = NULL;
+		char* customer_id = "-1";
+		char* customer_title = "";
+		char* customer_first_name = "";
+		char* customer_last_name = "";
+		char* customer_company_name = "";
+		char* customer_email_address = "";
+		char* customer_phone = "";
 
 		char* properties_str = get_xml_object_body(xml);
 		char* properties_str_end = properties_str + (long) strlen(properties_str);

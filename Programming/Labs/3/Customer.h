@@ -20,7 +20,7 @@ typedef struct {
 	char* phone;
 } Customer;
 
-Customer* CreateCustomerFromXml(char*);
+Customer* CreateCustomerFromXml(char*, char**);
 
 void FreeCustomer(Customer*);
 
