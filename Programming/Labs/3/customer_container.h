@@ -14,6 +14,14 @@ int ReadWholeCustomerList(XmlObject* root, Customer*** result);
 
 void FreeCustomerList(Customer** c, int count);
 
-void MergeSort(Customer** array, int count, int (*cmp)(Customer* a, Customer* b));
+void MergeSort(Customer** array, int count, const int (* cmp)(Customer* a, Customer* b));
+
+Customer* Search(Customer** array, int count, int (* cmp)(Customer*));
+
+int CustomerCmpTitle(Customer* a, Customer* b);
+
+int CustomerCmpFirstName(Customer* a, Customer* b);
+
+int CustomerCmpLastName(Customer* a, Customer* b);
 
 #endif //XMLCUSTOMERS_CUSTOMERCONTAINER_H

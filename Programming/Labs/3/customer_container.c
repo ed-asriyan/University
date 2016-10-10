@@ -34,24 +34,11 @@ void FreeCustomerList(Customer** c, int count) {
 	free(c);
 }
 
-int defaultCustomerCmp(Customer* a, Customer* b) {
-	int a_id = get_customer_id(a);
-	int b_id = get_customer_id(b);
-
-	if (a_id == b_id) {
-		return 0;
-	} else if (a_id < b_id) {
-		return 1;
-	} else {
-		return -1;
-	}
-}
-
 void merging(Customer** a, Customer** b, int low, int mid, int high, int (* cmp)(Customer*, Customer*)) {
 	int l1, l2, i;
 
 	for (l1 = low, l2 = mid + 1, i = low; l1 <= mid && l2 <= high; i++) {
-		if (cmp(a[l1], a[l2]) <= 0) {
+		if ((*cmp)(a[l1], a[l2]) <= 0) {
 			b[i] = a[l1++];
 		} else {
 			b[i] = a[l2++];
@@ -84,9 +71,9 @@ void sort(Customer** a, Customer** b, int low, int high, int (* cmp)(Customer*, 
 	}
 }
 
-void MergeSort(Customer** array, int count, int (* cmp)(Customer*, Customer*)) {
+void MergeSort(Customer** array, int count, const int (* cmp)(Customer*, Customer*)) {
 	if (cmp == NULL) {
-		cmp = &defaultCustomerCmp;
+		cmp = &CustomerCmpTitle;
 	}
 
 	Customer** b = (Customer**) malloc(sizeof(Customer*) * count);
@@ -94,4 +81,30 @@ void MergeSort(Customer** array, int count, int (* cmp)(Customer*, Customer*)) {
 
 	memcpy(array, b, sizeof(Customer*) * count);
 	free(b);
+}
+
+int CustomerCmpTitle(Customer* a, Customer* b) {
+	return strcmp(get_customer_title(a), get_customer_title(b));
+}
+
+int CustomerCmpFirstName(Customer* a, Customer* b) {
+	return strcmp(get_customer_first_name(a), get_customer_last_name(b));
+}
+
+int CustomerCmpLastName(Customer* a, Customer* b) {
+	return strcmp(get_customer_last_name(a), get_customer_last_name(b));
+}
+
+Customer* Search(Customer** array, int count, int (* cmp)(Customer*)) {
+	if (count == 1) {
+		return !cmp(*array) ? *array : NULL;
+	}
+
+	int index = 0;
+	while (index < count && (*cmp)(*array)) {
+		++index;
+		++array;
+	}
+
+	return index == count ? NULL : *array;
 }
