@@ -16,7 +16,7 @@ typedef struct {
 
 XmlObject* ParseXml(char*, char** xml_end);
 
-void freeXmlObject(XmlObject*);
+void FreeXmlObject(XmlObject*);
 
 char* get_xml_object_tag_name(XmlObject*);
 

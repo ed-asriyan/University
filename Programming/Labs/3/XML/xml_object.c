@@ -68,7 +68,7 @@ XmlObject* ParseXml(char* str, char** xml_end) {
 	return result;
 }
 
-void freeXmlObject(XmlObject* obj) {
+void FreeXmlObject(XmlObject* obj) {
 	free(obj->tag_name);
 	free(obj->body);
 	free(obj);

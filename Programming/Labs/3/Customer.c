@@ -67,7 +67,7 @@ Customer* CreateCustomerFromXml(char* str) {
 			}
 
 			// free temp xml object
-			freeXmlObject(property);
+			FreeXmlObject(property);
 		}
 
 		// if not all properties are exist
@@ -90,7 +90,7 @@ Customer* CreateCustomerFromXml(char* str) {
 			result->phone = customer_phone;
 		}
 
-		freeXmlObject(xml);
+		FreeXmlObject(xml);
 	}
 
 	return result;
