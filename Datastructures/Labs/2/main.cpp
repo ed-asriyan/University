@@ -25,12 +25,12 @@ bool IsPalindrome(STACK<T>& stack) {
 
 template <typename T, template <typename> class STACK>
 void UserCommands(STACK<T>& stack) {
-	std::cout << std::endl << "Work with stack {0, 1, 2, 3} {exit, push, pop, palindrome}: " << std::endl;
 
 	while (true) {
 		int command = 0;
 		T value = 0;
 
+	std::cout << std::endl << "Work with stack {0, 1, 2, 3, 4} {exit, push, pop, palindrome, tests}: " << std::endl;
 		std::cin >> command;
 
 		switch (command) {
@@ -54,27 +54,16 @@ void UserCommands(STACK<T>& stack) {
 				std::cout << "This string is " << (IsPalindrome<T, STACK>(stack) ? "" : "not ") 
 											   << "a palindrome" << std::endl;
 				break;
+			case 4:
+				Tests::PushAndPop<STACK>(std::cout);
+			 	//Tests::TestMemory(std::cout);
+			 	break;
 		}
 	}
 }
 
-int main(/*const int argc, const char** argv*/) {
+int main() {
 	try {
-		// if (argc == 1) {
-		// 	Tests::TestPushAndPop(std::cout);
-		// 	Tests::TestMemory(std::cout);
-		// } else if (argc == 2) {
-		// 	std::ofstream out;
-		// 	out.open(argv[1]);
-
-		// 	Tests::TestPushAndPop(out);
-		// 	Tests::TestMemory(out);
-
-		// 	out.close();
-		// } else {
-		// 	throw std::invalid_argument("INVALID NUMBER OF ARGUMENTS!!!");
-		// }
-
 		std::cout << "Choose {0, 1} for stack on {array, list}: ";
 
 		int choice = 0;
