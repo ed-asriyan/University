@@ -30,7 +30,11 @@ void UserCommands(STACK<T>& stack) {
 		int command = 0;
 		T value = 0;
 
-	std::cout << std::endl << "Work with stack {0, 1, 2, 3, 4} {exit, push, pop, palindrome, tests}: " << std::endl;
+		std::cout << "Stack: " << stack << std::endl;
+		std::cout << "This string is " << (IsPalindrome<T, STACK>(stack) ? "" : "not ") << "a palindrome" << std::endl;
+
+
+		std::cout << std::endl << "Work with stack {0, 1, 2, 3} {exit, push, pop, tests}: " << std::endl;
 		std::cin >> command;
 
 		switch (command) {
@@ -39,25 +43,15 @@ void UserCommands(STACK<T>& stack) {
 
 			case 1:
 			std::cin >> value;
-				stack.Push(value);
-				// stack.TrackMemory(std::cout);
-				std::cout << stack << std::endl << std::endl;
+				stack.Push(value);		
 				break;
-
 			case 2:
 				value = stack.Pop();
-				// fprintf(stdout, "%p\n", &value);
-				std::cout << stack << std::endl << std::endl;
 				break;
-
 			case 3:
-				std::cout << "This string is " << (IsPalindrome<T, STACK>(stack) ? "" : "not ") 
-											   << "a palindrome" << std::endl;
-				break;
-			case 4:
 				Tests::PushAndPop<STACK>(std::cout);
-			 	//Tests::TestMemory(std::cout);
 			 	break;
+			 default: break;
 		}
 	}
 }
@@ -76,16 +70,10 @@ int main() {
 			CStackArray<char> stack;
 			std::cin >> stack;
 
-			std::cout << "This string is " << (IsPalindrome<char, CStackArray>(stack) ? "" : "not ") 
-										   << "a palindrome" << std::endl;
-
 			UserCommands<char, CStackArray>(stack);
 		} else if (choice == 1) {
 			CStackList<char> stack;
 			std::cin >> stack;
-
-			std::cout << "This string is " << (IsPalindrome<char, CStackList>(stack) ? "" : "not ") 
-										   << "a palindrome" << std::endl;
 
 			UserCommands<char, CStackList>(stack);
 		} else {
