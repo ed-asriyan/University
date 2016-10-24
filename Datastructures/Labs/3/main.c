@@ -164,7 +164,7 @@ void measure_sorting_time(void) {
 			create_key_table(&tmp_table, &tmp_key_table);
 
 			tm = tick();
-			msort(tmp_key_table.ptr_first, tmp_key_table.n, sizeof(struct Kay), cmp_key);
+			msort(tmp_key_table.ptr_first, tmp_key_table.n, sizeof(struct Key), cmp_key);
 			tm = tick() - tm;
 			tms += tm;
 		}
@@ -172,7 +172,7 @@ void measure_sorting_time(void) {
 		printf("\n{ Key table sorting clock cycles (bubble sort) = %llu }\n", tms);
 
 		printf("\n{ Table size = %ld B }\n", sizeof(struct Car) * tmp_table.n);
-		printf("\n{ Key table size = %ld B }\n", sizeof(struct Kay) * tmp_key_table.n);
+		printf("\n{ Key table size = %ld B }\n", sizeof(struct Key) * tmp_key_table.n);
 	}
 }
 
