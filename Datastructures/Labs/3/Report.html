@@ -1,0 +1,443 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.4.2 (Linux)"/>
+	<meta name="author" content="Лариса"/>
+	<meta name="created" content="2016-10-24T20:11:00Z"/>
+	<meta name="changedby" content="Лариса"/>
+	<meta name="changed" content="2016-10-24T20:11:00Z"/>
+	<style type="text/css">
+		@page { margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 120% }
+		a:link { text-decoration: underline }
+		a:visited { text-decoration: underline }
+		a.western:visited { so-language: ru-RU }
+		a.cjk:visited { so-language: zh-CN }
+		a.ctl:visited { so-language: hi-IN }
+	</style>
+</head>
+<body lang="ru-RU" dir="ltr">
+<blockquote style="text-align: right; page-break-before: always"><i>Автор:
+</i><font color="#0000ff"><a class="western" href="mailto:asriyan1998@yandex.ru?subject=[BMSTU]%20DataStructures%202d%20lab" target="_top"><font color="#000000"><i><span style="text-decoration: none">Асриян
+Эдуард</span></i></font></a></font></blockquote>
+<p align="center" style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="6" style="font-size: 28pt"><b>Лабораторная
+работа 3</b></font></font></p>
+<p><u><b>Общее задание:</b></u> создать таблицу,
+содержащую не менее 40 записей с вариантной
+частью. Упорядочить таблицу по возрастанию
+ключей (где ключ – любое невариантное
+поле по выбору программиста), используя:</p>
+<ol type="a">
+	<li value="1"/>
+<p>исходную таблицу;</p>
+	<li/>
+<p>массив ключей.</p>
+</ol>
+<p>Сравнить различные алгоритмы сортировки
+массива при использовании таблиц записей
+с большим числом полей и таблиц ключей.
+Оценить эффективность (по времени и по
+используемому объему памяти) при
+различной реализации программы, то есть
+в случаях (а) и (б).</p>
+<p><u><b>Таблица:</b></u> список машин, содержащий
+марку автомобиля, страну-производитель,
+цену, цвет и состояние: новый – гарантия
+(в годах); нет - год выпуска, пробег,
+количество ремонтов.</p>
+<p align="center" style="margin-top: 0.04in; margin-bottom: 0in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="5" style="font-size: 18pt"><b>Техническое
+задание</b></font></font></p>
+<p>Осуществляются операции (добавление
+записи, удаление записи и т.д.) с таблицей
+записей и таблицей ключей, представленными
+в памяти в виде массива записей.</p>
+<p><u><b>Входные данные:</b></u> бинарный файл,
+представляющий таблицу записей с
+вариантной частью.</p>
+<p><u><b>Выходные данные:</b></u> список записей,
+удовлетворяющих условиям (все марки не
+новых машин указанного цвета с пробегом
+меньше 10 тыс. км и отсутствием ремонта).
+Таблица записей, отсортированная по
+невариантному полю. Отсортированная
+таблица ключей. Время работы для различных
+сортировок.</p>
+<p><u><b>Возможные ошибки:</b></u></p>
+<ul>
+	<li/>
+<p>Ввод некорректных данных в поле
+	записи</p>
+	<li/>
+<p>Открытие несуществующего файла</p>
+	<li/>
+<p>Открытие файла с некорректным
+	форматом данных</p>
+</ul>
+<p align="center" style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="4" style="font-size: 14pt"><b><font size="5" style="font-size: 18pt">Описание
+структур данных</font></b></font></font></p>
+<center>
+	<table width="642" cellpadding="7" cellspacing="0">
+		<col width="626">
+		<tr>
+			<td width="626" style="border: 2.25pt solid #000000; padding: 0in 0.08in">
+				<p align="center"><b><font face="Calibri, sans-serif"><font size="4" style="font-size: 14pt">Автомобиль</font></font></b></p>
+			</td>
+		</tr>
+		<tr></tr>
+		<tr>
+			<td width="626" valign="top" style="border-top: 2.25pt solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding: 0in 0.08in">
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><font color="#008000"><span lang="en-US"><b>struct</b></span></font><span lang="en-US">
+				Car {</span></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">	</span><font color="#b00040"><span lang="en-US">char</span></font><span lang="en-US">
+				model[STR_LEN];                  </span><font color="#408080"><span lang="en-US"><i>//
+				</i></span></font><font color="#408080"><i>марка</i></font><font color="#408080"><span lang="en-US"><i>
+				</i></span></font><font color="#408080"><i>машины</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">	</span><font color="#b00040">char</font>
+				country[STR_LEN];                <font color="#408080"><i>//
+				страна-производитель</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">	<font color="#b00040"><span lang="en-US">int</span></font><span lang="en-US">
+				price;                            </span><font color="#408080"><span lang="en-US"><i>//
+				</i></span></font><font color="#408080"><i>цена</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">	</span><font color="#b00040"><span lang="en-US">char</span></font><span lang="en-US">
+				color[STR_LEN];                  </span><font color="#408080"><span lang="en-US"><i>//
+				</i></span></font><font color="#408080"><i>цвет</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">	</span><font color="#b00040">int</font>
+				used;                             <font color="#408080"><i>//
+				подержанная/новая</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><br/>
+
+				</p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">	<font color="#008000"><b>union</b></font>
+				{</font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">		<font color="#408080"><i>//
+				если подержанная</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">		<font color="#008000"><b>struct</b></font>
+				{</font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">			<font color="#b00040">int</font>
+				warranty;          <font color="#408080"><i>// гарантия  
+				</i></font></font></font>
+				</p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">		<span lang="en-US">}
+				new_car;</span></font></font></p>
+				<p lang="en-US" style="margin-bottom: 0in"><br/>
+
+				</p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">		</span><font color="#408080"><span lang="en-US"><i>//
+				</i></span></font><font color="#408080"><i>если</i></font><font color="#408080"><span lang="en-US"><i>
+				</i></span></font><font color="#408080"><i>новая</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">		</span><font color="#008000"><span lang="en-US"><b>struct</b></span></font><span lang="en-US">
+				{</span></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">			</span><font color="#b00040"><span lang="en-US">int</span></font><span lang="en-US">
+				year;              </span><font color="#408080"><span lang="en-US"><i>//
+				</i></span></font><font color="#408080"><i>год</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">			</span><font color="#b00040"><span lang="en-US">int</span></font><span lang="en-US">
+				mileage;           </span><font color="#408080"><span lang="en-US"><i>//
+				</i></span></font><font color="#408080"><i>пробег</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">			</span><font color="#b00040"><span lang="en-US">int</span></font><span lang="en-US">
+				repairs_count;     </span><font color="#408080"><span lang="en-US"><i>//
+				</i></span></font><font color="#408080"><i>количество</i></font><font color="#408080"><span lang="en-US"><i>
+				</i></span></font><font color="#408080"><i>ремонтов</i></font></font></font></p>
+				<p lang="en-US" style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">		}
+				used_car;</font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">	</span>}
+				united;</font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">};</font></font></p>
+				<p align="center"><br/>
+
+				</p>
+			</td>
+		</tr>
+	</table>
+</center>
+<p><br/>
+<br/>
+
+</p>
+<center>
+	<table width="642" cellpadding="7" cellspacing="0">
+		<col width="626">
+		<tr>
+			<td width="626" style="border: 2.25pt solid #000000; padding: 0in 0.08in">
+				<p align="center"><b><font face="Calibri, sans-serif"><font size="4" style="font-size: 14pt">Таблица
+				автомобилей</font></font></b></p>
+			</td>
+		</tr>
+		<tr></tr>
+		<tr>
+			<td width="626" valign="top" style="border-top: 2.25pt solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding: 0in 0.08in">
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><font color="#008000"><span lang="en-US"><b>struct</b></span></font><span lang="en-US">
+				CarTable {</span></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">	</span><font color="#008000"><span lang="en-US"><b>struct</b></span></font><span lang="en-US">
+				Car</span><font color="#666666"><span lang="en-US">*</span></font><span lang="en-US">
+				ptr_first;                 </span><font color="#408080"><span lang="en-US"><i>//
+				</i></span></font><font color="#408080"><i>первый</i></font><font color="#408080"><span lang="en-US"><i>
+				</i></span></font><font color="#408080"><i>элемент</i></font><font color="#408080"><span lang="en-US"><i>
+				</i></span></font><font color="#408080"><i>таблицы</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">	</span><font color="#b00040">int</font>
+				n;                                 <font color="#408080"><i>//
+				размер таблицы</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">	<font color="#b00040">int</font>
+				n_max;                             <font color="#408080"><i>//
+				максимальный размер таблицы</i></font></font></font></p>
+				<p><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">};</font></font></p>
+			</td>
+		</tr>
+	</table>
+</center>
+<p><br/>
+<br/>
+
+</p>
+<center>
+	<table width="642" cellpadding="7" cellspacing="0">
+		<col width="626">
+		<tr>
+			<td width="626" style="border: 2.25pt solid #000000; padding: 0in 0.08in">
+				<p align="center"><b><font face="Calibri, sans-serif"><font size="4" style="font-size: 14pt">Ключ</font></font></b></p>
+			</td>
+		</tr>
+		<tr></tr>
+		<tr>
+			<td width="626" valign="top" style="border-top: 2.25pt solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding: 0in 0.08in">
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><font color="#008000"><b>struct</b></font>
+				Key {</font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">	<font color="#b00040">int</font>
+				key;                               <font color="#408080"><i>//
+				значение</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">	<font color="#b00040">int</font>
+				id;                                <font color="#408080"><i>//
+				номер в таблице</i></font></font></font></p>
+				<p><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">};</font></font></p>
+			</td>
+		</tr>
+	</table>
+</center>
+<p><br/>
+<br/>
+
+</p>
+<center>
+	<table width="642" cellpadding="7" cellspacing="0">
+		<col width="626">
+		<tr>
+			<td width="626" style="border: 2.25pt solid #000000; padding: 0in 0.08in">
+				<p align="center"><b><font face="Calibri, sans-serif"><font size="4" style="font-size: 14pt">Таблица
+				ключей</font></font></b></p>
+			</td>
+		</tr>
+		<tr></tr>
+		<tr>
+			<td width="626" valign="top" style="border-top: 2.25pt solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding: 0in 0.08in">
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><font color="#008000"><span lang="en-US"><b>struct</b></span></font><span lang="en-US">
+				KeyTable {</span></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">	</span><font color="#008000"><span lang="en-US"><b>struct</b></span></font><span lang="en-US">
+				Key</span><font color="#666666"><span lang="en-US">*</span></font><span lang="en-US">
+				ptr_first;                 </span><font color="#408080"><span lang="en-US"><i>//
+				</i></span></font><font color="#408080"><i>первый</i></font><font color="#408080"><span lang="en-US"><i>
+				</i></span></font><font color="#408080"><i>элемент</i></font><font color="#408080"><span lang="en-US"><i>
+				</i></span></font><font color="#408080"><i>таблицы</i></font></font></font></p>
+				<p style="margin-bottom: 0in"><font face="Courier New, monospace"><font size="2" style="font-size: 10pt"><span lang="en-US">	</span><font color="#b00040">int</font>
+				n;                                 <font color="#408080"><i>//
+				размер таблицы</i></font></font></font></p>
+				<p><font face="Courier New, monospace"><font size="2" style="font-size: 10pt">};</font></font></p>
+			</td>
+		</tr>
+	</table>
+</center>
+<p><br/>
+<br/>
+
+</p>
+<p align="center" style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="5" style="font-size: 18pt"><b>Время
+выполнения</b></font></font></p>
+<center>
+	<table width="642" cellpadding="7" cellspacing="0">
+		<col width="199">
+		<col width="200">
+		<col width="199">
+		<tr>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><b>Метод сортировки</b></p>
+			</td>
+			<td width="200" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><b>Сортируемая таблица</b></p>
+			</td>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><b>Количество тактов</b></p>
+			</td>
+		</tr>
+		<tr>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center">Быстрая</p>
+			</td>
+			<td width="200" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center">Автомобилей</p>
+			</td>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><span lang="en-US">37738495</span></p>
+			</td>
+		</tr>
+		<tr>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center">Быстрая</p>
+			</td>
+			<td width="200" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center">Ключей</p>
+			</td>
+			<td width="199" valign="top" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><font face="Calibri, sans-serif"><font size="2" style="font-size: 11pt"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt"><span lang="en-US">6703275</span></font></font></font></font></p>
+			</td>
+		</tr>
+		<tr>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center">Пузырёк</p>
+			</td>
+			<td width="200" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center">Автомобилей</p>
+			</td>
+			<td width="199" valign="top" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><font face="Calibri, sans-serif"><font size="2" style="font-size: 11pt"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt"><span lang="en-US">119089667</span></font></font></font></font></p>
+			</td>
+		</tr>
+		<tr>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center">Пузырёк</p>
+			</td>
+			<td width="200" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center">Ключей</p>
+			</td>
+			<td width="199" valign="top" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><font face="Calibri, sans-serif"><font size="2" style="font-size: 11pt"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt"><span lang="en-US">47050226</span></font></font></font></font></p>
+			</td>
+		</tr>
+	</table>
+</center>
+<p align="center" style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="5" style="font-size: 18pt"><b>Количество
+потребляемой памяти</b></font></font></p>
+<center>
+	<table width="428" cellpadding="7" cellspacing="0">
+		<col width="199">
+		<col width="199">
+		<tr>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><b>Таблица автомобилей</b></p>
+			</td>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><span lang="en-US">7392 B</span></p>
+			</td>
+		</tr>
+		<tr>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><b>Таблица ключей</b></p>
+			</td>
+			<td width="199" style="border: 1px solid #000000; padding: 0in 0.08in">
+				<p align="center"><span lang="en-US">336 B</span></p>
+			</td>
+		</tr>
+	</table>
+</center>
+<p align="center" style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="5" style="font-size: 18pt"><b>Вывод</b></font></font></p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0.14in; line-height: 115%"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Таблица
+	ключей сортируется примерно в 5 раз
+	быстрее, чем исходная таблица;</font></font></p>
+	<li/>
+<p style="margin-bottom: 0.14in; line-height: 115%"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Быстрая
+	сортировка примерно в 3 раза быстрее,
+	чем сортировка пузырьком.</font></font></p>
+</ul>
+<p align="center" style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="5" style="font-size: 18pt"><b>Ответы
+на вопросы</b></font></font></p>
+<ol>
+	<li value="1"/>
+<p style="margin-top: 0.07in; margin-bottom: 0.07in; line-height: 150%">
+	<font face="Calibri, sans-serif"><font size="2" style="font-size: 11pt"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt"><u><b>Как
+	выделяется память под вариантную часть
+	записи?</b></u></font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">
+	– Выделяется область памяти, равная
+	размеру </font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">максимального
+	по длине поля вариантной части.</font></font></font></font></p>
+	<li/>
+<p style="margin-top: 0.07in; margin-bottom: 0.07in; line-height: 150%">
+	<font face="Calibri, sans-serif"><font size="2" style="font-size: 11pt"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt"><u><b>Что
+	будет, если в вариантную часть ввести
+	данные, несоответствующие описанным?</b></u></font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">
+	– </font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Тип
+	данных в вариантной части при компиляции
+	не проверяется, все проверки необходимо
+	осуществлять самостоятельно.</font></font></font></font></p>
+	<li/>
+<p style="margin-top: 0.07in; margin-bottom: 0.07in; line-height: 150%">
+	<font face="Calibri, sans-serif"><font size="2" style="font-size: 11pt"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt"><u><b>Кто
+	должен следить за правильностью
+	выполнения операций с вариантной частью
+	записи?</b></u></font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">
+	– Разработчик.</font></font></font></font></p>
+	<li/>
+<p style="margin-top: 0.07in; margin-bottom: 0.07in; line-height: 150%">
+	<font face="Calibri, sans-serif"><font size="2" style="font-size: 11pt"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt"><u><b>Что
+	представляет собой таблица ключей,
+	зачем она нужна?</b></u></font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">
+	– Таблица ключей содержит </font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">индекс
+	элемента в исходной таблице и выбранный
+	ключ. За счет небольших дополнительных
+	затрат памяти позволяет ускорить
+	процесс поиска и сортировки элементов
+	исходной таблицы.</font></font></font></font></p>
+	<li/>
+<p style="margin-top: 0.07in; margin-bottom: 0.07in; line-height: 150%">
+	<font face="Calibri, sans-serif"><font size="2" style="font-size: 11pt"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt"><u><b>В
+	каких случаях эффективнее обрабатывать
+	данные в самой таблице, а когда –
+	использовать таблицу ключей?</b></u></font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">
+	– Использовать таблицу ключей эффективнее
+	в случае большого количества записей
+	или большого размера памяти, необходимой
+	для хранения каждой записи.</font></font></font></font></p>
+	<li/>
+<p style="margin-top: 0.07in; margin-bottom: 0.07in; line-height: 150%">
+	<font face="Calibri, sans-serif"><font size="2" style="font-size: 11pt"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt"><u><b>Какие
+	способы сортировки предпочтительнее
+	для обработки таблиц и почему?</b></u></font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">
+	– </font></font><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">При
+	сортировке таблиц эффективнее
+	использовать таблицу ключей. При этом
+	быстрая сортировка работает быстрее,
+	чем сортировка пузырьком.</font></font></font></font></p>
+</ol>
+<p><br/>
+<br/>
+
+</p>
+<p align="center"><br/>
+<br/>
+
+</p>
+<p align="center"><br/>
+<br/>
+
+</p>
+<p align="center"><br/>
+<br/>
+
+</p>
+<p><br/>
+<br/>
+
+</p>
+<p><br/>
+<br/>
+
+</p>
+</body>
+</html>
