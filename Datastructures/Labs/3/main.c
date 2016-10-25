@@ -24,8 +24,8 @@ void swap(void* a, void* b, void* buf, size_t size) {
 /// \param[in] num number of elements in the array
 /// \param[in] size size of the element
 /// \param[in] compare pointer to the comparison function
-void msort(void* base, size_t num, size_t size,
-           int (* compare)(const void*, const void*)) {
+void bubble_sort(void* base, size_t num, size_t size,
+                 int (* compare)(const void*, const void*)) {
 	int flag = 1;
 	void* cur, * prev, * last;
 	void* buf = malloc(size);
@@ -142,12 +142,12 @@ void measure_sorting_time(void) {
 		printf("\n{ Key table sorting clock cycles (qsort) = %llu }\n", tms);
 
 
-		// msort table
+		// bubble_sort table
 		tms = 0;
 
 		for (int i = 0; i < 1000; i++) {
 			tm = tick();
-			msort(tmp_table.ptr_first, tmp_table.n, sizeof(struct Car), cmp_car);
+			bubble_sort(tmp_table.ptr_first, tmp_table.n, sizeof(struct Car), cmp_car);
 			tm = tick() - tm;
 			tms += tm;
 
@@ -157,14 +157,14 @@ void measure_sorting_time(void) {
 		printf("\n{ Table sorting clock cycles (bubble sort) = %llu }\n", tms);
 
 
-		// msort key
+		// bubble_sort key
 		tms = 0;
 
 		for (int i = 0; i < 1000; i++) {
 			create_key_table(&tmp_table, &tmp_key_table);
 
 			tm = tick();
-			msort(tmp_key_table.ptr_first, tmp_key_table.n, sizeof(struct Key), cmp_key);
+			bubble_sort(tmp_key_table.ptr_first, tmp_key_table.n, sizeof(struct Key), cmp_key);
 			tm = tick() - tm;
 			tms += tm;
 		}
