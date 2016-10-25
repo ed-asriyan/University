@@ -66,31 +66,6 @@ void bubble_sort(void* base, size_t num, size_t size,
 	free(buf);
 }
 
-void fill_random(struct CarTable* mt) {
-	struct Car* cur = mt->ptr_first;
-	char color[][STR_LEN] = {"White", "Grey", "Black", "Red", "Blue", "Green"};
-
-	srand((unsigned int) time(NULL));
-
-	for (int i = 0; i < mt->n; i++) {
-		cur->used = rand() % 2;
-
-		if (cur->used == 0) {
-			cur->price = (1200 + rand() % 800) * 1000;
-			cur->united.new_car.warranty = 1 + rand() % 9;
-		} else {
-			cur->price = (900 + rand() % 500) * 1000;
-			cur->united.used_car.mileage = rand() % 50 * 1000;
-			cur->united.used_car.year = 1990 + rand() % 25;
-			cur->united.used_car.repairs_count = rand() % 4;
-		}
-
-		strcpy(cur->color, color[rand() % 6]);
-
-		cur++;
-	}
-}
-
 unsigned long long tick(void) {
 	unsigned long long d;
 	__asm__ __volatile__ ("rdtsc" : "=A" (d));
