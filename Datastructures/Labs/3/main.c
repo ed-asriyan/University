@@ -99,7 +99,7 @@ void measure_sorting_time(void) {
 			load_car_table_from_file(&tmp_table, str);
 		}
 
-		printf("\n{ Table sorting clock cycles (qsort) = %llu }\n", tms);
+		printf("\n{ Table sorting (qsort) = %llu }\n", tms);
 
 
 		// qsort key
@@ -114,7 +114,7 @@ void measure_sorting_time(void) {
 			tms += tm;
 		}
 
-		printf("\n{ Key table sorting clock cycles (qsort) = %llu }\n", tms);
+		printf("\n{ Key table sorting (qsort) = %llu }\n", tms);
 
 
 		// bubble_sort table
@@ -129,7 +129,7 @@ void measure_sorting_time(void) {
 			load_car_table_from_file(&tmp_table, str);
 		}
 
-		printf("\n{ Table sorting clock cycles (bubble sort) = %llu }\n", tms);
+		printf("\n{ Table sorting (bubble sort) = %llu }\n", tms);
 
 
 		// bubble_sort key
@@ -144,7 +144,7 @@ void measure_sorting_time(void) {
 			tms += tm;
 		}
 
-		printf("\n{ Key table sorting clock cycles (bubble sort) = %llu }\n", tms);
+		printf("\n{ Key table sorting (bubble sort) = %llu }\n", tms);
 
 		printf("\n{ Table size = %ld B }\n", sizeof(struct Car) * tmp_table.n);
 		printf("\n{ Key table size = %ld B }\n", sizeof(struct Key) * tmp_key_table.n);
