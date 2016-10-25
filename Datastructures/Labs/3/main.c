@@ -189,8 +189,7 @@ void search(void) {
 		printf("--------------------------------------------\n");
 
 		for (int i = 0; i < table.n; i++) {
-			if (strcmp(str, ptr_cur->color) == 0 && ptr_cur->used == 1 &&
-				ptr_cur->united.used_car.mileage < 10000 && ptr_cur->united.used_car.repairs_count == 0) {
+			if (strcmp(str, ptr_cur->color) == 0) {
 				printf("[ Record %d ]\n", (i + 1));
 				print_car(ptr_cur);
 				printf("--------------------------------------------\n");
