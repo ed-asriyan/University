@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 typedef struct {
-	int **places;
+	int** places;
 
 	int size;
 } Hall;
@@ -23,5 +23,7 @@ void set_reserved_place(Hall* hall, int x, int y);
 void set_favorite_place(Hall* hall, int favorite_x, int favorite_y);
 
 void print_hall(Hall* hall, FILE* out);
+
+int calc_lucky_sum(Hall* hall, int count);
 
 #endif //CINEMA_HALL_H

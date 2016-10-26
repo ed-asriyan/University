@@ -57,3 +57,41 @@ void print_hall(Hall* hall, FILE* out) {
 		fprintf(out, "\n");
 	}
 }
+
+int calc_lucky_sum(Hall* hall, int count) {
+	int** places = hall->places;
+	int n = hall->size;
+
+	int** best_places = (int**) malloc(sizeof(int*) * n);
+	int best_places_count = 0;
+
+	for (int i = 0; i < n; ++i) {
+		int free_count = 0;
+		for (int j = 0; j < n; ++j) {
+			if (free_count == count) {
+				best_places[best_places_count++] = *(places + i) + j;
+				free_count = 0;
+			} else {
+				if (places[i][j] < 0) {
+					free_count = 0;
+				} else {
+					++free_count;
+				}
+			}
+		}
+	}
+
+	int the_best_sum = -1;
+	for (int i = 0; i < best_places_count; ++i) {
+		int sum = 0;
+		for (int j = 0; j < count; ++j) {
+			sum += best_places[i][j];
+		}
+		if (the_best_sum < 0 || sum < the_best_sum) {
+			the_best_sum = sum;
+		}
+	}
+
+	free(best_places);
+	return the_best_sum;
+}
