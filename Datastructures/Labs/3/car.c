@@ -83,21 +83,33 @@ int save_mstruct_to_file(const struct Car *ms, int n, const char *file_name)
 int load_car_table_from_file(struct CarTable* mt, const char* file_name) {
 	struct Car ms;
 	FILE* f = fopen(file_name, "rb");
-	int read_ret = 1;
 
 	if (!f)
 		return -1;  // Error opening file
 
 	clear_car_table(mt);
 
-	while (1) {
-		read_ret = fread(&ms, sizeof(struct Car), 1, f);
-		if (read_ret == 1)
-			add_to_car_table(mt, &ms);
-		else {
-			//printf("\nReading error: %d\n", read_ret);
-			break;
+	int count = 0;
+	fscanf(f, "%d\n\n", &count);
+
+	for (int i = 0; i < count; ++i) {
+		struct Car* car = (struct Car*)malloc(sizeof(struct Car));
+		fscanf(f, "%[^\n]\n", car->model);
+		fscanf(f, "%[^\n]\n", car->color);
+		fscanf(f, "%[^\n]\n", car->country);
+		fscanf(f, "%d", &car->price);
+		fscanf(f, "%d", &car->used);
+		if (car->used) {
+			fscanf(f, "%d", &car->united.used_car.mileage);
+			fscanf(f, "%d", &car->united.used_car.repairs_count);
+			fscanf(f, "%d", &car->united.used_car.year);
+		} else {
+			fscanf(f, "%d", &car->united.new_car.warranty);
 		}
+		char kek[10];
+		fscanf(f, "\n", kek);
+
+		add_to_car_table(mt, car);
 	}
 
 	fclose(f);
@@ -105,14 +117,30 @@ int load_car_table_from_file(struct CarTable* mt, const char* file_name) {
 }
 
 int save_car_table_to_file(const struct CarTable* mt, const char* file_name) {
-	FILE* f = fopen(file_name, "wb");
+	FILE* f = fopen(file_name, "w");
 
 	if (!f)
 		return -1; // Error opening file
 
-	if (fwrite(mt->ptr_first, sizeof(struct Car), mt->n, f) != mt->n) {
-		fclose(f);
-		return -2; // Error writing to file
+	int count = mt->n;
+	fprintf(f, "%d\n\n", count);
+
+	const struct Car* it = mt->ptr_first;
+	for (int i = 0; i < count; ++i, ++it){
+		fprintf(f, "%s\n", it->model);
+		fprintf(f, "%s\n", it->color);
+		fprintf(f, "%s\n", it->country);
+		fprintf(f, "%d\n", it->price);
+		fprintf(f, "%d\n", it->used);
+		if (it->used) {
+			fprintf(f, "%d\n", it->united.used_car.mileage);
+			fprintf(f, "%d\n", it->united.used_car.repairs_count);
+			fprintf(f, "%d\n", it->united.used_car.year);
+		} else {
+			fprintf(f, "%d\n", it->united.new_car.warranty);
+		}
+
+		fprintf(f, "\n");
 	}
 
 	fclose(f);
