@@ -3,5 +3,5 @@ project(Queue)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp LoopedArray.h)
 add_executable(Queue ${SOURCE_FILES})
