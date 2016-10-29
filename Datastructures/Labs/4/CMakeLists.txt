@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(Queue)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp LoopedArray.h)
+set(SOURCE_FILES main.cpp LoopedArray.h Queue.h)
 add_executable(Queue ${SOURCE_FILES})
