@@ -30,9 +30,10 @@ class QueueArray : public Queue<T> {
 		QueueArray();
 		~QueueArray();
 
+		virtual void Clear() override;
+		
 	private:
 		void init();
-		void clear();
 
 		void reallocate();
 
@@ -48,7 +49,7 @@ QueueArray<T>::QueueArray() {
 
 template<class T>
 QueueArray<T>::~QueueArray() {
-	clear();
+	Queue<T>::Clear();
 }
 
 template<class T>
@@ -57,7 +58,7 @@ void QueueArray<T>::init() {
 }
 
 template<class T>
-void QueueArray<T>::clear() {
+void QueueArray<T>::Clear() {
 	if (data != nullptr) {
 		delete data;
 	}

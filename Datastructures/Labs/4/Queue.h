@@ -20,8 +20,10 @@ class Queue {
 		virtual ~Queue();
 
 		void Enqueue(const T&);
-
 		T Dequeue();
+
+		virtual void Clear();
+
 		int get_size() const;
 
 	protected:
@@ -59,6 +61,13 @@ T Queue<T>::Dequeue() {
 	auto result = _dequeue();
 	--size;
 	return result;
+}
+
+template<class T>
+void Queue<T>::Clear() {
+	while (size) {
+		Dequeue();
+	}
 }
 
 #endif //QUEUE_QUEUE_H
