@@ -7,15 +7,16 @@
 
 class RequestUnit {
 	private:
-		int id;
-		int proc_count;
+		int id = 0;
+		int proc_count = 0;
 
 		double income_time = 0;
 		double outcome_time = 0;
 		double querring_time = 0;
 
 	public:
-		RequestUnit(int id, int n_proc);
+		RequestUnit() = default;
+		RequestUnit(int id);
 
 		int get_id() const;
 		int get_n_proc() const;

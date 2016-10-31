@@ -24,4 +24,4 @@ double RequestUnit::get_querring_time() const {
 	return querring_time;
 }
 
-RequestUnit::RequestUnit(int id, int n_proc) : id(id), proc_count(n_proc) {}
+RequestUnit::RequestUnit(int id) : id(id) {}
