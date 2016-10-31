@@ -89,31 +89,30 @@ int load_car_table_from_file(struct CarTable* mt, const char* file_name) {
 
 	clear_car_table(mt);
 
+	int ok = 1;
 	int count = 0;
-	fscanf(f, "%d\n\n", &count);
+	if (fscanf(f, "%d\n\n", &count) != 1) ok = 0;
 
-	for (int i = 0; i < count; ++i) {
+	for (int i = 0; i < count && ok; ++i) {
 		struct Car* car = (struct Car*)malloc(sizeof(struct Car));
-		fscanf(f, "%[^\n]\n", car->model);
-		fscanf(f, "%[^\n]\n", car->color);
-		fscanf(f, "%[^\n]\n", car->country);
-		fscanf(f, "%d", &car->price);
-		fscanf(f, "%d", &car->used);
+		if (fscanf(f, "%[^\n]\n", car->model) != 1) ok = 0;
+		if (fscanf(f, "%[^\n]\n", car->color) != 1) ok = 0;
+		if (fscanf(f, "%[^\n]\n", car->country) != 1) ok = 0;
+		if (fscanf(f, "%d", &car->price) != 1) ok = 0;
+		if (fscanf(f, "%d", &car->used) != 1) ok = 0;
 		if (car->used) {
 			fscanf(f, "%d", &car->united.used_car.mileage);
 			fscanf(f, "%d", &car->united.used_car.repairs_count);
 			fscanf(f, "%d", &car->united.used_car.year);
 		} else {
-			fscanf(f, "%d", &car->united.new_car.warranty);
+			if (fscanf(f, "%d", &car->united.new_car.warranty) != 1) ok = 0;
 		}
-		char kek[10];
-		fscanf(f, "\n", kek);
-
+		fscanf(f, "\n");
 		add_to_car_table(mt, car);
 	}
 
 	fclose(f);
-	return 0;
+	return !ok;
 }
 
 int save_car_table_to_file(const struct CarTable* mt, const char* file_name) {
