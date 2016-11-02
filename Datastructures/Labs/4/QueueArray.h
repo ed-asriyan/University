@@ -40,6 +40,9 @@ class QueueArray : public Queue<T> {
 	protected:
 		virtual void _enqueue(const T&) override;
 		virtual T _dequeue() override;
+
+		virtual const T& _first() const override;
+		virtual const T& _last() const override;
 };
 
 template<class T>
@@ -105,6 +108,18 @@ T QueueArray<T>::_dequeue() {
 	assert(Queue<T>::get_size());
 
 	return *(--back);
+}
+
+template<class T>
+const T& QueueArray<T>::_first() const {
+	assert(Queue<T>::get_size());
+	return *front;
+}
+
+template<class T>
+const T& QueueArray<T>::_last() const {
+	assert(Queue<T>::get_size());
+	return *back;
 }
 
 #endif //QUEUE_QUEUEARRAY_H

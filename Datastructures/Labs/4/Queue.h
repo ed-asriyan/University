@@ -22,6 +22,9 @@ class Queue {
 		void Enqueue(const T&);
 		T Dequeue();
 
+		const T& First() const;
+		const T& Last() const;
+
 		virtual void Clear();
 
 		int get_size() const;
@@ -29,6 +32,9 @@ class Queue {
 	protected:
 		virtual void _enqueue(const T&) = 0;
 		virtual T _dequeue() = 0;
+
+		virtual const T& _first() const = 0;
+		virtual const T& _last() const = 0;
 };
 
 template<class T>
@@ -61,6 +67,22 @@ T Queue<T>::Dequeue() {
 	auto result = _dequeue();
 	--size;
 	return result;
+}
+
+template<class T>
+const T& Queue<T>::First() const {
+	if (!size) {
+		throw QueueEmptyException();
+	}
+	return _first();
+}
+
+template<class T>
+const T& Queue<T>::Last() const {
+	if (!size) {
+		throw QueueEmptyException();
+	}
+	return _last();
 }
 
 template<class T>

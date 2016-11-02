@@ -38,6 +38,9 @@ class QueueList : public Queue<T> {
 		virtual void _enqueue(const T& t) override;
 		virtual T _dequeue() override;
 
+		virtual const T& _first() const override;
+		virtual const T& _last() const override;
+
 };
 
 template<class T>
@@ -89,6 +92,18 @@ template<class T>
 void QueueList<T>::Clear() {
 	Queue<T>::Clear();
 	init();
+}
+
+template<class T>
+const T& QueueList<T>::_first() const {
+	assert(Queue<T>::get_size());
+	return head->value;
+}
+
+template<class T>
+const T& QueueList<T>::_last() const {
+	assert(Queue<T>::get_size());
+	return tail->value;
 }
 
 template<class T>

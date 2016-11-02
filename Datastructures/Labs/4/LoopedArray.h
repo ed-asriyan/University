@@ -29,6 +29,8 @@ class LoopedArray {
 				iterator(LoopedArray* parent_, T* ptr_);
 
 				T& operator*();
+				const T& operator*() const;
+
 				iterator operator++(int);
 				iterator& operator++();
 				iterator operator--(int);
@@ -103,6 +105,11 @@ LoopedArray<T>::iterator::iterator(LoopedArray* parent_, T* ptr_) {
 
 template<class T>
 T& LoopedArray<T>::iterator::operator*() {
+	return *ptr;
+}
+
+template<class T>
+const T& LoopedArray<T>::iterator::operator*() const {
 	return *ptr;
 }
 
