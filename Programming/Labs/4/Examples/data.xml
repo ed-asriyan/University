@@ -1,0 +1,83 @@
+<ROOT>
+<Order>
+  <OrderID>10248</OrderID>
+  <CustomerID>VINET</CustomerID>
+  <EmployeeID>5</EmployeeID>
+  <OrderDate>1996-07-04T00:00:00</OrderDate>
+  <RequiredDate>1996-08-01T00:00:00</RequiredDate>
+  <ShippedDate>1996-07-16T00:00:00</ShippedDate>
+  <Freight>32.3800</Freight>
+</Order>
+<Order>
+  <OrderID>10249</OrderID>
+  <CustomerID>TOMSP</CustomerID>
+  <EmployeeID>6</EmployeeID>
+  <OrderDate>1996-07-05T00:00:00</OrderDate>
+  <RequiredDate>1996-08-16T00:00:00</RequiredDate>
+  <ShippedDate>1996-07-10T00:00:00</ShippedDate>
+  <Freight>11.6100</Freight>
+</Order>
+<Order>
+  <OrderID>10250</OrderID>
+  <CustomerID>HANAR</CustomerID>
+  <EmployeeID>4</EmployeeID>
+  <OrderDate>1996-07-08T00:00:00</OrderDate>
+  <RequiredDate>1996-08-05T00:00:00</RequiredDate>
+  <ShippedDate>1996-07-12T00:00:00</ShippedDate>
+  <Freight>65.8300</Freight>
+</Order>
+<Order>
+  <OrderID>10251</OrderID>
+  <CustomerID>VICTE</CustomerID>
+  <EmployeeID>3</EmployeeID>
+  <OrderDate>1996-07-08T00:00:00</OrderDate>
+  <RequiredDate>1996-08-05T00:00:00</RequiredDate>
+  <ShippedDate>1996-07-15T00:00:00</ShippedDate>
+  <Freight>41.3400</Freight>
+</Order>
+<Order>
+  <OrderID>10252</OrderID>
+  <CustomerID>SUPRD</CustomerID>
+  <EmployeeID>4</EmployeeID>
+  <OrderDate>1996-07-09T00:00:00</OrderDate>
+  <RequiredDate>1996-08-06T00:00:00</RequiredDate>
+  <ShippedDate>1996-07-11T00:00:00</ShippedDate>
+  <Freight>51.3000</Freight>
+</Order>
+<Order>
+  <OrderID>10253</OrderID>
+  <CustomerID>HANAR</CustomerID>
+  <EmployeeID>3</EmployeeID>
+  <OrderDate>1996-07-10T00:00:00</OrderDate>
+  <RequiredDate>1996-07-24T00:00:00</RequiredDate>
+  <ShippedDate>1996-07-16T00:00:00</ShippedDate>
+  <Freight>58.1700</Freight>
+</Order>
+<Order>
+  <OrderID>10254</OrderID>
+  <CustomerID>CHOPS</CustomerID>
+  <EmployeeID>5</EmployeeID>
+  <OrderDate>1996-07-11T00:00:00</OrderDate>
+  <RequiredDate>1996-08-08T00:00:00</RequiredDate>
+  <ShippedDate>1996-07-23T00:00:00</ShippedDate>
+  <Freight>22.9800</Freight>
+</Order>
+<Order>
+  <OrderID>10255</OrderID>
+  <CustomerID>RICSU</CustomerID>
+  <EmployeeID>9</EmployeeID>
+  <OrderDate>1996-07-12T00:00:00</OrderDate>
+  <RequiredDate>1996-08-09T00:00:00</RequiredDate>
+  <ShippedDate>1996-07-15T00:00:00</ShippedDate>
+  <Freight>148.3300</Freight>
+</Order>
+<Order>
+  <OrderID>10256</OrderID>
+  <CustomerID>WELLI</CustomerID>
+  <EmployeeID>3</EmployeeID>
+  <OrderDate>1996-07-15T00:00:00</OrderDate>
+  <RequiredDate>1996-08-12T00:00:00</RequiredDate>
+  <ShippedDate>1996-07-17T00:00:00</ShippedDate>
+  <Freight>13.9700</Freight>
+</Order>
+</ROOT>
