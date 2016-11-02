@@ -1,6 +1,6 @@
 #include "LinkedList.h"
 
-List Constructor() {
+List create_list() {
 	List list;
 
 	list.count = 0;
@@ -9,9 +9,7 @@ List Constructor() {
 	return list;
 }
 
-// Public methods
-// Adding element to the end of list
-void AddLast(List* list, Object* object) {
+void add_last(List* list, Object* object) {
 	struct Node* node = (struct Node*) malloc(sizeof(struct Node));
 
 	node->object = object;
@@ -31,9 +29,7 @@ void AddLast(List* list, Object* object) {
 	++list->count;
 }
 
-//-------------------------------------------------------------------------------------------------
-// Removing element from the end of list
-void RemoveLast(List* list) {
+void remove_last(List* list) {
 	if (list->head == NULL) {
 		return;
 	}
@@ -56,9 +52,7 @@ void RemoveLast(List* list) {
 	--list->count;
 }
 
-//-------------------------------------------------------------------------------------------------
-// Add element to the beginning of list
-void AddFirst(List* list, Object* object) {
+void add_first(List* list, Object* object) {
 	struct Node* node = (struct Node*) malloc(sizeof(struct Node));
 
 	node->object = object;
@@ -78,9 +72,7 @@ void AddFirst(List* list, Object* object) {
 	++list->count;
 }
 
-//-------------------------------------------------------------------------------------------------
-// Remove element from the beginning of list
-void RemoveFirst(List* list) {
+void remove_first(List* list) {
 	if (list->head == NULL) {
 		return;
 	}
@@ -103,20 +95,18 @@ void RemoveFirst(List* list) {
 	--list->count;
 }
 
-//-------------------------------------------------------------------------------------------------
-// Insert element into list by index
-void InsertAt(List* list, Object* object, int index) {
+void insert_all(List* list, Object* object, int index) {
 	if (index < 0 || index > list->count) {
 		return;
 	}
 
 	if (index == 0) {
-		AddFirst(list, object);
+		add_first(list, object);
 		return;
 	}
 
 	if (index == list->count) {
-		AddLast(list, object);
+		add_last(list, object);
 		return;
 	}
 
@@ -135,20 +125,18 @@ void InsertAt(List* list, Object* object, int index) {
 	current->prev = node;
 }
 
-//-------------------------------------------------------------------------------------------------
-// Remove element from list by index
-void RemoveAt(List* list, int index) {
+void remove_at(List* list, int index) {
 	if (index < 0 || index > list->count - 1) {
 		return;
 	}
 
 	if (index == 0) {
-		RemoveFirst(list);
+		remove_first(list);
 		return;
 	}
 
 	if (index == list->count - 1) {
-		RemoveLast(list);
+		remove_last(list);
 		return;
 	}
 
@@ -164,46 +152,43 @@ void RemoveAt(List* list, int index) {
 	free(current);
 }
 
-//-------------------------------------------------------------------------------------------------
-// Quicksort for doubly-linked list
-void Swap(struct Node* a, struct Node* b) {
+void swap(struct Node* a, struct Node* b) {
 	struct Node temp = *a;
 	a->object = b->object;
 	b->object = temp.object;
 }
 
-struct Node* Partition(struct Node* left, struct Node* right, int (* cmp)(const void*, const void*)) {
+struct Node* partition(struct Node* left, struct Node* right, int (* cmp)(const void*, const void*)) {
 	struct Node* i = left->prev;
 
 	for (struct Node* j = left; j != right; j = j->next) {
 		if (cmp(j, right) < 0) {
 			i = (i == NULL) ? left : i->next;
-			Swap(i, j);
+			swap(i, j);
 		}
 	}
 
 	i = (i == NULL) ? left : i->next;
-	Swap(i, right);
+	swap(i, right);
 	return i;
 }
 
-void _QuickSort(struct Node* left, struct Node* right, int (* cmp)(const void*, const void*)) {
+void _quick_sort(struct Node* left, struct Node* right, int (* cmp)(const void*, const void*)) {
 	if (right != NULL && left != right && left != right->next) {
-		struct Node* p = Partition(left, right, cmp);
-		_QuickSort(left, p->prev, cmp);
-		_QuickSort(p->next, right, cmp);
+		struct Node* p = partition(left, right, cmp);
+		_quick_sort(left, p->prev, cmp);
+		_quick_sort(p->next, right, cmp);
 	}
 }
 
-void Sort(List* list, int (* cmp)(const void*, const void*)) {
-	_QuickSort(list->head, list->tail, cmp);
+void sort(List* list, int (* cmp)(const void*, const void*)) {
+	_quick_sort(list->head, list->tail, cmp);
 }
 
-// Comparators for sorting
 int int_comparator(const void* obj_1, const void* obj_2) {
 	const struct Node* temp_obj_1 = (const struct Node*) obj_1;
 	const struct Node* temp_obj_2 = (const struct Node*) obj_2;
-	int result = temp_obj_1->object->OBJECT_FEATURE_3 - temp_obj_2->object->OBJECT_FEATURE_3;
+	int result = temp_obj_1->object->employee_ID - temp_obj_2->object->employee_ID;
 
 	if (result < 0) {
 		return -1;
@@ -217,7 +202,7 @@ int int_comparator(const void* obj_1, const void* obj_2) {
 int double_comparator(const void* obj_1, const void* obj_2) {
 	const struct Node* temp_obj_1 = (const struct Node*) obj_1;
 	const struct Node* temp_obj_2 = (const struct Node*) obj_2;
-	double result = temp_obj_1->object->OBJECT_FEATURE_7 - temp_obj_2->object->OBJECT_FEATURE_7;
+	double result = temp_obj_1->object->freight - temp_obj_2->object->freight;
 
 	if (result < 0) {
 		return -1;
@@ -232,34 +217,32 @@ int string_comparator(const void* obj_1, const void* obj_2) {
 	const struct Node* temp_obj_1 = (const struct Node*) obj_1;
 	const struct Node* temp_obj_2 = (const struct Node*) obj_2;
 
-	return strcmp(temp_obj_1->object->OBJECT_FEATURE_2, temp_obj_2->object->OBJECT_FEATURE_2);
+	return strcmp(temp_obj_1->object->customer_ID, temp_obj_2->object->customer_ID);
 }
 
-//-------------------------------------------------------------------------------------------------
-// Get file info into list
-void AssignValues(Object* object, char* buffer, int index) {
+void assign_values(Object* object, char* buffer, int index) {
 	switch (index) {
-		case 1: sscanf(buffer, "%d", &object->OBJECT_FEATURE_1);
+		case 1: sscanf(buffer, "%d", &object->order_ID);
 			free(buffer);
 			break;
-		case 2: object->OBJECT_FEATURE_2 = buffer;
+		case 2: object->customer_ID = buffer;
 			break;
-		case 3: sscanf(buffer, "%d", &object->OBJECT_FEATURE_3);
+		case 3: sscanf(buffer, "%d", &object->employee_ID);
 			free(buffer);
 			break;
-		case 4: object->OBJECT_FEATURE_4 = buffer;
+		case 4: object->order_date = buffer;
 			break;
-		case 5: object->OBJECT_FEATURE_5 = buffer;
+		case 5: object->required_date = buffer;
 			break;
-		case 6: object->OBJECT_FEATURE_6 = buffer;
+		case 6: object->shipped_date = buffer;
 			break;
-		case 7: sscanf(buffer, "%lf", &object->OBJECT_FEATURE_7);
+		case 7: sscanf(buffer, "%lf", &object->freight);
 			free(buffer);
 			break;
 	}
 }
 
-bool IsSeparator(char symbol) {
+bool is_separator(char symbol) {
 	if (symbol == ' ' || symbol == '\n' || symbol == EOF) {
 		return true;
 	}
@@ -267,7 +250,7 @@ bool IsSeparator(char symbol) {
 	return false;
 }
 
-void ToList(List* list, FILE* f) {
+void to_list(List* list, FILE* f) {
 	list->count = 0;
 	list->head = list->tail = 0;
 
@@ -288,7 +271,7 @@ void ToList(List* list, FILE* f) {
 			}
 
 			continue;
-		} else if (IsSeparator(symbol)) {
+		} else if (is_separator(symbol)) {
 			continue;
 		} else {
 			++i;
@@ -312,9 +295,9 @@ void ToList(List* list, FILE* f) {
 			}
 			buffer[element_length] = '\0';
 
-			AssignValues(object, buffer, i);
-			if (i == OBJECT_FEATURE_COUNT) {
-				AddLast(list, object);
+			assign_values(object, buffer, i);
+			if (i == 7) {
+				add_last(list, object);
 				i = 0;
 				object = (Object*) malloc(sizeof(Object));
 			}
@@ -324,76 +307,67 @@ void ToList(List* list, FILE* f) {
 	}
 }
 
-//-------------------------------------------------------------------------------------------------
-// Prints list info into file
-void ToFile(List* list, FILE* f) {
+void to_file(List* list, FILE* f) {
 	struct Node* current = list->head;
 	while (current != NULL) {
-		fprintf(f, "%d\n", current->object->OBJECT_FEATURE_1);
-		fprintf(f, "%s\n", current->object->OBJECT_FEATURE_2);
-		fprintf(f, "%d\n", current->object->OBJECT_FEATURE_3);
-		fprintf(f, "%s\n", current->object->OBJECT_FEATURE_4);
-		fprintf(f, "%s\n", current->object->OBJECT_FEATURE_5);
-		fprintf(f, "%s\n", current->object->OBJECT_FEATURE_6);
-		fprintf(f, "%lf\n\n", current->object->OBJECT_FEATURE_7);
+		fprintf(f, "%d\n", current->object->order_ID);
+		fprintf(f, "%s\n", current->object->customer_ID);
+		fprintf(f, "%d\n", current->object->employee_ID);
+		fprintf(f, "%s\n", current->object->order_date);
+		fprintf(f, "%s\n", current->object->required_date);
+		fprintf(f, "%s\n", current->object->shipped_date);
+		fprintf(f, "%lf\n\n", current->object->freight);
 		current = current->next;
 	}
 }
 
-//-------------------------------------------------------------------------------------------------
-bool IsEmpty(List* list) {
+bool is_empty(List* list) {
 	return list->count == 0;
 }
 
-int Length(List* list) {
+int length(List* list) {
 	return list->count;
 }
 
-//-------------------------------------------------------------------------------------------------
-// Reversing the list
-void Reverse(List* list) {
+void reverse(List* list) {
 	struct Node* h_curr = list->head;
 	struct Node* t_curr = list->tail;
 	int size = list->count / 2;
 
 	for (int i = 0; i < size; ++i) {
-		Swap(h_curr, t_curr);
+		swap(h_curr, t_curr);
 
 		h_curr = h_curr->next;
 		t_curr = t_curr->prev;
 	}
 }
 
-//-------------------------------------------------------------------------------------------------
-// Print list elements to stdout
-void Print(const List* list) {
+void print(const List* list) {
 	struct Node* current = list->head;
 	while (current != NULL) {
-		fprintf(stdout, "%d\n", current->object->OBJECT_FEATURE_1);
-		fprintf(stdout, "%s\n", current->object->OBJECT_FEATURE_2);
-		fprintf(stdout, "%d\n", current->object->OBJECT_FEATURE_3);
-		fprintf(stdout, "%s\n", current->object->OBJECT_FEATURE_4);
-		fprintf(stdout, "%s\n", current->object->OBJECT_FEATURE_5);
-		fprintf(stdout, "%s\n", current->object->OBJECT_FEATURE_6);
-		fprintf(stdout, "%lf\n\n", current->object->OBJECT_FEATURE_7);
+		fprintf(stdout, "%d\n", current->object->order_ID);
+		fprintf(stdout, "%s\n", current->object->customer_ID);
+		fprintf(stdout, "%d\n", current->object->employee_ID);
+		fprintf(stdout, "%s\n", current->object->order_date);
+		fprintf(stdout, "%s\n", current->object->required_date);
+		fprintf(stdout, "%s\n", current->object->shipped_date);
+		fprintf(stdout, "%lf\n\n", current->object->freight);
 		current = current->next;
 	}
 }
 
-//-------------------------------------------------------------------------------------------------
-// Delete list
-void Clear(List* list) {
-	if (IsEmpty(list)) {
+void clear(List* list) {
+	if (is_empty(list)) {
 		return;
 	}
 
 	struct Node* current = list->head;
 	while (current) {
 		struct Node* next = current->next;
-		free(current->object->OBJECT_FEATURE_2);
-		free(current->object->OBJECT_FEATURE_4);
-		free(current->object->OBJECT_FEATURE_5);
-		free(current->object->OBJECT_FEATURE_6);
+		free(current->object->customer_ID);
+		free(current->object->order_date);
+		free(current->object->required_date);
+		free(current->object->shipped_date);
 		free(current->object);
 		free(current);
 		current = next;

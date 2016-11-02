@@ -19,28 +19,28 @@ int main(const int argc, const char** argv) {
 		return INVALID_ARGUMENT;
 	}
 
-	List list = Constructor();
+	List list = create_list();
 
-	ToList(&list, f);
+	to_list(&list, f);
 	fclose(f);
 
-	Print(&list);
+	print(&list);
 
 	FILE* out = fopen("out.txt", "w");
-	ToFile(&list, out);
+	to_file(&list, out);
 	fclose(out);
 
 	FILE* reversed = fopen("reversed.txt", "w");
-	Reverse(&list);
-	ToFile(&list, reversed);
+	reverse(&list);
+	to_file(&list, reversed);
 	fclose(reversed);
 
 	FILE* sorted = fopen("sorted.txt", "w");
-	Sort(&list, string_comparator);
-	ToFile(&list, sorted);
+	sort(&list, string_comparator);
+	to_file(&list, sorted);
 	fclose(sorted);
 
-	Clear(&list);
+	clear(&list);
 
 	return 0;
 }

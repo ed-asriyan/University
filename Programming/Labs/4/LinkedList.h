@@ -6,35 +6,22 @@
 #include <stdbool.h>
 #include <string.h>
 
-// Change this to change your object features.
-// 	You will have to change lines 21 - 29 in Object.h,
-// if you wanna another features of object.
-
-// 	Also you will have to rebuild functions: PrintList (lines 23 - 35),
-// FreeList (lines 37 - 51) & AssignValues (lines 53 - 80) in file Object.c.
-#define OBJECT_FEATURE_COUNT 7
-
-#define OBJECT_FEATURE_1      order_ID
-#define OBJECT_FEATURE_2   customer_ID
-#define OBJECT_FEATURE_3   employee_ID
-#define OBJECT_FEATURE_4    order_date
-#define OBJECT_FEATURE_5 required_date
-#define OBJECT_FEATURE_6  shipped_date
-#define OBJECT_FEATURE_7       freight
-
-// Representation of object
+/**
+ * @brief Representation of object
+ */
 typedef struct {
-	int OBJECT_FEATURE_1;
-	char* OBJECT_FEATURE_2;
-	int OBJECT_FEATURE_3;
-	char* OBJECT_FEATURE_4;
-	char* OBJECT_FEATURE_5;
-	char* OBJECT_FEATURE_6;
-	double OBJECT_FEATURE_7;
+	int order_ID;
+	char* customer_ID;
+	int employee_ID;
+	char* order_date;
+	char* required_date;
+	char* shipped_date;
+	double freight;
 } Object;
 
-// Two-linked list to store data from file
-// List node
+/**
+ * @brief List node
+ */
 struct Node {
 	Object* object;
 
@@ -42,7 +29,9 @@ struct Node {
 	struct Node* prev;
 };
 
-// List head & tail
+/**
+ * @brief Two-linked list to store data from file
+ */
 typedef struct {
 	int count;
 
@@ -50,37 +39,91 @@ typedef struct {
 	struct Node* tail;
 } List;
 
-// Public methods
-List Constructor();
+/**
+ * @brief Creates new list.
+ */
+List create_list();
 
-// Removing and adding elements
-void AddLast(List*, Object*);
-void RemoveLast(List*);
-void AddFirst(List*, Object*);
-void RemoveFirst(List*);
+/**
+ * @brief Adds element to the end of the list.
+ * @param list List, in which it is necessary to add an object.
+ * @param object The object that it is necessary to add.
+ */
+void add_last(List* list, Object* object);
 
-void InsertAt(List*, Object*, int);
-void RemoveAt(List*, int);
+/**
+ * @brief Removes the element from the end of the list.
+ * @param list List, from which it is necessary to remove the last object.
+ */
+void remove_last(List* list);
 
-// Sort list by comparator
-void Sort(List*, int (* cmp)(const void*, const void*));
-// Comparators for sorting
+/**
+ * @brief Adds the element to the beginning of the list.
+ * @param list List, in which it is necessary to add an object.
+ * @param object The object that it is necessary to add.
+ */
+void add_first(List* list, Object* object);
+
+/**
+ * @brief Removes element from the beginning of list.
+ * @param list List, from which it is necessary to remove the first object.
+ */
+void remove_first(List* list);
+
+/**
+ * @brief Inserts element into list by index.
+ * @param list List, in which it is necessary to insert an object.
+ * @param object The object that it is necessary to insert.
+ * @param index The inserting object index.
+ */
+void insert_all(List* list, Object* object, int index);
+
+/**
+ * @brief Removes element from list by index
+ * @param list List, from which it is necessary to remove the object.
+ * @param index The removing object index.
+ */
+void remove_at(List* list, int index);
+
+/**
+ * @brief Sorts list by comparator.
+ * @param cmp The comparator.
+ */
+void sort(List*, int (* cmp)(const void*, const void*));
+
 int int_comparator(const void*, const void*);
 int double_comparator(const void*, const void*);
 int string_comparator(const void*, const void*);
 
-// Get file info into list
-void ToList(List*, FILE*);
-// Get list info into file
-void ToFile(List*, FILE*);
+/**
+ * @brief Gets file info into list.
+ */
+void to_list(List*, FILE*);
+
+/**
+ * @brief Gets list info into file.
+ */
+void to_file(List*, FILE*);
 
 // 'Cheap' functions
-bool IsEmpty(List*);
-int Length(List*);
+bool is_empty(List*);
+int length(List*);
 
-// Reversing the list
-void Reverse(List*);
+/**
+ * @brief Reverses the list.
+ */
+void reverse(List*);
 
-// Print list elements to stdout
+/**
+ * @brief Prints list elements to stdout.
+ * @param list The list, which it is necessary to print.
+ */
+void print(const List* list);
+
+/**
+ * @brief Clears the list
+ * @param list The list, which it is necessary to clear.
+ */
+void clear(List* list);
 
 #endif //LISTS_LINKEDLIST_H
