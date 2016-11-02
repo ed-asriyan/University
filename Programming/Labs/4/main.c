@@ -5,40 +5,98 @@
 #define NOT_ENOUGH_ARGUMENTS 0
 #define INVALID_ARGUMENT     0
 
-int main(const int argc, const char** argv) {
-	if (argc != 2) {
-		fprintf(stderr, "ERROR: NOT_ENOUGH_ARGUMENTS!!!\n");
-		return NOT_ENOUGH_ARGUMENTS;
+#define OUT_FILE "out.txt"
+#define REVERSED_FILE "reversed.txt"
+#define SORTED_FILE "sorted.txt"
+
+int reverse_list(const char* file_name, List* list) {
+	FILE* reversed = fopen(REVERSED_FILE, "w");
+	if (reversed == NULL) {
+		return 0;
 	}
+	reverse(list);
+	to_file(list, reversed);
+	fclose(reversed);
+}
 
-	FILE* f = fopen(argv[1], "r");
+int sort_list(const char* file_name, List* list) {
+	FILE* sorted = fopen(SORTED_FILE, "w");
+	if (sorted == NULL) {
+		return 0;
+	}
+	sort(list, string_comparator);
+	to_file(list, sorted);
+	fclose(sorted);
+}
 
-	if (!f) {
-		fprintf(stderr, "ERROR: INVALID_ARGUMENT!!!\n");
-		fclose(f);
-		return INVALID_ARGUMENT;
+int file(const char* file_name, List* list) {
+	FILE* out = fopen("out.txt", "w");
+	if (out == NULL) {
+		return 0;
+	}
+	to_file(list, out);
+	fclose(out);
+}
+
+int main(const int argc, const char** argv) {
+	FILE* f = NULL;
+	while (f == NULL) {
+		char file_name[1024];
+		if (argc >= 2) {
+			f = fopen(argv[1], "r");
+		} else { ;
+			printf("Enter file name: ");
+			scanf("%s", file_name);
+		}
+
+		if (f == NULL) {
+			printf("Can not open the file.\n\n");
+		}
 	}
 
 	List list = create_list();
-
 	to_list(&list, f);
 	fclose(f);
+	printf("\nLoad successful\n\n");
 
-	print(&list);
+	int choose = 0;
+	do {
+		printf("~~ Menu ~~\n");
+		printf("1 - print list to stdout\n");
+		printf("2 - print list to file\n");
+		printf("3 - print sorted list to file\n");
+		printf("4 - print reversed list to file\n");
+		printf("0 - exit\n");
 
-	FILE* out = fopen("out.txt", "w");
-	to_file(&list, out);
-	fclose(out);
+		scanf("%d", &choose);
+		switch (choose) {
+			case 1: print(&list);
+				break;
+			case 2:
+				if (!file(SORTED_FILE, &list)) {
+					printf("\nSuccessful.\n\n");
+				} else {
+					printf("\nFailed.\n\n");
+				}
+				break;
+			case 3:
+				if (!sort_list(SORTED_FILE, &list)) {
+					printf("\nSuccessful.\n\n");
+				} else {
+					printf("\nFailed.\n\n");
+				}
+				break;
+			case 4:
+				if (!reverse_list(REVERSED_FILE, &list)) {
+					printf("\nSuccessful.\n\n");
+				} else {
+					printf("\nFailed.\n\n");
+				}
+				break;
+			default: break;
+		}
 
-	FILE* reversed = fopen("reversed.txt", "w");
-	reverse(&list);
-	to_file(&list, reversed);
-	fclose(reversed);
-
-	FILE* sorted = fopen("sorted.txt", "w");
-	sort(&list, string_comparator);
-	to_file(&list, sorted);
-	fclose(sorted);
+	} while (choose);
 
 	clear(&list);
 
