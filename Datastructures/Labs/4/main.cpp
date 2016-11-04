@@ -71,7 +71,7 @@ int main() {
 			}
 		}
 
-		if (!(i % LOG_STEP)) {
+		if (i && !(i % LOG_STEP)) {
 			std::cout << "SU2 processed " << su2.get_proc_count() << " requests" << std::endl;
 			std::cout << " Current SU1 queue length: " << su1.get_size() << std::endl;
 			std::cout << " Current SU2 queue length: " << su2.get_size() << std::endl;
