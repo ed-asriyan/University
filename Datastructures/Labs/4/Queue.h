@@ -7,6 +7,7 @@
 
 #include <exception>
 #include <clocale>
+#include <functional>
 
 template<class T>
 class Queue {
@@ -26,6 +27,8 @@ class Queue {
 		const T& Last() const;
 
 		virtual void Clear();
+
+		virtual void ForEach(const std::function<void(T&)>&) = 0;
 
 		int get_size() const;
 

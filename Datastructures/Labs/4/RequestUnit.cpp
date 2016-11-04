@@ -4,4 +4,8 @@
 
 #include "RequestUnit.h"
 
-RequestUnit::RequestUnit(int id) : id(id) {}
+void RequestUnit::Reset() {
+	++proc_count;
+	queuing_time = 0;
+	service_time = 0;
+}

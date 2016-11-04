@@ -32,6 +32,7 @@ class QueueArray : public Queue<T> {
 
 		virtual void Clear() override;
 
+		virtual void ForEach(const std::function<void(T&)>& function) override;
 	private:
 		void setInitValues();
 
@@ -115,6 +116,15 @@ template<class T>
 const T& QueueArray<T>::_last() const {
 	assert(Queue<T>::get_size());
 	return *back;
+}
+
+template<class T>
+void QueueArray<T>::ForEach(const std::function<void(T&)>& function) {
+	if (Queue<T>::get_size()) {
+		for (auto it = front; it != back++; it) {
+			function(*it);
+		}
+	}
 }
 
 #endif //QUEUE_QUEUEARRAY_H

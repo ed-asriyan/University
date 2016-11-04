@@ -31,6 +31,7 @@ class QueueList : public Queue<T> {
 
 		virtual void Clear() override;
 
+		virtual void ForEach(const std::function<void(T&)>& function) override;
 	private:
 		void setInitValues();
 
@@ -99,6 +100,13 @@ template<class T>
 const T& QueueList<T>::_last() const {
 	assert(Queue<T>::get_size());
 	return tail->value;
+}
+
+template<class T>
+void QueueList<T>::ForEach(const std::function<void(T&)>& function) {
+	for (auto node = head; node != nullptr; node = node->prev) {
+		function(node->value);
+	}
 }
 
 template<class T>
