@@ -100,7 +100,7 @@ int main() {
 	std::cout << std::endl;
 
 	std::cout << "SU2 idle time: " << su2_idle_time << std::endl;
-	std::cout << "Simulation time: " << su2.get_sum_proc_time() << std::endl;
+	std::cout << "Simulation time: " << su2.get_sum_proc_time() + su2_idle_time << std::endl;
 	std::cout << "CPU time: " << tm << std::endl;
 
 	return 0;
