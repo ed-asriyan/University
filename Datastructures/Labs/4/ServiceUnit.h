@@ -58,7 +58,7 @@ class ServiceUnit {
 template<template<typename> class QUEUE>
 ServiceUnit<QUEUE>::ServiceUnit() {
 	// check for Queue class
-	assert((std::is_base_of<QUEUE<RequestUnit>, QueueArray<RequestUnit>>::value));
+	assert((std::is_base_of<Queue<RequestUnit>, QUEUE<RequestUnit>>::value));
 }
 
 template<template<typename> class QUEUE>
