@@ -21,19 +21,19 @@ class QueueArray : public Queue<T> {
 		typedef typename LoopedArray<T>::iterator iterator;
 
 		const static int SIZE_FACTOR = 4;
-		LoopedArray<T>* data;
+		LoopedArray<T>* data = nullptr;
 
 		iterator front;
 		iterator back;
 
 	public:
-		QueueArray();
+		QueueArray() = default;
 		~QueueArray();
 
 		virtual void Clear() override;
-		
+
 	private:
-		void init();
+		void setInitValues();
 
 		void reallocate();
 
@@ -46,17 +46,12 @@ class QueueArray : public Queue<T> {
 };
 
 template<class T>
-QueueArray<T>::QueueArray() {
-	init();
-}
-
-template<class T>
 QueueArray<T>::~QueueArray() {
 	Queue<T>::Clear();
 }
 
 template<class T>
-void QueueArray<T>::init() {
+void QueueArray<T>::setInitValues() {
 	data = nullptr;
 }
 
@@ -65,7 +60,7 @@ void QueueArray<T>::Clear() {
 	if (data != nullptr) {
 		delete data;
 	}
-	init();
+	setInitValues();
 }
 
 template<class T>

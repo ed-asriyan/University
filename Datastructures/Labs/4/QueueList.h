@@ -16,7 +16,7 @@ template<class T>
 class QueueList : public Queue<T> {
 	private:
 		struct Node {
-			Node* prev;
+			Node* prev = nullptr;
 			T value;
 
 			Node(const T& value);
@@ -24,15 +24,15 @@ class QueueList : public Queue<T> {
 
 		typedef Node* iterator;
 
-		iterator tail;
-		iterator head;
+		iterator tail = nullptr;
+		iterator head = nullptr;
 	public:
-		QueueList();
+		QueueList() = default;
 
 		virtual void Clear() override;
 
 	private:
-		void init();
+		void setInitValues();
 
 	protected:
 		virtual void _enqueue(const T& t) override;
@@ -42,11 +42,6 @@ class QueueList : public Queue<T> {
 		virtual const T& _last() const override;
 
 };
-
-template<class T>
-QueueList<T>::QueueList() {
-	init();
-}
 
 template<class T>
 void QueueList<T>::_enqueue(const T& t) {
@@ -83,7 +78,7 @@ T QueueList<T>::_dequeue() {
 }
 
 template<class T>
-void QueueList<T>::init() {
+void QueueList<T>::setInitValues() {
 	tail = nullptr;
 	head = nullptr;
 }
@@ -91,7 +86,7 @@ void QueueList<T>::init() {
 template<class T>
 void QueueList<T>::Clear() {
 	Queue<T>::Clear();
-	init();
+	setInitValues();
 }
 
 template<class T>

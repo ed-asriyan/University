@@ -11,13 +11,13 @@
 template<class T>
 class Queue {
 	private:
-		int size;
+		int size = 0;
 
 	public:
 		class QueueEmptyException : public std::exception {};
 
-		Queue();
-		virtual ~Queue();
+		Queue() = default;
+		virtual ~Queue() = default;
 
 		void Enqueue(const T&);
 		T Dequeue();
@@ -36,16 +36,6 @@ class Queue {
 		virtual const T& _first() const = 0;
 		virtual const T& _last() const = 0;
 };
-
-template<class T>
-Queue<T>::Queue() {
-	size = 0;
-}
-
-template<class T>
-Queue<T>::~Queue() {
-
-}
 
 template<class T>
 int Queue<T>::get_size() const {
