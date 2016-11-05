@@ -23,10 +23,29 @@
 во входную очередь ОА2 или обратно во входную очередь ОА1.
 
 ## Описание внутренних структур данных
+### RequestUnit
+
+| Тип | Имя | Описание |
+|-----|-----|----------|
+| int | proc_count | кол-во прохождений через ОА |
+| double | queuing_time | время в очереди |
+| double | service_time | время обслуживания |
+
+### QueueListNode
+
+| Тип | Имя | Описание |
+|-----|-----|----------|
+| RequestUnit | value | значение |
+| QueueListNode* | prev | предыдущий узел |
+
+
 ### QueueList
 
 | Тип | Имя | Описание |
 |-----|-----|----------|
+| QueueLisNode* | head | голова очереди |
+| QueueLisNode* | tail | конец очереди |
+| int | count | длина очереди |
 
 ### QueueArray
 
@@ -35,13 +54,6 @@
 | RequestUnit* | data | данные |
 | int | size | размер |
 
-### RequestUnit
-
-| Тип | Имя | Описание |
-|-----|-----|----------|
-| int | proc_count | кол-во прохождений через ОА |
-| double | queuing_time | время в очереди |
-| double | service_time | время обслуживания |
 
 ### ServiceUnit
 
