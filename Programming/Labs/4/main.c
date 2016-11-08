@@ -47,6 +47,7 @@ int main(const int argc, const char** argv) {
 		} else { ;
 			printf("Enter file name: ");
 			scanf("%s", file_name);
+			f = fopen(file_name, "r");
 		}
 
 		if (f == NULL) {
