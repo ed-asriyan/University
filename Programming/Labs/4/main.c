@@ -2,13 +2,6 @@
 
 #include "LinkedList.h"
 
-#define NOT_ENOUGH_ARGUMENTS 0
-#define INVALID_ARGUMENT     0
-
-#define OUT_FILE "out.txt"
-#define REVERSED_FILE "reversed.txt"
-#define SORTED_FILE "sorted.txt"
-
 int reverse_list(const char* file_name, List* list) {
 	FILE* reversed = fopen(file_name, "w");
 	if (reversed == NULL) {
@@ -42,9 +35,9 @@ int file(const char* file_name, List* list) {
 }
 
 int main(const int argc, const char** argv) {
+	char file_name[1024];
 	FILE* f = NULL;
 	while (f == NULL) {
-		char file_name[1024];
 		if (argc >= 2) {
 			f = fopen(argv[1], "r");
 		} else { ;
@@ -77,21 +70,22 @@ int main(const int argc, const char** argv) {
 			case 1: print(&list);
 				break;
 			case 2:
-				if (!file(SORTED_FILE, &list)) {
+
+				if (file("list.txt", &list)) {
 					printf("\nSuccessful.\n\n");
 				} else {
 					printf("\nFailed.\n\n");
 				}
 				break;
 			case 3:
-				if (!sort_list(SORTED_FILE, &list)) {
+					if (sort_list("sorted_list.txt", &list)) {
 					printf("\nSuccessful.\n\n");
 				} else {
 					printf("\nFailed.\n\n");
 				}
 				break;
 			case 4:
-				if (!reverse_list(REVERSED_FILE, &list)) {
+				if (reverse_list("reversed_list.txt", &list)) {
 					printf("\nSuccessful.\n\n");
 				} else {
 					printf("\nFailed.\n\n");
