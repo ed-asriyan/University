@@ -10,32 +10,35 @@
 #define SORTED_FILE "sorted.txt"
 
 int reverse_list(const char* file_name, List* list) {
-	FILE* reversed = fopen(REVERSED_FILE, "w");
+	FILE* reversed = fopen(file_name, "w");
 	if (reversed == NULL) {
 		return 0;
 	}
 	reverse(list);
 	to_file(list, reversed);
 	fclose(reversed);
+	return 1;
 }
 
 int sort_list(const char* file_name, List* list) {
-	FILE* sorted = fopen(SORTED_FILE, "w");
+	FILE* sorted = fopen(file_name, "w");
 	if (sorted == NULL) {
 		return 0;
 	}
 	sort(list, string_comparator);
 	to_file(list, sorted);
 	fclose(sorted);
+	return 1;
 }
 
 int file(const char* file_name, List* list) {
-	FILE* out = fopen("out.txt", "w");
+	FILE* out = fopen(file_name, "w");
 	if (out == NULL) {
 		return 0;
 	}
 	to_file(list, out);
 	fclose(out);
+	return 1;
 }
 
 int main(const int argc, const char** argv) {
