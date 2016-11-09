@@ -17,6 +17,9 @@ typedef enum {
 	RIGHTDOWN
 } Direction;
 
+/**
+ * @brief Represents the LCS matrix instance.
+ */
 typedef struct {
 	int height;
 	int width;
