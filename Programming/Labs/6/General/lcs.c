@@ -45,11 +45,11 @@ int get_lcs_width(const LCS* lcs) {
 	return lcs->width;
 }
 
-const int** get_lcs_matrix(LCS* lcs) {
+const int** get_lcs_matrix(const LCS* lcs) {
 	return (const int**) lcs->matrix;
 }
 
-const Direction** get_lcs_directions(LCS* lcs) {
+const Direction** get_lcs_directions(const LCS* lcs) {
 	return (const Direction**) lcs->directions;
 }
 

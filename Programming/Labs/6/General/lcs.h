@@ -66,13 +66,13 @@ int get_lcs_width(const LCS* lcs);
  * @param lcs Pointer to LCS object.
  * @return LCS matrix.
  */
-const int** get_lcs_matrix(LCS* lcs);
+const int** get_lcs_matrix(const LCS* lcs);
 
 /**
  * @brief LCS directions matrix.
  * @param lcs Pointer to LCS object.
  * @return LCS directions matrix.
  */
-const Direction** get_lcs_directions(LCS* lcs);
+const Direction** get_lcs_directions(const LCS* lcs);
 
 #endif //LCS_LCS_H
