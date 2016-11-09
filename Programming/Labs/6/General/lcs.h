@@ -6,6 +6,8 @@
 #define LCS_LCS_H
 
 #include <stdlib.h>
+#include <string.h>
+
 /**
  * @brief Represents direction in LCS matix.
  */
@@ -22,6 +24,14 @@ typedef struct {
 	int** matrix;
 	Direction** directions;
 } LCS;
+
+/**
+ * @brief Calculates the LCS matrix by strings X and Y.
+ * @param X The first string.
+ * @param Y The second string.
+ * @return A pointer to new LCS object.
+ */
+LCS* calc_lcs(const char* X, const char* Y);
 
 /**
  * @brief Creates new LCS instance.

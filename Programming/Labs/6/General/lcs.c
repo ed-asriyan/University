@@ -52,3 +52,35 @@ const int** get_lcs_matrix(LCS* lcs) {
 const Direction** get_lcs_directions(LCS* lcs) {
 	return (const Direction**) lcs->directions;
 }
+
+LCS* calc_lcs(const char* X, const char* Y) {
+	int x_length = (int) strlen(X);
+	int y_length = (int) strlen(Y);
+
+	LCS* lcs = create_lcs(x_length + 1, y_length + 1);
+
+	for (int i = 0; i <= x_length; ++i) {
+		lcs->matrix[i][0] = 0;
+	}
+
+	for (int j = 0; j <= y_length; ++j) {
+		lcs->matrix[0][j] = 0;
+	}
+
+	for (int i = 1; i <= x_length; ++i) {
+		for (int j = 1; j <= y_length; ++j) {
+			if (X[i - 1] == Y[j - 1]) {
+				lcs->matrix[i][j] = lcs->matrix[i - 1][j - 1] + 1;
+				lcs->directions[i][j] = RIGHTDOWN;
+			} else if (lcs->matrix[i - 1][j] >= lcs->matrix[i][j - 1]) {
+				lcs->matrix[i][j] = lcs->matrix[i - 1][j];
+				lcs->directions[i][j] = DOWN;
+			} else {
+				lcs->matrix[i][j] = lcs->matrix[i][j - 1];
+				lcs->directions[i][j] = RIGHT;
+			}
+		}
+	}
+
+	return lcs;
+}
