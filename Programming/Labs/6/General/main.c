@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include "lcs.h"
 
@@ -116,6 +117,7 @@ int main(int argc, const char* argv[]) {
 	char* x = (char*) malloc(sizeof(char) * length + 1);
 	char* y = (char*) malloc(sizeof(char) * length);
 
+	srand((unsigned int) time(NULL));
 	generate_random_string(x, length);
 	generate_random_string(y, length - 1);
 
