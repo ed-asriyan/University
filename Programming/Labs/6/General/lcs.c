@@ -8,11 +8,11 @@ LCS* create_lcs(int width, int height) {
 	LCS* lcs = (LCS*) malloc(sizeof(LCS));
 
 	lcs->matrix = (int**) malloc(sizeof(int*) * (height + 1));
-	lcs->symbols = (char**) malloc(sizeof(char*) * (height + 1));
+	lcs->directions = (Direction**) malloc(sizeof(Direction*) * (height + 1));
 
 	for (int i = 0; i <= height; ++i) {
 		lcs->matrix[i] = (int*) malloc(sizeof(int) * (width + 1));
-		lcs->symbols[i] = (char*) malloc(sizeof(char) * (width + 1));
+		lcs->directions[i] = (Direction*) malloc(sizeof(Direction) * (width + 1));
 	}
 
 	lcs->height = height;
@@ -24,13 +24,13 @@ LCS* create_lcs(int width, int height) {
 void free_lcs(LCS* lcs) {
 	for (int i = 0; i <= lcs->height; ++i) {
 		free(lcs->matrix[i]);
-		free(lcs->symbols[i]);
+		free(lcs->directions[i]);
 	}
 	free(lcs->matrix);
-	free(lcs->symbols);
+	free(lcs->directions);
 
 	lcs->matrix = NULL;
-	lcs->symbols = NULL;
+	lcs->directions = NULL;
 	lcs->height = 0;
 	lcs->width = 0;
 
@@ -49,6 +49,6 @@ const int** get_lcs_matrix(LCS* lcs) {
 	return (const int**) lcs->matrix;
 }
 
-const char** get_lcs_symbols(LCS* lcs) {
-	return (const char**) lcs->symbols;
+const Direction** get_lcs_directions(LCS* lcs) {
+	return (const Direction**) lcs->directions;
 }

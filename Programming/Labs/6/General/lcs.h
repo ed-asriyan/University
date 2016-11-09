@@ -6,13 +6,21 @@
 #define LCS_LCS_H
 
 #include <stdlib.h>
+/**
+ * @brief Represents direction in LCS matix.
+ */
+typedef enum {
+	RIGHT,
+	DOWN,
+	RIGHTDOWN
+} Direction;
 
 typedef struct {
 	int height;
 	int width;
 
 	int** matrix;
-	char** symbols;
+	Direction** directions;
 } LCS;
 
 /**
@@ -51,10 +59,10 @@ int get_lcs_width(const LCS* lcs);
 const int** get_lcs_matrix(LCS* lcs);
 
 /**
- * @brief LCS char matrix.
+ * @brief LCS directions matrix.
  * @param lcs Pointer to LCS object.
- * @return LCS char matrix.
+ * @return LCS directions matrix.
  */
-const char** get_lcs_symbols(LCS* lcs);
+const Direction** get_lcs_directions(LCS* lcs);
 
 #endif //LCS_LCS_H
