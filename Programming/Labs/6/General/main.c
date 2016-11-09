@@ -2,9 +2,28 @@
 // Created by ed on 09.11.16.
 //
 
+#define _GNU_SOURCE
+
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "lcs.h"
+
+/**
+ * @brief Generates random string.
+ * @param str Pointer to the string to generate.
+ * @param length Length of the string.
+ */
+void generate_random_string(char* str, int length) {
+	const char min_char = 'A';
+	const char max_char = 'Z';
+
+	for (int i = 0; i < length; ++i) {
+		str[i] = (char) (rand() % ((int) max_char + 1 - (int) min_char) + (int) min_char);
+	}
+	str[length] = '\0';
+}
 
 /**
  * @brief Converts direction to human-like character.
@@ -77,28 +96,44 @@ void print_lcs_matrix(const LCS* lcs) {
 	printf("\n");
 }
 
-int main() {
-	const char* X = "ACCGGTCGAGTGCGCGGAAGCCGGCCGAA";
-	const char* Y = "GTCGTTCGGAATGCCGTTGCTCTGTAAA";
+/**
+ * @brief Reads a whole line from stdin.
+ * @param str Pointer to string to allocate and write in.
+ */
+void scan_line(char** str) {
+	size_t length;
+	getline(str, &length, stdin);
+	(*str)[strlen(*str) - 1] = '\0';
+}
+
+int main(int argc, const char* argv[]) {
+	int length = 1001;
+
+	if (argc == 2) {
+		length = atoi(argv[1]);
+	}
+
+	char* x = (char*) malloc(sizeof(char) * length + 1);
+	char* y = (char*) malloc(sizeof(char) * length);
+
+	generate_random_string(x, length);
+	generate_random_string(y, length - 1);
 
 	printf("Source strings:\n");
-	printf(" X = %s\n", X);
-	printf(" Y = %s\n", Y);
+	printf(" X = %s\n", x);
+	printf(" Y = %s\n", y);
 	printf("\n");
 
-	LCS* lcs = calc_lcs(X, Y);
-
-	printf("LCS matrix:\n");
-	print_lcs_matrix(lcs);
-
-	printf("LCS directions matrix:\n");
-	print_lcs_direction_matrix(lcs);
+	LCS* lcs = calc_lcs(x, y);
 
 	printf("Result: ");
-	print_lcs(lcs, X, get_lcs_height(lcs), get_lcs_width(lcs));
-	fprintf(stdout, "\n");
+	print_lcs(lcs, x, get_lcs_height(lcs), get_lcs_width(lcs));
+	printf("\n");
 
 	free_lcs(lcs);
+
+	free(y);
+	free(x);
 
 	return 0;
 }
