@@ -76,14 +76,14 @@ int main() {
 
 		if (!(su2.get_proc_count() % LOG_STEP) && su2.get_proc_count() != last_su2_log_proc_time) {
 			if (show_pointers) {
-				if (typeid(su1) == typeid(ServiceUnit<QueueList>)) {
+				if (typeid(su1) == typeid(ServiceUnit<QueueList>) && su1.get_size()) {
 					std::cout << "Addresses of SU1 elements: ";
 					su1.ForEach([](const RequestUnit& elem) {
 						std::cout << &elem << ' ';
 					});
 					std::cout << std::endl;
 				}
-				if (typeid(su2) == typeid(ServiceUnit<QueueList>)) {
+				if (typeid(su2) == typeid(ServiceUnit<QueueList>) && su2.get_size()) {
 					std::cout << "Addresses of SU2 elements: ";
 					su2.ForEach([](const RequestUnit& elem) {
 						std::cout << &elem << ' ';
