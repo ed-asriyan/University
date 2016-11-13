@@ -34,6 +34,8 @@ class ServiceUnit : public Queue<RequestUnit> {
 	public:
 		class NotSupportedQueueTypeException : public std::exception {};
 
+		ServiceUnit(double min_proc_time, double max_proc_time);
+
 		bool SynchronizeTime(double time);
 
 		template<template<typename> class QUEUE_T>
@@ -65,6 +67,10 @@ class ServiceUnit : public Queue<RequestUnit> {
 		virtual const RequestUnit& _last() const override;
 
 };
+
+template<template<typename> class QUEUE>
+ServiceUnit<QUEUE>::ServiceUnit(double min_proc_time, double max_proc_time)
+	: min_proc_time(min_proc_time), max_proc_time(max_proc_time) {}
 
 template<template<typename> class QUEUE>
 double ServiceUnit<QUEUE>::get_curr_time() const {

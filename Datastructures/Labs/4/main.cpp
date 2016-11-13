@@ -34,14 +34,8 @@ int main() {
 	std::cout << "Print addresses of elements of QueueList? (0, 1): ";
 	std::cin >> show_pointers;
 
-	ServiceUnit<QueueArray> su1;
-	ServiceUnit<QueueList> su2;
-
-	su1.set_min_proc_time(T1_MIN);
-	su1.set_max_proc_time(T1_MAX);
-
-	su2.set_min_proc_time(T2_MIN);
-	su2.set_max_proc_time(T2_MAX);
+	ServiceUnit<QueueArray> su1(T1_MIN, T1_MAX);
+	ServiceUnit<QueueList> su2(T2_MIN, T2_MAX);
 
 	auto tm = tick();
 
