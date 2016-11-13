@@ -102,7 +102,22 @@ namespace Matrix {
 	}
 
 	template<class A, class B, class C>
-	void multiply(const MatrixBase<A>& a, const MatrixBase<B>& b, MatrixBase)
+	void add(const MatrixBase<A>& a, const MatrixBase<B>& b, MatrixBase<C>& c) {
+		int height = a.get_height();
+		int width = a.get_width();
+
+		if (height != b.get_height() || width != b.get_width()) {
+			throw InvalidMatrixSizeException();
+		}
+
+		c.Resize(height, width);
+
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < width; ++j) {
+				c.get_item(i, j) = a.get_item(i, j) + b.get_item(i, j);
+			}
+		}
+	};
 
 }
 #endif //MATRIX_MATRIXBASE_H
