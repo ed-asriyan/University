@@ -35,6 +35,7 @@ class Queue {
 		virtual void Clear();
 
 		virtual void ForEach(const std::function<void(T&)>&) = 0;
+		virtual void ForEach(const std::function<void(const T&)>&) const = 0;
 
 		int get_size() const;
 

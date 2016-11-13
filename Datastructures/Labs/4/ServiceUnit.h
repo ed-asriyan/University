@@ -40,6 +40,7 @@ class ServiceUnit : public Queue<RequestUnit> {
 		bool SynchronizeTime(const ServiceUnit<QUEUE_T>&);
 
 		virtual void ForEach(const std::function<void(RequestUnit&)>& function) override;
+		virtual void ForEach(const std::function<void(const RequestUnit&)>& function) const override;
 
 		double get_curr_time() const;
 		double get_idle_time() const;
@@ -122,6 +123,11 @@ bool ServiceUnit<QUEUE>::SynchronizeTime(const ServiceUnit<QUEUE_T>& queue) {
 
 template<template<typename> class QUEUE>
 void ServiceUnit<QUEUE>::ForEach(const std::function<void(RequestUnit&)>& function) {
+	return requests.ForEach(function);
+}
+
+template<template<typename> class QUEUE>
+void ServiceUnit<QUEUE>::ForEach(const std::function<void(const RequestUnit&)>& function) const {
 	return requests.ForEach(function);
 }
 
