@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <typeinfo>
+#include <ctime>
 #include <cxxabi.h>
 
 #include "QueueArray.h"
@@ -23,12 +24,6 @@
 
 #define LOG_STEP 100
 
-unsigned long long tick(void) {
-	unsigned long long d;
-	__asm__ __volatile__ ("rdtsc" : "=A" (d));
-	return d;
-}
-
 int main() {
 	bool show_pointers;
 	std::cout << "Print addresses of elements of QueueList? (0, 1): ";
@@ -37,7 +32,7 @@ int main() {
 	ServiceUnit<QueueArray> su1(T1_MIN, T1_MAX);
 	ServiceUnit<QueueList> su2(T2_MIN, T2_MAX);
 
-	auto tm = tick();
+	auto tm = std::clock();
 
 	for (int i = 0; i < SU2_OUTCOME; ++i) {
 		su1.Enqueue(RequestUnit());
@@ -98,7 +93,7 @@ int main() {
 
 	std::cout << std::endl;
 
-	tm = tick() - tm;
+	tm = std::clock() - tm;
 
 	std::cout << "--- Summary ---" << std::endl;
 	std::cout << "SU1 is " << abi::__cxa_demangle(typeid(su1).name(), nullptr, nullptr, nullptr) << std::endl;
