@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <cxxabi.h>
 
 #include "QueueArray.h"
 #include "QueueList.h"
@@ -84,6 +85,9 @@ int main() {
 	tm = tick() - tm;
 
 	std::cout << "--- Summary ---" << std::endl;
+	std::cout << "SU1 is " << abi::__cxa_demangle(typeid(su1).name(), nullptr, nullptr, nullptr) << std::endl;
+	std::cout << "SU2 is " << abi::__cxa_demangle(typeid(su2).name(), nullptr, nullptr, nullptr) << std::endl;
+	std::cout << std::endl;
 
 	std::cout << "SU1 processed " << su1.get_proc_count() << " requests" << std::endl;
 	std::cout << "SU2 processed " << su2.get_proc_count() << " requests" << std::endl;
@@ -103,10 +107,18 @@ int main() {
 
 	std::cout << "SU1 idle time: " << su1.get_idle_time() << std::endl;
 	std::cout << "SU2 idle time: " << su2.get_idle_time() << std::endl;
+	std::cout << "Simulation time: " << std::max(su1.get_curr_time(), su2.get_curr_time()) << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "Simulation time: " << std::max(su1.get_curr_time(), su2.get_curr_time()) << std::endl;
-	std::cout << "CPU time: " << tm << std::endl;
+	const time_t su1_enqueue_time = su1.get_enqueue_time_sum();
+	const time_t su1_dequeue_time = su1.get_dequeue_time_sum();
+	const time_t su2_enqueue_time = su2.get_enqueue_time_sum();
+	const time_t su2_dequeue_time = su2.get_dequeue_time_sum();
+	std::cout << "SU1 CPU time: " << su1_enqueue_time + su1_dequeue_time << " (enqueue: " << su1_enqueue_time
+	          << ", dequeue: " << su1_dequeue_time << ")" << std::endl;
+	std::cout << "SU2 CPU time: " << su2_enqueue_time + su2_dequeue_time << " (enqueue: " << su2_enqueue_time
+	          << ", dequeue: " << su2_dequeue_time << ")" << std::endl;
+	std::cout << "Overal CPU time: " << tm << std::endl;
 
 	return 0;
 }
