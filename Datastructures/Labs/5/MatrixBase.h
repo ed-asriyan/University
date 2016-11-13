@@ -18,11 +18,13 @@ namespace Matrix {
 	class MatrixBase {
 
 		private:
-			int width;
-
 			int height;
+
+			int width;
 		public:
-			MatrixBase(int width, int height);
+			MatrixBase(int height, int width);
+
+			void Resize(int new_height, int new_width);
 
 			T& get_item(int row, int col);
 			const T& get_item(int row, int col) const;
@@ -38,10 +40,12 @@ namespace Matrix {
 		protected:
 			virtual T& _get_item(int row, int col) = 0;
 			virtual const T& _get_item(int row, int col) const = 0;
+
+			virtual void _resize(int height, int width) = 0;
 	};
 
 	template<class T>
-	MatrixBase<T>::MatrixBase(int width, int height) : width(width), height(height) {
+	MatrixBase<T>::MatrixBase(int height, int width) : height(height), width(width) {
 		if (width < 0 || height < 0) {
 			throw InvalidMatrixSizeException();
 		}
@@ -85,6 +89,16 @@ namespace Matrix {
 			os << std::endl;
 		}
 		return os;
+	}
+
+	template<class T>
+	void MatrixBase<T>::Resize(int new_height, int new_width) {
+		if (new_height < 0 || new_width < 0) {
+			throw InvalidMatrixSizeException();
+		}
+		if (height != new_height || width != new_width) {
+			_resize(new_height, new_width);
+		}
 	}
 
 	template<class A, class B, class C>
