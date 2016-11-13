@@ -10,8 +10,6 @@ struct RequestUnit {
 
 	double queuing_time = 0;
 	double service_time = 0;
-
-	void Reset();
 };
 
 #endif //QUEUE_UNITREQUEST_H

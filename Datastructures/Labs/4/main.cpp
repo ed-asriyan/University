@@ -31,9 +31,6 @@ int main() {
 	ServiceUnit<QueueArray> su1;
 	ServiceUnit<QueueList> su2;
 
-	double su2_idle_time = 0;
-	double su2_remaining_service_time = 0;
-
 	su1.set_min_proc_time(T1_MIN);
 	su1.set_max_proc_time(T1_MAX);
 
@@ -46,32 +43,31 @@ int main() {
 		su1.Enqueue(RequestUnit());
 	}
 
-	for (int i = 0; i < SU2_OUTCOME;) {
+	while (su2.get_proc_count() < SU2_OUTCOME) {
 		if (su1.get_size()) {
-			auto request = su1.Dequeue();
+			if (su1.get_curr_time() <= su2.get_curr_time()) {
+				auto request = su1.Dequeue();
+				if (RandomGenerator::GetRandomDouble01() > P) {
+					su2.Enqueue(request);
+				} else {
+					su1.Enqueue(request);
+				}
+			}
+		} else {
+			su1.SynchronizeTime(su2);
+		}
 
-			su2_remaining_service_time -= request.service_time;
-
-			request.Reset();
-
-			if (RandomGenerator::GetRandomDouble01() > P) {
-				su2.Enqueue(request);
-			} else {
+		su2.SynchronizeTime(su1);
+		if (su2.get_size()) {
+			if (su2.get_curr_time() <= su1.get_curr_time()) {
+				auto request = su2.Dequeue();
 				su1.Enqueue(request);
 			}
+		} else {
+			su2.SynchronizeTime(su1);
 		}
 
-		if (su2_remaining_service_time <= 0 || !su1.get_size()) {
-			if (su2.get_size()) {
-				su2_remaining_service_time += su2.Dequeue().service_time;
-				++i;
-			} else {
-				su2_idle_time += -su2_remaining_service_time;
-				su2_remaining_service_time = 0;
-			}
-		}
-
-		if (i && !(i % LOG_STEP)) {
+		if (su2.get_proc_count() && !(su2.get_proc_count() % LOG_STEP)) {
 			std::cout << "SU2 processed " << su2.get_proc_count() << " requests" << std::endl;
 			std::cout << " Current SU1 queue length: " << su1.get_size() << std::endl;
 			std::cout << " Current SU2 queue length: " << su2.get_size() << std::endl;
@@ -91,6 +87,10 @@ int main() {
 	std::cout << "SU2 processed " << su2.get_proc_count() << " requests" << std::endl;
 	std::cout << std::endl;
 
+	std::cout << "SU1 average queue length: " << su1.get_average_size() << std::endl;
+	std::cout << "SU2 average queue length: " << su2.get_average_size() << std::endl;
+	std::cout << std::endl;
+
 	std::cout << "SU1 average service time: " << su1.get_average_proc_time() << std::endl;
 	std::cout << "SU2 average service time: " << su2.get_average_proc_time() << std::endl;
 	std::cout << std::endl;
@@ -99,8 +99,11 @@ int main() {
 	std::cout << "SU2 average queueing time: " << su2.get_average_queueing_time() << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "SU2 idle time: " << su2_idle_time << std::endl;
-	std::cout << "Simulation time: " << su2.get_sum_proc_time() + su2_idle_time << std::endl;
+	std::cout << "SU1 idle time: " << su1.get_idle_time() << std::endl;
+	std::cout << "SU2 idle time: " << su2.get_idle_time() << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "Simulation time: " << std::max(su1.get_curr_time(), su2.get_curr_time()) << std::endl;
 	std::cout << "CPU time: " << tm << std::endl;
 
 	return 0;

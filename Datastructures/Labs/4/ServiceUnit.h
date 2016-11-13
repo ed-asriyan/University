@@ -20,6 +20,8 @@ class ServiceUnit : public Queue<RequestUnit> {
 		QUEUE<RequestUnit> requests;
 
 		double curr_time = 0;
+		double idle_time = 0;
+
 		double min_proc_time = 0;
 		double max_proc_time = 0;
 
@@ -34,10 +36,19 @@ class ServiceUnit : public Queue<RequestUnit> {
 
 		ServiceUnit();
 
+		bool SynchronizeTime(double time);
+
+		template<template<typename> class QUEUE_T>
+		bool SynchronizeTime(const ServiceUnit<QUEUE_T>&);
+
 		virtual void ForEach(const std::function<void(RequestUnit&)>& function) override;
+
+		double get_curr_time() const;
+		double get_idle_time() const;
 
 		double get_min_proc_time() const;
 		double get_max_proc_time() const;
+
 		int get_proc_count() const;
 		double get_sum_proc_time() const;
 
@@ -49,7 +60,7 @@ class ServiceUnit : public Queue<RequestUnit> {
 		void set_max_proc_time(double max_proc_time);
 
 	protected:
-		virtual void _enqueue(const RequestUnit& t) override;
+		virtual void _enqueue(const RequestUnit& request) override;
 		virtual RequestUnit _dequeue() override;
 		virtual const RequestUnit& _first() const override;
 		virtual const RequestUnit& _last() const override;
@@ -60,6 +71,16 @@ template<template<typename> class QUEUE>
 ServiceUnit<QUEUE>::ServiceUnit() {
 	// check for Queue class
 	assert((std::is_base_of<Queue<RequestUnit>, QUEUE<RequestUnit>>::value));
+}
+
+template<template<typename> class QUEUE>
+double ServiceUnit<QUEUE>::get_curr_time() const {
+	return curr_time;
+}
+
+template<template<typename> class QUEUE>
+double ServiceUnit<QUEUE>::get_idle_time() const {
+	return idle_time;
 }
 
 template<template<typename> class QUEUE>
@@ -93,6 +114,21 @@ double ServiceUnit<QUEUE>::get_average_queueing_time() const {
 }
 
 template<template<typename> class QUEUE>
+bool ServiceUnit<QUEUE>::SynchronizeTime(double time) {
+	if (time < curr_time) return false;
+
+	idle_time += time - curr_time;
+	curr_time = time;
+	return true;
+}
+
+template<template<typename> class QUEUE>
+template<template<typename> class QUEUE_T>
+bool ServiceUnit<QUEUE>::SynchronizeTime(const ServiceUnit<QUEUE_T>& queue) {
+	return SynchronizeTime(queue.get_curr_time());
+}
+
+template<template<typename> class QUEUE>
 void ServiceUnit<QUEUE>::ForEach(const std::function<void(RequestUnit&)>& function) {
 	return requests.ForEach(function);
 }
@@ -109,7 +145,10 @@ void ServiceUnit<QUEUE>::set_max_proc_time(double max_proc_time) {
 
 template<template<typename> class QUEUE>
 void ServiceUnit<QUEUE>::_enqueue(const RequestUnit& t) {
-	requests.Enqueue(t);
+	RequestUnit request;
+	request.proc_count = t.proc_count;
+
+	requests.Enqueue(request);
 }
 
 template<template<typename> class QUEUE>
@@ -123,12 +162,15 @@ RequestUnit ServiceUnit<QUEUE>::_dequeue() {
 		a.queuing_time += proc_time;
 	});
 
-	curr_time += proc_time;
 	sum_queuing_time += request.queuing_time;
 	sum_proc_time += proc_time;
+
+	curr_time += proc_time;
 	sum_size += get_size();
 
 	++proc_count;
+
+	++request.proc_count;
 
 	return request;
 }
