@@ -37,6 +37,7 @@ namespace Matrix {
 			template<class I>
 			friend std::ostream& operator<<(std::ostream& os, const MatrixBase<I>& base);
 
+			virtual ~MatrixBase();
 		protected:
 			virtual T& _get_item(int row, int col) = 0;
 			virtual const T& _get_item(int row, int col) const = 0;
@@ -99,6 +100,11 @@ namespace Matrix {
 		if (height != new_height || width != new_width) {
 			_resize(new_height, new_width);
 		}
+	}
+
+	template<class T>
+	MatrixBase<T>::~MatrixBase() {
+
 	}
 
 	template<class A, class B, class C>
