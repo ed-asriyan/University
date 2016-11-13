@@ -43,6 +43,7 @@ int main() {
 		su1.Enqueue(RequestUnit());
 	}
 
+	int last_su2_log_proc_time = -1;
 	while (su2.get_proc_count() < SU2_OUTCOME) {
 		if (su1.get_size()) {
 			if (su1.get_curr_time() <= su2.get_curr_time()) {
@@ -67,8 +68,9 @@ int main() {
 			su2.SynchronizeTime(su1);
 		}
 
-		if (su2.get_proc_count() && !(su2.get_proc_count() % LOG_STEP)) {
-			std::cout << "SU2 processed " << su2.get_proc_count() << " requests" << std::endl;
+		if (!(su2.get_proc_count() % LOG_STEP) && su2.get_proc_count() != last_su2_log_proc_time) {
+			std::cout << "SU2 processed " << (last_su2_log_proc_time = su2.get_proc_count()) << " requests"
+			          << std::endl;
 			std::cout << " Current SU1 queue length: " << su1.get_size() << std::endl;
 			std::cout << " Current SU2 queue length: " << su2.get_size() << std::endl;
 			std::cout << " Average SU1 queue length: " << su1.get_average_size() << std::endl;
