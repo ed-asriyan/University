@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <typeinfo>
 #include <cxxabi.h>
 
 #include "QueueArray.h"
@@ -29,6 +30,10 @@ unsigned long long tick(void) {
 }
 
 int main() {
+	bool show_pointers;
+	std::cout << "Print addresses of elements of QueueList? (0, 1): ";
+	std::cin >> show_pointers;
+
 	ServiceUnit<QueueArray> su1;
 	ServiceUnit<QueueList> su2;
 
@@ -70,6 +75,23 @@ int main() {
 		}
 
 		if (!(su2.get_proc_count() % LOG_STEP) && su2.get_proc_count() != last_su2_log_proc_time) {
+			if (show_pointers) {
+				if (typeid(su1) == typeid(ServiceUnit<QueueList>)) {
+					std::cout << "Addresses of SU1 elements: ";
+					su1.ForEach([](const RequestUnit& elem) {
+						std::cout << &elem << ' ';
+					});
+					std::cout << std::endl;
+				}
+				if (typeid(su2) == typeid(ServiceUnit<QueueList>)) {
+					std::cout << "Addresses of SU2 elements: ";
+					su2.ForEach([](const RequestUnit& elem) {
+						std::cout << &elem << ' ';
+					});
+					std::cout << std::endl;
+				}
+			}
+
 			std::cout << "SU2 processed " << (last_su2_log_proc_time = su2.get_proc_count()) << " requests"
 			          << std::endl;
 			std::cout << " Current SU1 queue length: " << su1.get_size() << std::endl;
