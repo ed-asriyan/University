@@ -35,6 +35,8 @@ class QueueArray : public Queue<T> {
 		virtual void ForEach(const std::function<void(T&)>& function) override;
 		virtual void ForEach(const std::function<void(const T&)>& function) const override;
 
+		virtual size_t get_memory_size() const override;
+
 	private:
 		void setInitValues();
 
@@ -136,6 +138,11 @@ void QueueArray<T>::ForEach(const std::function<void(const T&)>& function) const
 			function(*it);
 		}
 	}
+}
+
+template<class T>
+size_t QueueArray<T>::get_memory_size() const {
+	return sizeof(*this) + sizeof(T) * data->get_size();
 }
 
 #endif //QUEUE_QUEUEARRAY_H

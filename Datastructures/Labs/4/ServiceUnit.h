@@ -60,6 +60,7 @@ class ServiceUnit : public Queue<RequestUnit> {
 		void set_min_proc_time(double min_proc_time);
 		void set_max_proc_time(double max_proc_time);
 
+		virtual size_t get_memory_size() const override;
 	protected:
 		virtual void _enqueue(const RequestUnit& request) override;
 		virtual RequestUnit _dequeue() override;
@@ -192,6 +193,11 @@ const RequestUnit& ServiceUnit<QUEUE>::_last() const {
 template<template<typename> class QUEUE>
 double ServiceUnit<QUEUE>::get_sum_proc_time() const {
 	return sum_proc_time;
+}
+
+template<template<typename> class QUEUE>
+size_t ServiceUnit<QUEUE>::get_memory_size() const {
+	return sizeof(*this) + requests.get_memory_size();
 }
 
 #endif //QUEUE_SERVICEUNIT_H

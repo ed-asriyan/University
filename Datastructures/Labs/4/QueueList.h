@@ -35,6 +35,8 @@ class QueueList : public Queue<T> {
 		virtual void ForEach(const std::function<void(T&)>& function) override;
 		virtual void ForEach(const std::function<void(const T&)>& function) const override;
 
+		virtual size_t get_memory_size() const override;
+
 	private:
 		void setInitValues();
 
@@ -117,6 +119,11 @@ void QueueList<T>::ForEach(const std::function<void(const T&)>& function) const 
 	for (auto node = head; node != nullptr; node = node->prev) {
 		function(node->value);
 	}
+}
+
+template<class T>
+size_t QueueList<T>::get_memory_size() const {
+	return sizeof(*this) + sizeof(Node) * Queue<T>::get_size();
 }
 
 template<class T>

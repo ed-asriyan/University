@@ -38,9 +38,11 @@ class Queue {
 		virtual void ForEach(const std::function<void(const T&)>&) const = 0;
 
 		int get_size() const;
+		virtual size_t get_memory_size() const = 0;
 
 		time_t get_enqueue_time_sum() const;
 		time_t get_dequeue_time_sum() const;
+
 		int get_enqueue_count() const;
 		int get_dequeue_count() const;
 
