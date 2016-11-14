@@ -11,6 +11,7 @@
 #include "QueueList.h"
 #include "ServiceUnit.h"
 #include "RandomGenerator.h"
+#include "QueueTests.h"
 
 #define T1_MIN 0
 #define T1_MAX 6
@@ -95,7 +96,7 @@ int main() {
 
 	tm = std::clock() - tm;
 
-	std::cout << "--- Summary ---" << std::endl;
+	std::cout << "--- Service units modeling summary ---" << std::endl;
 	std::cout << "SU1 is " << abi::__cxa_demangle(typeid(su1).name(), nullptr, nullptr, nullptr) << std::endl;
 	std::cout << "SU2 is " << abi::__cxa_demangle(typeid(su2).name(), nullptr, nullptr, nullptr) << std::endl;
 	std::cout << std::endl;
@@ -130,6 +131,11 @@ int main() {
 	std::cout << "SU2 CPU time: " << su2_enqueue_time + su2_dequeue_time << " (enqueue: " << su2_enqueue_time
 	          << ", dequeue: " << su2_dequeue_time << ")" << std::endl;
 	std::cout << "Overal CPU time: " << tm << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "--- Memory measurement tests summary (" << SU2_OUTCOME << " elements) ---" << std::endl;
+	std::cout << " QueueArray: " << QueueTests::TestMemory<long, QueueArray>(SU2_OUTCOME) << std::endl;
+	std::cout << " QueueList:  " << QueueTests::TestMemory<long, QueueList>(SU2_OUTCOME) << std::endl;
 
 	return 0;
 }

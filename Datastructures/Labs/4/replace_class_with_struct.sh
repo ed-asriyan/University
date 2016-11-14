@@ -15,3 +15,5 @@ rpl 'class' 'struct' QueueList.h
 rpl 'template<template<typename> class QUEUE>' 'template<template<typename> typename QUEUE>' ServiceUnit.h
 rpl 'template<template<typename> class QUEUE_T>' 'template<template<typename> typename QUEUE_T>' ServiceUnit.h
 rpl 'class' 'struct' ServiceUnit.h
+
+rpl 'template<class T, template<typename> class QUEUE>' 'template<typename T, template<typename> typename QUEUE>' QueueTests.h
