@@ -28,6 +28,7 @@ class QueueList : public Queue<T> {
 		iterator head = nullptr;
 	public:
 		QueueList() = default;
+		virtual ~QueueList() override;
 
 		virtual void Clear() override;
 
@@ -116,6 +117,11 @@ void QueueList<T>::ForEach(const std::function<void(const T&)>& function) const 
 	for (auto node = head; node != nullptr; node = node->prev) {
 		function(node->value);
 	}
+}
+
+template<class T>
+QueueList<T>::~QueueList() {
+	Clear();
 }
 
 template<class T>
