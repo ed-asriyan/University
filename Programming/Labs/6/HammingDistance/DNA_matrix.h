@@ -32,4 +32,11 @@ DNA_matrix* create_dna_matrix(int count, int sequence_size);
  */
 void free_dna_matrix(DNA_matrix* dna);
 
+/**
+ * @brief Calculates the hamming distange of DNA_matrix
+ * @param dna Pointer to DNA_Matrix instance.
+ * @return Hamming distange.
+ */
+int calc_hamming_distance(DNA_matrix* dna);
+
 #endif //HAMMINGDISTANCE_DNA_MATRIX_H
