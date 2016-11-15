@@ -2,11 +2,11 @@
 
 #include "DNA_matrix.h"
 
-int work_with_stream(FILE* f) {
+int work_with_stream(FILE* input, FILE* output) {
 	int result = -2;
 	int test_count = 0;
 
-	if ((fscanf(f, "%d", &test_count) != 1) || test_count < 0) {
+	if ((fscanf(input, "%d", &test_count) != 1) || test_count < 0) {
 		return -1;
 	}
 
@@ -14,20 +14,21 @@ int work_with_stream(FILE* f) {
 		int amount = 0;
 		int sequence_size = 0;
 
-		if ((fscanf(f, "%d%d", &amount, &sequence_size) != 2) || amount < 0 || sequence_size < 0) {
+		if ((fscanf(input, "%d%d", &amount, &sequence_size) != 2) || amount < 0 || sequence_size < 0) {
 			return -1;
 		}
 
 		DNA_matrix* dna = create_dna_matrix(amount, sequence_size);
 
 		for (int i = 0; i < amount; ++i) {
-			if (fscanf(f, "%s", dna->sequences[i]) != 1) {
+			if (fscanf(input, "%s", dna->sequences[i]) != 1) {
 				free_dna_matrix(dna);
 				return -1;
 			}
 		}
 
 		result = calc_hamming_distance(dna);
+		fprintf(output, "%s\n%d\n", dna->most_common_symbols, result);
 		free_dna_matrix(dna);
 	}
 
@@ -44,11 +45,9 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	int result = work_with_stream(input);
+	const int result = work_with_stream(input, stdout);
 	if (result < 0) {
 		fprintf(stderr, "Error occurred (code %d).\n", result);
-	} else {
-		printf("Hamming distance: %d\n", result);
 	}
 
 	if (argc == 2) {

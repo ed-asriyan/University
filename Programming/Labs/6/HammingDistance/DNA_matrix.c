@@ -15,6 +15,7 @@ DNA_matrix* create_dna_matrix(int count, int sequence_size) {
 	dna->sequences = data;
 	dna->sequence_count = count;
 	dna->sequence_symbol_count = sequence_size;
+	dna->most_common_symbols = NULL;
 
 	return dna;
 }
@@ -28,6 +29,10 @@ void free_dna_matrix(DNA_matrix* dna) {
 	dna->sequences = NULL;
 	dna->sequence_count = 0;
 	dna->sequence_symbol_count = 0;
+
+	if (dna->most_common_symbols != NULL) {
+		free(dna->most_common_symbols);
+	}
 
 	free(dna);
 }
@@ -67,18 +72,20 @@ char* seek_common_elements(DNA_matrix* dna) {
 }
 
 int calc_hamming_distance(DNA_matrix* dna) {
-	char* most_common_symbols = seek_common_elements(dna);
+	if (dna->most_common_symbols != NULL) {
+		free(dna->most_common_symbols);
+	}
+
+	char* most_common_symbols = dna->most_common_symbols = seek_common_elements(dna);
 	int hamming_distance = 0;
 
 	for (int i = 0; i < dna->sequence_symbol_count; ++i) {
 		for (int j = 0; j < dna->sequence_count; ++j) {
-
 			if (dna->sequences[j][i] != most_common_symbols[i]) {
 				++hamming_distance;
 			}
 		}
 	}
 
-	free(most_common_symbols);
 	return hamming_distance;
 }

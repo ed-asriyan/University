@@ -16,6 +16,8 @@ typedef struct {
 
 	int sequence_count;
 	int sequence_symbol_count;
+
+	char* most_common_symbols;
 } DNA_matrix;
 
 /**
