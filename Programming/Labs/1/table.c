@@ -55,7 +55,7 @@ int get_rows_count(FILE* input_stream)
 		rows_count += is_linebreak(c);
 	}
 
-	return rows_count;
+	return rows_count - 1;
 }
 
 // returns length of the current cell in chars.
