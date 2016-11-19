@@ -1,0 +1,7 @@
+ManagerId	FirstName	LastName	Email	Password	Active
+1	Johnny	Smithe	no@no.com	system	Y
+2	Karen	Xythe	no@no.com	system	Y
+3	Brett	Heath	no@no.com	system	Y
+4	Gabby	Banks	no@no.com	system	Y
+5	Faye	Jones	no@no.com	system	Y
+6	Joh	Boy	no@no.com	system	Y
