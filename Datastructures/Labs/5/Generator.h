@@ -58,15 +58,15 @@ namespace Generator {
 		int items_count = (g >= 0 && g < 1) ? (int) std::pow((double) height * width, (1.0 + g) / 2) : height * width;
 
 		std::random_device rd;
-		std::uniform_int_distribution<int> height_distr(0, height - 1);
-		std::uniform_int_distribution<int> width_distr(0, width - 1);
+		std::uniform_int_distribution<int> row_distr(0, height - 1);
+		std::uniform_int_distribution<int> col_distr(0, width - 1);
 
 		T default_item;
 		while (items_count) {
-			int row = height_distr(rd);
-			int col = width_distr(rd);
+			int row = row_distr(rd);
+			int col = col_distr(rd);
 
-			auto& item = matrix.get_item(row, col);
+			auto item = matrix.get_item(row, col);
 			T value = distr(rd);
 
 			if (item == default_item) {
@@ -74,6 +74,19 @@ namespace Generator {
 				--items_count;
 			}
 		}
+	}
+
+	/**
+	 * @brief Generates random double in range from min to max.
+	 * @param min Lower border.
+	 * @param max Highter border.
+	 * @return Random double in range from min to max.
+	 */
+	double GetRandomDouble01(double min = 0, double max = 1) {
+		std::random_device rd;
+		std::mt19937 e2(rd());
+		std::uniform_real_distribution<> dist(min, max);
+		return dist(e2);
 	}
 }
 
