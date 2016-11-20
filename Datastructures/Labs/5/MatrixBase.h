@@ -88,6 +88,9 @@ namespace Matrix {
 
 			MatrixBase<T>& operator=(const MatrixBase<T>& b);
 
+			bool operator==(const MatrixBase<T>&) const;
+			bool operator!=(const MatrixBase<T>&) const;
+
 		protected:
 			virtual T& _get_item(int row, int col) = 0;
 			virtual const T& _get_item(int row, int col) const = 0;
@@ -178,6 +181,28 @@ namespace Matrix {
 			}
 		}
 		return *this;
+	}
+
+	template<class T>
+	bool MatrixBase<T>::operator==(const MatrixBase<T>& b) const {
+		if (height != b.height || width != b.width) {
+			return false;
+		}
+
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < width; ++j) {
+				if (get_item(i, j) != b.get_item(i, j)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	template<class T>
+	bool MatrixBase<T>::operator!=(const MatrixBase<T>& b) const {
+		return !(*this == b);
 	}
 
 	template<class A, class B, class C>
