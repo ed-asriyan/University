@@ -16,20 +16,22 @@ namespace Matrix {
 
 	template<class T>
 	class MatrixBase {
-
 		private:
 			int height;
-
 			int width;
+
 		public:
 			MatrixBase(int height, int width);
+			MatrixBase(const MatrixBase<T>&) = default;
+
+			virtual ~MatrixBase();
 
 			void Resize(int new_height, int new_width);
 
 			T& get_item(int row, int col);
 			const T& get_item(int row, int col) const;
 
-			virtual auto get_size() const -> decltype(sizeof(T)) = 0;
+			virtual auto get_size() const -> decltype(sizeof(this)) = 0;
 
 			int get_width() const;
 			int get_height() const;
@@ -37,12 +39,12 @@ namespace Matrix {
 			template<class I>
 			friend std::ostream& operator<<(std::ostream& os, const MatrixBase<I>& base);
 
-			virtual ~MatrixBase();
+			MatrixBase<T>& operator=(const MatrixBase<T>& b);
 		protected:
 			virtual T& _get_item(int row, int col) = 0;
 			virtual const T& _get_item(int row, int col) const = 0;
 
-			virtual void _resize(int height, int width) = 0;
+			virtual void _resize() = 0;
 	};
 
 	template<class T>
@@ -94,17 +96,30 @@ namespace Matrix {
 
 	template<class T>
 	void MatrixBase<T>::Resize(int new_height, int new_width) {
-		if (new_height < 0 || new_width < 0) {
-			throw InvalidMatrixSizeException();
-		}
 		if (height != new_height || width != new_width) {
-			_resize(new_height, new_width);
+			if (new_height < 0 || new_width < 0) {
+				throw InvalidMatrixSizeException();
+			}
+			height = new_height;
+			width = new_width;
+			_resize();
 		}
 	}
 
 	template<class T>
 	MatrixBase<T>::~MatrixBase() {
 
+	}
+
+	template<class T>
+	MatrixBase<T>& MatrixBase<T>::operator=(const MatrixBase<T>& b) {
+		Resize(b.get_height(), b.get_width());
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < width; ++j) {
+				get_item(i, j) = b.get_item(i, j);
+			}
+		}
+		return *this;
 	}
 
 	template<class A, class B, class C>
