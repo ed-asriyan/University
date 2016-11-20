@@ -33,7 +33,7 @@ namespace Matrix {
 			 * @brief Copy constructor
 			 */
 			MatrixBase(const MatrixBase<T>&) = default;
-
+			
 			/**
 			 * @brief Destructor.
 			 */
@@ -47,18 +47,18 @@ namespace Matrix {
 			void Resize(int new_height, int new_width);
 
 			/**
-			 * @brief Matrix item.
+			 * @brief Sets matrix item value.
 			 * @param row Number of row, which contains the requiring item.
 			 * @param col Number of column, which contains the requiring item.
-			 * @return Link to the item.
+			 * @param value New value.
 			 */
-			T& get_item(int row, int col);
+			void set_item(int row, int col, const T& valaue);
 
 			/**
 			 * @brief Matrix item.
 			 * @param row Number of row, which contains the requiring item.
 			 * @param col Number of column, which contains the requiring item.
-			 * @return Link to the const item.
+			 * @return Reference to the const item.
 			 */
 			const T& get_item(int row, int col) const;
 
@@ -92,7 +92,7 @@ namespace Matrix {
 			bool operator!=(const MatrixBase<T>&) const;
 
 		protected:
-			virtual T& _get_item(int row, int col) = 0;
+			virtual void _set_item(int row, int col, const T& value) = 0;
 			virtual const T& _get_item(int row, int col) const = 0;
 
 			virtual void _resize() = 0;
@@ -106,11 +106,11 @@ namespace Matrix {
 	}
 
 	template<class T>
-	T& MatrixBase<T>::get_item(int row, int col) {
+	void MatrixBase<T>::set_item(int row, int col, const T& value) {
 		if (row < 0 || row >= height || col < 0 || col >= width) {
 			throw InvalidItemPositionException();
 		}
-		return _get_item(col, row);
+		return _set_item(col, row, value);
 	}
 
 	template<class T>
@@ -177,7 +177,7 @@ namespace Matrix {
 		Resize(b.get_height(), b.get_width());
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {
-				get_item(i, j) = b.get_item(i, j);
+				set_item(i, j, b.get_item(i, j));
 			}
 		}
 		return *this;
@@ -205,6 +205,12 @@ namespace Matrix {
 		return !(*this == b);
 	}
 
+	/**
+	 * @brief a + b = c
+	 * @param a a
+	 * @param b b
+	 * @param c Result
+	 */
 	template<class A, class B, class C>
 	void add(const MatrixBase<A>& a, const MatrixBase<B>& b, MatrixBase<C>& c) {
 		int height = a.get_height();
@@ -218,7 +224,7 @@ namespace Matrix {
 
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {
-				c.get_item(i, j) = a.get_item(i, j) + b.get_item(i, j);
+				c.set_item(i, j, a.get_item(i, j) + b.get_item(i, j));
 			}
 		}
 	};

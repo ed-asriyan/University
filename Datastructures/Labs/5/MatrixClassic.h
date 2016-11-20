@@ -44,7 +44,7 @@ namespace Matrix {
 			MatrixClassic<T> operator+(const MatrixClassic<T>&);
 			MatrixClassic<T>& operator+=(const MatrixClassic<T>&);
 		protected:
-			virtual T& _get_item(int row, int col) override;
+			virtual void _set_item(int row, int col, const T& value) override;
 			virtual const T& _get_item(int row, int col) const override;
 
 			virtual void _resize() override;
@@ -108,8 +108,8 @@ namespace Matrix {
 	}
 
 	template<class T>
-	T& MatrixClassic<T>::_get_item(int row, int col) {
-		return data[row][col];
+	void MatrixClassic<T>::_set_item(int row, int col, const T& value) {
+		data[row][col] = value;
 	}
 
 	template<class T>
