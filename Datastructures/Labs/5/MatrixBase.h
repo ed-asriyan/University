@@ -7,6 +7,7 @@
 
 #include <exception>
 #include <ostream>
+#include <istream>
 #include <iomanip>
 
 namespace Matrix {
@@ -82,6 +83,9 @@ namespace Matrix {
 			template<class I>
 			friend std::ostream& operator<<(std::ostream& os, const MatrixBase<I>& base);
 
+			template<class I>
+			friend std::istream& operator>>(std::istream& is, MatrixBase<I>& base);
+
 			MatrixBase<T>& operator=(const MatrixBase<T>& b);
 
 		protected:
@@ -136,6 +140,16 @@ namespace Matrix {
 			os << std::endl;
 		}
 		return os;
+	}
+
+	template<class T>
+	std::istream& operator>>(std::istream& is, MatrixBase<T>& base) {
+		for (int i = 0; i < base.height; ++i) {
+			for (int j = 0; j < base.width; ++j) {
+				is >> base.get_item(i, j);
+			}
+		}
+		return is;
 	}
 
 	template<class T>
