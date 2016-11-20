@@ -31,7 +31,9 @@ int main(int argc, char* argv[]) {
 	Matrix::ClassicMatrix<int> b_classic(height, width);
 	Matrix::ClassicMatrix<int> c_classic(height, width);
 
-	// todo: sparse matrix
+	Matrix::SparseMatrix<int> a_sparce(height, width);
+	Matrix::SparseMatrix<int> b_sparce(height, width);
+	Matrix::SparseMatrix<int> c_sparce(height, width);
 
 	// generate matrix
 	if (0 <= g && g <= 1) {
@@ -39,6 +41,9 @@ int main(int argc, char* argv[]) {
 
 		Generator::FillRandom(item_distribution, a_classic, g);
 		Generator::FillRandom(item_distribution, b_classic, g);
+
+		static_cast<Matrix::MatrixBase<int>&>(a_sparce) = a_classic;
+		static_cast<Matrix::MatrixBase<int>&>(b_sparce) = b_classic;
 	} else { // read matrix
 		// todo: read matrix
 	}
@@ -47,6 +52,10 @@ int main(int argc, char* argv[]) {
 	time_t classic_time = std::clock();
 	c_classic = a_classic + b_classic;
 	classic_time = std::clock() - classic_time;
+
+	time_t sparse_time = std::clock();
+	c_sparce = a_sparce + b_sparce;
+	sparse_time = std::clock() - sparse_time;
 
 	// print matrix
 	if (height < PRINT_MAX_HEIGHT && width < PRINT_MAX_WIDTH) {
@@ -66,6 +75,13 @@ int main(int argc, char* argv[]) {
 	std::cout << " Size of A: " << a_classic.get_size() << std::endl;
 	std::cout << " Size of B: " << b_classic.get_size() << std::endl;
 	std::cout << " Size of C: " << c_classic.get_size() << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "Sparse matrix (" << a_sparce.get_height() << 'x' << a_sparce.get_width() << "):" << std::endl;
+	std::cout << " Addition time: " << sparse_time << std::endl;
+	std::cout << " Size of A: " << a_sparce.get_size() << std::endl;
+	std::cout << " Size of B: " << b_sparce.get_size() << std::endl;
+	std::cout << " Size of C: " << c_sparce.get_size() << std::endl;
 	std::cout << std::endl;
 
 	return 0;

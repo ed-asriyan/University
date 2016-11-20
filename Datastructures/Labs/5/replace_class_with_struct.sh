@@ -9,6 +9,9 @@ rpl 'template<class T>' 'template<typename T>' ClassicMatrix.h
 rpl 'template<class I>' 'template<typename I>' ClassicMatrix.h
 rpl 'class' 'struct' ClassicMatrix.h
 
+rpl 'template<class T>' 'template<typename T>' SparseMatrix.h
+rpl 'class' 'struct' SparseMatrix.h
+
 rpl 'template<class T>' 'template<typename T>' Generator.h
 rpl 'template<class GENERATOR>' 'template<typename GENERATOR>' Generator.h
 rpl 'template<class T, class DISTRIBUTION>' 'template<typename T, typename DISTRIBUTION>' Generator.h
