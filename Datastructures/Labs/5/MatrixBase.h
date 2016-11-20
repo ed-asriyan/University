@@ -21,25 +21,69 @@ namespace Matrix {
 			int width;
 
 		public:
+			/**
+			 * @brief Constructor.
+			 * @param height Height of the matrix.
+			 * @param width Width of hte matrix.
+			 */
 			MatrixBase(int height, int width);
+
+			/**
+			 * @brief Copy constructor
+			 */
 			MatrixBase(const MatrixBase<T>&) = default;
 
+			/**
+			 * @brief Destructor.
+			 */
 			virtual ~MatrixBase();
 
+			/**
+			 * @brief Resizes the matrix to new size.
+			 * @param new_height New matrix height.
+			 * @param new_width New matrix width.
+			 */
 			void Resize(int new_height, int new_width);
 
+			/**
+			 * @brief Matrix item.
+			 * @param row Number of row, which contains the requiring item.
+			 * @param col Number of column, which contains the requiring item.
+			 * @return Link to the item.
+			 */
 			T& get_item(int row, int col);
+
+			/**
+			 * @brief Matrix item.
+			 * @param row Number of row, which contains the requiring item.
+			 * @param col Number of column, which contains the requiring item.
+			 * @return Link to the const item.
+			 */
 			const T& get_item(int row, int col) const;
 
+			/**
+			 * @brief Size of the instance in bytes.
+			 * @return Instance size.
+			 */
 			virtual auto get_size() const -> decltype(sizeof(this)) = 0;
 
+			/**
+			 * @brief Returns matrix width.
+			 * @return Matrix width.
+			 */
 			int get_width() const;
+
+			/**
+			 * @brief Returns matrix height.
+			 * @return Matrix height.
+			 */
 			int get_height() const;
 
 			template<class I>
 			friend std::ostream& operator<<(std::ostream& os, const MatrixBase<I>& base);
 
 			MatrixBase<T>& operator=(const MatrixBase<T>& b);
+
 		protected:
 			virtual T& _get_item(int row, int col) = 0;
 			virtual const T& _get_item(int row, int col) const = 0;
