@@ -2,7 +2,8 @@
 #include <ctime>
 #include <random>
 
-#include "MatrixClassic.h"
+#include "ClassicMatrix.h"
+#include "SparseMatrix.h"
 #include "Generator.h"
 
 #define PRINT_MAX_HEIGHT 20
@@ -26,9 +27,9 @@ int main(int argc, char* argv[]) {
 	}
 
 	// classic matrix
-	Matrix::MatrixClassic<int> a_classic(height, width);
-	Matrix::MatrixClassic<int> b_classic(height, width);
-	Matrix::MatrixClassic<int> c_classic(height, width);
+	Matrix::ClassicMatrix<int> a_classic(height, width);
+	Matrix::ClassicMatrix<int> b_classic(height, width);
+	Matrix::ClassicMatrix<int> c_classic(height, width);
 
 	// todo: sparse matrix
 

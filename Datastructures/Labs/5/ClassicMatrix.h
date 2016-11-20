@@ -2,8 +2,8 @@
 // Created by ed on 13.11.16.
 //
 
-#ifndef MATRIX_MATRIXCLASSIC_H
-#define MATRIX_MATRIXCLASSIC_H
+#ifndef MATRIX_CLASSICMATRIX_H
+#define MATRIX_CLASSICMATRIX_H
 
 #include <cstring>
 
@@ -11,7 +11,7 @@
 
 namespace Matrix {
 	template<class T>
-	class MatrixClassic : public MatrixBase<T> {
+	class ClassicMatrix : public MatrixBase<T> {
 		private:
 			T** data = nullptr;
 
@@ -22,17 +22,17 @@ namespace Matrix {
 			 * @param height Height of the matrix.
 			 * @param width Width of hte matrix.
 			 */
-			MatrixClassic(int width, int height);
+			ClassicMatrix(int width, int height);
 
 			/**
 			 * @brief Copy constructor
 			 */
-			MatrixClassic(const MatrixClassic<T>&);
+			ClassicMatrix(const ClassicMatrix<T>&);
 
 			/**
 			 * @brief Destructor.
 			 */
-			virtual ~MatrixClassic();
+			virtual ~ClassicMatrix();
 
 			/**
 			 * @brief Size of the instance in bytes.
@@ -40,10 +40,10 @@ namespace Matrix {
 			 */
 			virtual auto get_size() const -> decltype(sizeof(T));
 
-			MatrixClassic<T>& operator=(const MatrixClassic<T>& matrix);
+			ClassicMatrix<T>& operator=(const ClassicMatrix<T>& matrix);
 
-			MatrixClassic<T> operator+(const MatrixClassic<T>&);
-			MatrixClassic<T>& operator+=(const MatrixClassic<T>&);
+			ClassicMatrix<T> operator+(const ClassicMatrix<T>&);
+			ClassicMatrix<T>& operator+=(const ClassicMatrix<T>&);
 		protected:
 			virtual void _set_item(int row, int col, const T& value) override;
 			virtual const T& _get_item(int row, int col) const override;
@@ -57,23 +57,23 @@ namespace Matrix {
 	};
 
 	template<class T>
-	MatrixClassic<T>::MatrixClassic(int width, int height) : MatrixBase<T>(width, height) {
+	ClassicMatrix<T>::ClassicMatrix(int width, int height) : MatrixBase<T>(width, height) {
 		allocateData();
 	}
 
 	template<class T>
-	MatrixClassic<T>::MatrixClassic(const MatrixClassic<T>& matrix) :MatrixClassic<T>(matrix.get_width(),
+	ClassicMatrix<T>::ClassicMatrix(const ClassicMatrix<T>& matrix) :ClassicMatrix<T>(matrix.get_width(),
 	                                                                                  matrix.get_height()) {
 		*this = matrix;
 	}
 
 	template<class T>
-	MatrixClassic<T>::~MatrixClassic() {
+	ClassicMatrix<T>::~ClassicMatrix() {
 		destroyData();
 	}
 
 	template<class T>
-	auto MatrixClassic<T>::get_size() const -> decltype(sizeof(T)) {
+	auto ClassicMatrix<T>::get_size() const -> decltype(sizeof(T)) {
 		return \
             sizeof(*this) + // struct size
 			sizeof(data[0]) * MatrixBase<T>::get_height() + // size of array of pointers to rows
@@ -82,12 +82,12 @@ namespace Matrix {
 	}
 
 	template<class T>
-	void MatrixClassic<T>::_resize() {
+	void ClassicMatrix<T>::_resize() {
 		allocateData();
 	}
 
 	template<class T>
-	void MatrixClassic<T>::allocateData() {
+	void ClassicMatrix<T>::allocateData() {
 		destroyData();
 
 		int height = MatrixBase<T>::get_height();
@@ -103,7 +103,7 @@ namespace Matrix {
 	}
 
 	template<class T>
-	void MatrixClassic<T>::destroyData() {
+	void ClassicMatrix<T>::destroyData() {
 		if (data == nullptr) return;
 		for (int i = _height - 1; i >= 0; --i) {
 			delete[] data[i];
@@ -113,30 +113,30 @@ namespace Matrix {
 	}
 
 	template<class T>
-	void MatrixClassic<T>::_set_item(int row, int col, const T& value) {
+	void ClassicMatrix<T>::_set_item(int row, int col, const T& value) {
 		data[row][col] = value;
 	}
 
 	template<class T>
-	const T& MatrixClassic<T>::_get_item(int row, int col) const {
+	const T& ClassicMatrix<T>::_get_item(int row, int col) const {
 		return data[row][col];
 	}
 
 	template<class T>
-	MatrixClassic<T>& MatrixClassic<T>::operator=(const MatrixClassic<T>& matrix) {
+	ClassicMatrix<T>& ClassicMatrix<T>::operator=(const ClassicMatrix<T>& matrix) {
 		MatrixBase<T>::operator=(matrix);
 		return *this;
 	}
 
 	template<class T>
-	MatrixClassic<T> MatrixClassic<T>::operator+(const MatrixClassic<T>& b) {
-		MatrixClassic<T> result = *this;
+	ClassicMatrix<T> ClassicMatrix<T>::operator+(const ClassicMatrix<T>& b) {
+		ClassicMatrix<T> result = *this;
 		result += b;
 		return result;
 	}
 
 	template<class T>
-	MatrixClassic<T>& MatrixClassic<T>::operator+=(const MatrixClassic<T>& b) {
+	ClassicMatrix<T>& ClassicMatrix<T>::operator+=(const ClassicMatrix<T>& b) {
 		int height = MatrixBase<T>::get_height();
 		int width = MatrixBase<T>::get_width();
 
@@ -150,4 +150,4 @@ namespace Matrix {
 	}
 
 }
-#endif //MATRIX_MATRIXCLASSIC_H
+#endif //MATRIX_CLASSICMATRIX_H
