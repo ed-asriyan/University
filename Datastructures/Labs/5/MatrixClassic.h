@@ -15,6 +15,7 @@ namespace Matrix {
 		private:
 			T** data = nullptr;
 
+			int _height;
 		public:
 			/**
 			 * @brief Constructor.
@@ -95,12 +96,13 @@ namespace Matrix {
 		for (int i = 0; i < height; ++i) {
 			data[i] = new T[width];
 		}
+		_height = height;
 	}
 
 	template<class T>
 	void MatrixClassic<T>::destroyData() {
 		if (data == nullptr) return;
-		for (int i = MatrixBase<T>::get_height() - 1; i >= 0; --i) {
+		for (int i = _height - 1; i >= 0; --i) {
 			delete[] data[i];
 		}
 		delete[] data;

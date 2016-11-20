@@ -33,7 +33,7 @@ namespace Matrix {
 			 * @brief Copy constructor
 			 */
 			MatrixBase(const MatrixBase<T>&) = default;
-			
+
 			/**
 			 * @brief Destructor.
 			 */
@@ -110,7 +110,7 @@ namespace Matrix {
 		if (row < 0 || row >= height || col < 0 || col >= width) {
 			throw InvalidItemPositionException();
 		}
-		return _set_item(col, row, value);
+		return _set_item(row, col, value);
 	}
 
 	template<class T>
@@ -118,7 +118,7 @@ namespace Matrix {
 		if (row < 0 || row >= height || col < 0 || col >= width) {
 			throw InvalidItemPositionException();
 		}
-		return _get_item(col, row);
+		return _get_item(row, col);
 	}
 
 	template<class T>
