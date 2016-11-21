@@ -140,6 +140,10 @@ namespace Matrix {
 		int height = MatrixBase<T>::get_height();
 		int width = MatrixBase<T>::get_width();
 
+		if (height != b.get_height() || width != b.get_width()) {
+			throw InvalidMatrixSizeException();
+		}
+
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {
 				data[i][j] += b.data[i][j];

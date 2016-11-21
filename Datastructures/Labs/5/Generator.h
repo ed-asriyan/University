@@ -61,7 +61,7 @@ namespace Generator {
 		std::uniform_int_distribution<int> row_distr(0, height - 1);
 		std::uniform_int_distribution<int> col_distr(0, width - 1);
 
-		T default_item;
+		T default_item = T();
 		while (items_count) {
 			int row = row_distr(rd);
 			int col = col_distr(rd);
