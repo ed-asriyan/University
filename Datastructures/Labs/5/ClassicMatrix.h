@@ -124,7 +124,17 @@ namespace Matrix {
 
 	template<class T>
 	ClassicMatrix<T>& ClassicMatrix<T>::operator=(const ClassicMatrix<T>& matrix) {
-		MatrixBase<T>::operator=(matrix);
+		int height = matrix.get_height();
+		int width = matrix.get_width();
+
+		MatrixBase<T>::Resize(height, width);
+
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < width; ++j) {
+				data[i][j] = matrix.data[i][j];
+			}
+		}
+
 		return *this;
 	}
 
