@@ -38,6 +38,8 @@ int main(int argc, char* argv[]) {
 
 	// generate matrix
 	if (0 <= g && g <= 1) {
+		std::cout << "Generating matrix (g = " << g << ")..." << std::endl;
+
 		std::uniform_int_distribution<> item_distribution(1, 10);
 
 		Generator::FillRandom(item_distribution, a_classic, g);
@@ -46,10 +48,13 @@ int main(int argc, char* argv[]) {
 		static_cast<Matrix::MatrixBase<int>&>(a_sparse) = a_classic;
 		static_cast<Matrix::MatrixBase<int>&>(b_sparse) = b_classic;
 	} else { // read matrix
+		std::cout << "Reading matrix..." << std::endl;
 		// todo: read matrix
 	}
 
 	// run tests
+	std::cout << "Adding matrix..." << std::endl;
+
 	time_t classic_time = std::clock();
 	c_classic = a_classic + b_classic;
 	classic_time = std::clock() - classic_time;
@@ -57,6 +62,9 @@ int main(int argc, char* argv[]) {
 	time_t sparse_time = std::clock();
 	c_sparse = a_sparse + b_sparse;
 	sparse_time = std::clock() - sparse_time;
+
+	// work is done
+	std::cout << "Done!" << std::endl << std::endl;
 
 	// print matrix
 	if (height < PRINT_MAX_HEIGHT && width < PRINT_MAX_WIDTH) {
