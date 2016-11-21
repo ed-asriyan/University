@@ -17,6 +17,8 @@ rpl 'template<class GENERATOR>' 'template<typename GENERATOR>' Generator.h
 rpl 'template<class T, class DISTRIBUTION>' 'template<typename T, typename DISTRIBUTION>' Generator.h
 rpl 'class' 'struct' Generator.h
 
+rpl 'template<class A, class B>' 'template<typename A, typename B>' Helper.h
+
 echo -n "'class' entries in MatrixBase.h: "
 grep class -w < MatrixBase.h | wc -l
 
@@ -25,6 +27,9 @@ grep class -w < ClassicMatrix.h | wc -l
 
 echo -n "'class' entries in Generator.h: "
 grep class -w < Generator.h | wc -l
+
+echo -n "'class' entries in Helper.h: "
+grep class -w < Helper.h | wc -l
 
 echo -n "'class' entries in main.cpp: "
 grep class -w < main.cpp | wc -l
