@@ -56,10 +56,10 @@ int main() {
 
 		su2.SynchronizeTime(su1);
 		if (su2.get_size()) {
-			if (su2.get_curr_time() <= su1.get_curr_time()) {
-				auto request = su2.Dequeue();
-				su1.Enqueue(request);
-			}
+			//if (su2.get_curr_time() <= su1.get_curr_time()) {
+			auto request = su2.Dequeue();
+			su1.Enqueue(request);
+			//}
 		} else {
 			su2.SynchronizeTime(su1);
 		}
