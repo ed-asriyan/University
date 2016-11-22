@@ -45,13 +45,16 @@ int main(int argc, char* argv[]) {
 		Generator::FillRandom(item_distribution, a_classic, g);
 		Generator::FillRandom(item_distribution, b_classic, g);
 
-		static_cast<Matrix::MatrixBase<int>&>(a_sparse) = a_classic;
-		static_cast<Matrix::MatrixBase<int>&>(b_sparse) = b_classic;
 	} else { // read matrix
 		std::cout << "Reading matrix..." << std::endl;
-		// todo: read matrix
+
+		std::cin >> a_classic >> b_classic;
+		height = a_classic.get_height();
+		width = a_classic.get_width();
 	}
 
+	static_cast<Matrix::MatrixBase<int>&>(a_sparse) = a_classic;
+	static_cast<Matrix::MatrixBase<int>&>(b_sparse) = b_classic;
 	// run tests
 	std::cout << "Adding matrix..." << std::endl;
 

@@ -147,12 +147,19 @@ namespace Matrix {
 
 	template<class T>
 	std::istream& operator>>(std::istream& is, MatrixBase<T>& base) {
-		for (int i = 0; i < base.height; ++i) {
-			for (int j = 0; j < base.width; ++j) {
-				is >> base.get_item(i, j);
+		int height;
+		int width;
+		is >> height >> width;
+
+		base.Resize(height, width);
+
+		int item;
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < width; ++j) {
+				is >> item;
+				base.set_item(i, j, item);
 			}
 		}
-		return is;
 	}
 
 	template<class T>
