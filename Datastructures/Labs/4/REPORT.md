@@ -30,50 +30,53 @@
 
 ## Описание внутренних структур данных
 ### RequestUnit
-
-| Тип | Имя | Описание |
-|-----|-----|----------|
-| int | proc_count | кол-во прохождений через ОА |
-| double | queuing_time | время в очереди |
-| double | service_time | время обслуживания |
+```
+struct RequestUnit {         // заявка (элемент очереди)
+    int proc_count;          // кол-во прохождений через ОА
+    double queueing_time;    // время в очереди
+    double service_time;     // время обслуживания
+};
+```
 
 ### QueueListNode
-
-| Тип | Имя | Описание |
-|-----|-----|----------|
-| RequestUnit | value | значение |
-| QueueListNode* | prev | предыдущий узел |
-
+```
+struct QueueListNode {       // узел в очереди, основанной на списке
+    RequestUnit value;       // значение
+    QueueListNode* prev;     // предыдущий узел
+};
+```
 
 ### QueueList
-
-| Тип | Имя | Описание |
-|-----|-----|----------|
-| QueueLisеNode* | head | голова очереди |
-| QueueLisеNode* | tail | конец очереди |
-| int | size | длина очереди |
+```
+struct QuqueList {           // очередь основанная на списке
+    QueueListNode* head;     // голова очереди 
+    QueueListNode* tail;     // конец очереди
+    int size;                // длина очереди
+};
+```
 
 ### QueueArray
-
-| Тип | Имя | Описание |
-|-----|-----|----------|
-| RequestUnit* | head | голова очереди |
-| RequestUnit* | tail | конец очереди |
-| int | size | длина очереди |
-
+```
+struct QueueArray {          // очередь, основанная на векторе 
+    RequestUnit* head;       // голова очереди 
+    RequestUnit* tail;       // конец очереди
+    int size;                // длина очереди
+};
+```
 
 ### ServiceUnit
-
-| Тип | Имя | Описание |
-|-----|-----|----------|
-| Queue | requests | очередь заявок |
-| double | curr_time | текщее время моделирования |
-| double | min_proc_time | минимальное время обработки |
-| double | max_proc_time | максимальное время обработки |
-| double | sum_proc_time | суммарное время обработки заявок |
-| double | sum_queuing_time | суммарное время очереди |
-| int | sum_size | сумма длин очереди |
-| int | proc_count | количество обработанных заявок |
+```
+struct ServiceUnit {         // обрабатывающий аппарат
+    Queue requests;          // очередь
+    double curr_time;        // текщее время моделирования
+    double min_proc_time;    // минимальное время обработки
+    double max_proc_time;    // максимальное время обработки
+    double sum_proc_time;    // суммарное время обработки заявок
+    double sum_queuing_time; // суммарное время очереди
+    int sum_size;            // сумма длин очереди
+    int proc_count;          // количество обработанных заявок
+};
+```
 
 ## Тесты
 ### Без вывода адресов
