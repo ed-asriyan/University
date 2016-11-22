@@ -75,6 +75,206 @@
 | int | sum_size | сумма длин очереди |
 | int | proc_count | количество обработанных заявок |
 
+## Тесты
+### Без вывода адресов
+```
+SU2 processed 0 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 1000
+ Average SU2 queue length: -nan
+
+SU2 processed 100 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.471
+ Average SU2 queue length: 1.49
+
+SU2 processed 200 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.574
+ Average SU2 queue length: 1.405
+
+SU2 processed 300 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.459
+ Average SU2 queue length: 1.54667
+
+SU2 processed 400 requests
+ Current SU1 queue length: 997
+ Current SU2 queue length: 3
+ Average SU1 queue length: 999.503
+ Average SU2 queue length: 1.515
+
+SU2 processed 500 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.51
+ Average SU2 queue length: 1.5
+
+SU2 processed 600 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.485
+ Average SU2 queue length: 1.51167
+
+SU2 processed 700 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.492
+ Average SU2 queue length: 1.50143
+
+SU2 processed 800 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.479
+ Average SU2 queue length: 1.51
+
+SU2 processed 900 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.505
+ Average SU2 queue length: 1.48111
+
+SU2 processed 1000 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.509
+ Average SU2 queue length: 1.48
+
+
+--- Service units modeling summary ---
+SU1 is ServiceUnit<QueueArray>
+SU2 is ServiceUnit<QueueList>
+
+SU1 processed 3177 requests
+SU2 processed 1000 requests
+
+SU1 average queue length: 999.509
+SU2 average queue length: 1.48
+
+SU1 average service time: 2.98768
+SU2 average service time: 4.41677
+
+SU1 average queueing time: 2518.51
+SU2 average queueing time: 2.02055
+
+SU1 idle time: 0
+SU2 idle time: 5082.26
+Simulation time: 9499.04
+
+SU1 CPU time: 215131 (enqueue: 3837, dequeue: 211294)
+SU2 CPU time: 26366 (enqueue: 847, dequeue: 25519)
+Overal CPU time: 323296
+
+--- Memory measurement tests summary (1000 elements) ---
+ QueueArray: 11000
+ QueueList:  16056
+```
+
+### С выводом адресов
+```
+SU2 processed 0 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 1000
+ Average SU2 queue length: -nan
+
+Addresses of SU2 elements: 0x61e568 0x61e5c8 0x61e508 0x61e4a8 
+SU2 processed 100 requests
+ Current SU1 queue length: 996
+ Current SU2 queue length: 4
+ Average SU1 queue length: 998.649
+ Average SU2 queue length: 2.41
+
+SU2 processed 200 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.151
+ Average SU2 queue length: 1.88
+
+SU2 processed 300 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.33
+ Average SU2 queue length: 1.69667
+
+SU2 processed 400 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.441
+ Average SU2 queue length: 1.5775
+
+Addresses of SU2 elements: 0x61e508 0x61e568 
+SU2 processed 500 requests
+ Current SU1 queue length: 998
+ Current SU2 queue length: 2
+ Average SU1 queue length: 999.47
+ Average SU2 queue length: 1.554
+
+Addresses of SU2 elements: 0x61e4a8 0x61e508 0x61e5c8 
+SU2 processed 600 requests
+ Current SU1 queue length: 997
+ Current SU2 queue length: 3
+ Average SU1 queue length: 999.454
+ Average SU2 queue length: 1.59
+
+SU2 processed 700 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.447
+ Average SU2 queue length: 1.6
+
+SU2 processed 800 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.457
+ Average SU2 queue length: 1.58625
+
+SU2 processed 900 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.45
+ Average SU2 queue length: 1.59333
+
+SU2 processed 1000 requests
+ Current SU1 queue length: 1000
+ Current SU2 queue length: 0
+ Average SU1 queue length: 999.457
+ Average SU2 queue length: 1.575
+
+
+--- Service units modeling summary ---
+SU1 is ServiceUnit<QueueArray>
+SU2 is ServiceUnit<QueueList>
+
+SU1 processed 3378 requests
+SU2 processed 1000 requests
+
+SU1 average queue length: 999.457
+SU2 average queue length: 1.575
+
+SU1 average service time: 3.02054
+SU2 average service time: 4.58792
+
+SU1 average queueing time: 2564.63
+SU2 average queueing time: 2.64528
+
+SU1 idle time: 0
+SU2 idle time: 5617.3
+Simulation time: 10205.2
+
+SU1 CPU time: 202799 (enqueue: 2926, dequeue: 199873)
+SU2 CPU time: 23825 (enqueue: 716, dequeue: 23109)
+Overal CPU time: 305122
+
+--- Memory measurement tests summary (1000 elements) ---
+ QueueArray: 11000
+ QueueList:  16056
+```
+
 ## Сравнение реализаций
 
 | Реализация | Кол-во тиков | Кол-во памяти (1000 элементов) |
