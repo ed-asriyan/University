@@ -35,7 +35,7 @@ int main() {
 
 	auto tm = std::clock();
 
-	for (int i = 0; i < SU2_OUTCOME; ++i) {
+	for (int i = 0; i < 100; ++i) {
 		su1.Enqueue(RequestUnit());
 	}
 
