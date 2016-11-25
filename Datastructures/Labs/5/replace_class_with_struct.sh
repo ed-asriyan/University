@@ -12,6 +12,9 @@ rpl 'class' 'struct' ClassicMatrix.h
 rpl 'template<class T>' 'template<typename T>' SparseMatrix.h
 rpl 'class' 'struct' SparseMatrix.h
 
+rpl 'template<class T>' 'template<typename T>' SparseMatrixOptimized.h
+rpl 'class' 'struct' SparseMatrixOptimized.h
+
 rpl 'template<class T>' 'template<typename T>' Generator.h
 rpl 'template<class GENERATOR>' 'template<typename GENERATOR>' Generator.h
 rpl 'template<class T, class DISTRIBUTION>' 'template<typename T, typename DISTRIBUTION>' Generator.h
@@ -24,6 +27,12 @@ grep class -w < MatrixBase.h | wc -l
 
 echo -n "'class' entries in ClassicMatrix.h: "
 grep class -w < ClassicMatrix.h | wc -l
+
+echo -n "'class' entries in SparseMatrix.h: "
+grep class -w < SparseMatrix.h | wc -l
+
+echo -n "'class' entries in SparseMatrixOptimized.h: "
+grep class -w < SparseMatrixOptimized.h | wc -l
 
 echo -n "'class' entries in Generator.h: "
 grep class -w < Generator.h | wc -l
