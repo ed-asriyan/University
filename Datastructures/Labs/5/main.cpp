@@ -14,17 +14,18 @@ int main(int argc, char* argv[]) {
 	// default values
 	int height = 1000;
 	int width = 1000;
-	double g = Generator::GetRandomDouble01(0.2, 0.5);
+	double g = -2;
 
+	// handling arguments
 	if (argc == 2) {
 		g = std::atof(argv[1]);
 	} else if (argc == 3) {
-		height = std::atoi(argv[1]);
-		width = std::atoi(argv[2]);
+		g = std::atoi(argv[1]);
+		height = width = std::atoi(argv[2]);
 	} else if (argc == 4) {
-		height = std::atoi(argv[1]);
-		width = std::atoi(argv[2]);
-		g = std::atof(argv[3]);
+		g = std::atof(argv[1]);
+		height = std::atoi(argv[2]);
+		width = std::atoi(argv[3]);
 	}
 
 	// classic matrix
@@ -32,25 +33,32 @@ int main(int argc, char* argv[]) {
 	Matrix::ClassicMatrix<int> b_classic(height, width);
 	Matrix::ClassicMatrix<int> c_classic(height, width);
 
+	// sparse matrix
 	Matrix::SparseMatrix<int> a_sparse(height, width);
 	Matrix::SparseMatrix<int> b_sparse(height, width);
 	Matrix::SparseMatrix<int> c_sparse(height, width);
 
-	// generate matrix
-	if (0 <= g && g <= 1) {
+	// read matrix
+	if (-1 > g || g > 1) {
+		std::cout << "Reading matrix..." << std::endl;
+
+		std::cin >> a_classic;
+		std::cin >> b_classic;
+
+		height = a_classic.get_height();
+		width = a_classic.get_width();
+
+		if (height != b_classic.get_height() || width != b_classic.get_width()) {
+			std::cerr << "Invalid matrix size: matrix sizes must be equal." << std::endl;
+			return -1;
+		}
+	} else { // generate matrix
 		std::cout << "Generating matrix (g = " << g << ")..." << std::endl;
 
 		std::uniform_int_distribution<> item_distribution(1, 10);
 
 		Generator::FillRandom(item_distribution, a_classic, g);
 		Generator::FillRandom(item_distribution, b_classic, g);
-
-	} else { // read matrix
-		std::cout << "Reading matrix..." << std::endl;
-
-		std::cin >> a_classic >> b_classic;
-		height = a_classic.get_height();
-		width = a_classic.get_width();
 	}
 
 	static_cast<Matrix::MatrixBase<int>&>(a_sparse) = a_classic;
