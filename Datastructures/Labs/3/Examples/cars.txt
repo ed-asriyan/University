@@ -1,0 +1,323 @@
+42
+
+Suzuki SX4
+Black
+Japan
+1304000
+0
+4
+
+Suzuki Vitara
+White
+Japan
+1184000
+1
+38000
+1
+2006
+
+Suzuki Swift
+Black
+Japan
+1222000
+0
+1
+
+Suzuki Jimny
+Black
+Japan
+1317000
+0
+8
+
+Suzuki S-Cross
+White
+Japan
+1910000
+0
+3
+
+Mitsubishi ASX
+Red
+Japan
+1975000
+0
+7
+
+Mitsubishi Challenger
+Green
+Japan
+1235000
+1
+0
+2
+2007
+
+Mitsubishi Lancer
+Red
+Japan
+1914000
+0
+4
+
+Mitsubishi Outlander
+White
+Japan
+1210000
+1
+41000
+1
+1999
+
+Mitsubishi Pajero
+Blue
+Japan
+1353000
+0
+7
+
+Hyundai Accent
+Blue
+Korea
+1123000
+1
+3000
+0
+1996
+
+Hyundai Elantra
+White
+Korea
+1765000
+0
+6
+
+Hyundai Getz
+Green
+Korea
+904000
+1
+22000
+2
+2007
+
+Hyundai i30
+Blue
+Korea
+1332000
+0
+4
+
+Hyundai ix35
+Green
+Korea
+1766000
+0
+4
+
+Hyundai Porter
+Black
+Korea
+1513000
+0
+9
+
+Hyundai Santa Fe
+White
+Korea
+1521000
+0
+6
+
+Hyundai Solaris
+Red
+Korea
+1520000
+0
+2
+
+Hyundai Tucson
+Black
+Korea
+1129000
+1
+1000
+3
+1996
+
+Audi A1
+Black
+Germany
+1831000
+0
+2
+
+Audi A2
+Black
+Germany
+1459000
+0
+7
+
+Audi A3
+White
+Germany
+1788000
+0
+9
+
+Audi A4
+Blue
+Germany
+1358000
+1
+36000
+2
+2001
+
+Audi A5
+White
+Germany
+1511000
+0
+9
+
+Audi A6
+Blue
+Germany
+1651000
+0
+9
+
+Audi A7
+Green
+Germany
+1543000
+0
+8
+
+Audi A8
+Blue
+Germany
+1020000
+1
+19000
+3
+1991
+
+Audi RS5
+Blue
+Germany
+1364000
+0
+1
+
+Audi TT
+White
+Germany
+1388000
+1
+2000
+0
+2001
+
+Chevrolet Aveo
+Grey
+USA
+1671000
+0
+7
+
+Chevrolet Camaro
+Red
+USA
+970000
+1
+30000
+2
+1990
+
+Chevrolet Captiva
+Green
+USA
+1271000
+0
+7
+
+Chevrolet Cruze
+White
+USA
+1997000
+0
+4
+
+Chevrolet Lacetti
+Blue
+USA
+1282000
+1
+47000
+0
+2008
+
+Chevrolet Niva
+Red
+USA
+1107000
+1
+23000
+0
+2013
+
+Chevrolet TrailBlazer
+Blue
+USA
+1989000
+0
+7
+
+Kia Cee'd
+Green
+Korea
+1232000
+0
+3
+
+Kia Cerato
+Green
+Korea
+910000
+1
+29000
+0
+1995
+
+Kia Rio
+Black
+Korea
+1274000
+0
+9
+
+Kia Sorento
+Grey
+Korea
+1209000
+1
+32000
+3
+2004
+
+Kia Soul
+Red
+Korea
+1384000
+0
+9
+
+Kia Sportage
+Grey
+Korea
+1362000
+0
+4

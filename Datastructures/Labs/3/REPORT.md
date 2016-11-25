@@ -27,9 +27,35 @@
 Отсортированная таблица ключей. Время работы для различных сортировок.
 
 **Возможные ошибки:**
-* Ввод некорректных данных в поле записи
 * Открытие несуществующего файла
+  * Сообщение:
+    ```
+    { Unable to load! }
+    ```
 * Открытие файла с некорректным форматом данных
+
+| Содержимое файла   | Результат  | Пояснение |
+|--------------------|------------|-----------|
+|      | `{ Unable to load! }`  | Пустой файл |
+| 2<br>Suzuki SX4<br>Black<br>Japan<br>1304000<br>0<br>4 | `{ Unable to load! }`  | Ожидается 2 элемента, а записан 1 |
+| `qaaq` | `{ Unable to load! }`  | Ожидается целое, подана строка |
+    
+    
+| Команда | Пример результата |
+|---------|-------------------|
+| 1 | { Unable to load! } |
+| 2 | { Successfully saved } |
+| 3 | { Added new record } |
+| 4 | { Removed record } |
+| 5 | { Sorted table } |
+| 6 |   Table is empty. |
+| 7 | { Created key table } |
+| 8 | { Sorted key table } |
+| 9 |   Key table is empty. |
+| 10 | Table is empty. |
+| 11 | [ Record 41 ]<br>Car model: Kia Soul<br>Country: Korea<br>Price: 1384000<br>Color: Red<br>State: New<br>Warranty (years): 9 |
+| 12 | { Table sorting (qsort) = 9240648 }<br>{ Key table sorting (qsort) = 3834740 }<br>{ Table sorting (bubble sort) = 64941998 }<br>{ Key table sorting (bubble sort) = 41243816 }<br>{ Table size = 7392 B }<br>{ Key table size = 336 B } |
+ 
 
 ## Описание структур данных
 ### Автомобиль
