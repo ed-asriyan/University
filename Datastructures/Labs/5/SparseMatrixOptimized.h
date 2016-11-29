@@ -15,7 +15,7 @@ namespace Matrix {
 	/**
 	 * @brief [Self-]optimized sparse matrix
 	 */
-	template<class T, T neutral_elem = T()>
+	template<class T>
 	class SparseMatrixOptimized : public MatrixBase<T> {
 		private:
 			T neutral_elem = T();
@@ -59,12 +59,6 @@ namespace Matrix {
 			 * @return Instance size.
 			 */
 			virtual auto get_size() const -> decltype(sizeof(T));
-
-			/**
-			 * @brief Returns data.
-			 * @return Data.
-			 */
-			const std::vector<T>& get_data() const;
 
 			/**
 			 * @brief Returns rows.
@@ -209,11 +203,6 @@ namespace Matrix {
 		}
 
 		return *this;
-	}
-
-	template<class T>
-	const std::vector<T>& SparseMatrixOptimized<T>::get_data() const {
-		return data;
 	}
 
 	template<class T>

@@ -26,12 +26,6 @@ void PrintAndCompareMatrix(std::ostream& out, Matrix::ClassicMatrix<T>& classic,
 	}
 	out << std::endl;
 
-	out << "Columns: ";
-	for (auto& item: sparse.get_rows()) {
-		out << &item << ' ';
-	}
-	out << std::endl;
-
 	out << std::endl;
 }
 
