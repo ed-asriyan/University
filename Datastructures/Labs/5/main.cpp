@@ -10,6 +10,134 @@
 #define PRINT_MAX_HEIGHT 20
 #define PRINT_MAX_WIDTH 20
 
+/**
+ * @brief Reads element matrix from std::cin until the OES
+ * @param matrix Matrix to write in.
+ */
+template<class T>
+void ReadMatrixElements(Matrix::MatrixBase<T>& matrix) {
+	auto matrix_height = matrix.get_height();
+	auto matrix_width = matrix.get_width();
+
+	while (!std::cin.eof()) {
+		// read element row
+		int row = 0;
+		while (true) {
+			std::cout << "Enter row:";
+			std::cin >> row;
+			if (row < 0 || row >= matrix_height) {
+				std::cout << "\tError: value is out of range. Valid values: [0, " << matrix_height - 1 << "]."
+				          << std::endl;
+			} else {
+				break;
+			}
+		}
+
+		// read element column
+		int col = 0;
+		while (true) {
+			std::cout << "Enter column:";
+			std::cin >> row;
+			if (col < 0 || col >= matrix_width) {
+				std::cout << "\tError: value is out of range. Valid values: [0, " << matrix_width - 1 << "]."
+				          << std::endl;
+			} else {
+				break;
+			}
+		}
+
+		// read value
+		T value;
+		std::cout << "Enter value: ";
+		std::cin >> value;
+		matrix.set_item(col, row, value);
+	}
+}
+
+/**
+ * @brief Reads all matrix elements.
+ * @param matrix Matrix to write in.
+ */
+template<class T>
+void ReadMatrix(Matrix::MatrixBase<T>& matrix) {
+	auto matrix_height = matrix.get_height();
+	auto matrix_width = matrix.get_width();
+
+	for (int i = 0; i < matrix_height; ++i) {
+		for (int j = 0; j < matrix_width; ++j) {
+			T value;
+			std::cin >> value;
+			matrix.set_item(i, j, value);
+		}
+	}
+}
+
+/**
+ * @brief Reads matrix from std::cin.
+ * @param matrix Matrix to write in
+ */
+template<class T>
+void ReadMatrixDialog(Matrix::MatrixBase<T>& matrix, bool fixed_size = false) {
+	// matrix size
+	int height;
+	int width;
+	if (fixed_size) {
+		height = matrix.get_height();
+		width = matrix.get_width();
+	} else {
+		std::cout << "Enter height: ";
+		std::cin >> height;
+		std::cout << "Enter width: ";
+		std::cin >> width;
+		matrix.Resize(height, width);
+	}
+
+	bool select_mode;
+	std::cout << "Use selection mode? (0, 1): ";
+	std::cin >> select_mode;
+
+	if (select_mode) {
+		while (true) {
+			int row = 0;
+			while (true) {
+				std::cout << "Enter row (negative to stop): ";
+				std::cin >> row;
+				if (row >= height) {
+					std::cout << "Value is out of range (must be less then " << height << ")." << std::endl;
+				} else {
+					break;
+				}
+			}
+			if (row < 0) {
+				break;
+			}
+
+			int col = 0;
+			while (true) {
+				std::cout << "Enter column (negative to stop): ";
+				std::cin >> col;
+				if (col >= width) {
+					std::cout << "Value is out of range (must be less then " << width << ")." << std::endl;
+				} else {
+					break;
+				}
+			}
+			if (col < 0) {
+				break;
+			}
+
+			T value;
+			std::cout << "Enter value: ";
+			std::cin >> value;
+
+			matrix.set_item(row, col, value);
+		}
+	} else {
+		ReadMatrix(matrix);
+	}
+
+}
+
 template<class T>
 void PrintAndCompareMatrix(std::ostream& out, Matrix::ClassicMatrix<T>& classic, Matrix::SparseMatrix<T>& sparse) {
 	Helper::ContecateStreamByRows(std::cout, classic, sparse);
@@ -34,17 +162,27 @@ int main(int argc, char* argv[]) {
 	int height = 1000;
 	int width = 1000;
 	double g = -2;
+	bool user_dialog = false;
+	bool generate = false;
 
 	// handling arguments
 	if (argc == 2) {
-		g = std::atof(argv[1]);
+		if (std::string(argv[1]) == "ui") {
+			user_dialog = true;
+			generate = false;
+		} else {
+			g = std::atof(argv[1]);
+			generate = true;
+		}
 	} else if (argc == 3) {
 		g = std::atoi(argv[1]);
 		height = width = std::atoi(argv[2]);
+		generate = true;
 	} else if (argc == 4) {
 		g = std::atof(argv[1]);
 		height = std::atoi(argv[2]);
 		width = std::atoi(argv[3]);
+		generate = true;
 	}
 
 	// classic matrix
@@ -57,31 +195,43 @@ int main(int argc, char* argv[]) {
 	Matrix::SparseMatrix<int> b_sparse(height, width);
 	Matrix::SparseMatrix<int> c_sparse(height, width);
 
-	// read matrix
-	if (-1 > g || g > 1) {
-		std::cout << "Reading matrix..." << std::endl;
-
-		std::cin >> a_classic;
-		std::cin >> b_classic;
-
-		height = a_classic.get_height();
-		width = a_classic.get_width();
-
-		if (height != b_classic.get_height() || width != b_classic.get_width()) {
-			std::cerr << "Invalid matrix size: matrix sizes must be equal." << std::endl;
-			return -1;
-		}
-	} else { // generate matrix
+	// generate matrix
+	if (generate) {
 		std::cout << "Generating matrix (g = " << g << ")..." << std::endl;
 
 		std::uniform_int_distribution<> item_distribution(1, 10);
 
 		Generator::FillRandom(item_distribution, a_classic, g);
 		Generator::FillRandom(item_distribution, b_classic, g);
+	} else { // read
+		std::cout << "Reading matrix..." << std::endl;
+
+		// with ui
+		if (user_dialog) {
+			std::cout << "Matrix A:" << std::endl;
+			ReadMatrixDialog(a_classic, false);
+
+			b_classic.Resize(a_classic.get_height(), a_classic.get_width());
+
+			std::cout << "Matrix B:" << std::endl;
+			ReadMatrixDialog(b_classic, true);
+		} else { // from input stream
+			std::cin >> a_classic;
+			std::cin >> b_classic;
+		}
+		height = a_classic.get_height();
+		width = a_classic.get_width();
+
+		if (a_classic.get_height() != b_classic.get_height() || a_classic.get_width() != b_classic.get_width()) {
+			std::cerr << "Invalid matrix size: matrix sizes must be equal." << std::endl;
+			return -1;
+		}
 	}
 
+	// copy matrix
 	static_cast<Matrix::MatrixBase<int>&>(a_sparse) = a_classic;
 	static_cast<Matrix::MatrixBase<int>&>(b_sparse) = b_classic;
+
 	// run tests
 	std::cout << "Adding matrix..." << std::endl;
 
