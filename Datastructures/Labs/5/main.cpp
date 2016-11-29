@@ -10,6 +10,31 @@
 #define PRINT_MAX_HEIGHT 20
 #define PRINT_MAX_WIDTH 20
 
+template<class T>
+void PrintAndCompareMatrix(std::ostream& out, Matrix::ClassicMatrix<T>& classic, Matrix::SparseMatrix<T>& sparse) {
+	Helper::ContecateStreamByRows(std::cout, classic, sparse);
+
+	out << "Data: ";
+	for (auto& item: sparse.get_data()) {
+		out << item << ' ';
+	}
+	out << std::endl;
+
+	out << "Rows: ";
+	for (auto& item: sparse.get_rows()) {
+		out << "(" << item.index << ", " << item.row << ") ";
+	}
+	out << std::endl;
+
+	out << "Columns: ";
+	for (auto& item: sparse.get_rows()) {
+		out << &item << ' ';
+	}
+	out << std::endl;
+
+	out << std::endl;
+}
+
 int main(int argc, char* argv[]) {
 	// default values
 	int height = 1000;
@@ -80,16 +105,13 @@ int main(int argc, char* argv[]) {
 	// print matrix
 	if (height < PRINT_MAX_HEIGHT && width < PRINT_MAX_WIDTH) {
 		std::cout << "Matrix A (classic & sparse): " << std::endl;
-		Helper::ContecateStreamByRows(std::cout, a_classic, a_sparse);
-		std::cout << std::endl;
+		PrintAndCompareMatrix(std::cout, a_classic, a_sparse);
 
 		std::cout << "Matrix B (classic & sparse): " << std::endl;
-		Helper::ContecateStreamByRows(std::cout, b_classic, b_sparse);
-		std::cout << std::endl;
+		PrintAndCompareMatrix(std::cout, b_classic, b_sparse);
 
 		std::cout << "Matrix C = A + B (classic & sparse): " << std::endl;
-		Helper::ContecateStreamByRows(std::cout, c_classic, c_sparse);
-		std::cout << std::endl;
+		PrintAndCompareMatrix(std::cout, c_classic, c_sparse);
 	}
 
 	std::cout << "Equality check:" << std::endl;

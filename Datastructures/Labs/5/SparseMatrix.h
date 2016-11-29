@@ -65,6 +65,24 @@ namespace Matrix {
 			 */
 			virtual auto get_size() const -> decltype(sizeof(T));
 
+			/**
+			 * @brief Returns data.
+			 * @return Data.
+			 */
+			const std::vector<T>& get_data() const;
+
+			/**
+			 * @brief Returns rows.
+			 * @return Rows.
+			 */
+			const std::list<RowItem>& get_rows() const;
+
+			/**
+			 * @brief Returns columns.
+			 * @return Columns.
+			 */
+			auto get_columns() const -> const decltype(&columns);
+
 			SparseMatrix<T>& operator=(const SparseMatrix<T>&);
 
 			SparseMatrix<T> operator+(const SparseMatrix<T>&) const;
@@ -197,6 +215,21 @@ namespace Matrix {
 		}
 
 		return *this;
+	}
+
+	template<class T>
+	const std::vector<T>& SparseMatrix<T>::get_data() const {
+		return data;
+	}
+
+	template<class T>
+	const std::list<typename SparseMatrix<T>::RowItem>& SparseMatrix<T>::get_rows() const {
+		return rows;
+	}
+
+	template<class T>
+	auto SparseMatrix<T>::get_columns() const -> const decltype(&columns) {
+		return columns;
 	}
 }
 
