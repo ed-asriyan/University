@@ -48,15 +48,14 @@ namespace Generator {
 	 * @brief Fill the matrix by random items
 	 * @param distr Random distribution
 	 * @param matrix Matrix to fill
-	 * @param g Sparce power
+	 * @param fill_factor Non-zero elements number in percents.
 	 */
 	template<class T, class DISTRIBUTION>
-	void FillRandom(DISTRIBUTION distr, Matrix::MatrixBase<T>& matrix, double g = 1) {
+	void FillRandom(DISTRIBUTION distr, Matrix::MatrixBase<T>& matrix, double fill_factor) {
 		int height = matrix.get_height();
 		int width = matrix.get_width();
 
-		int items_count = (g >= 0 && g < 1) ? (int) std::pow((double) height * width, (1.0 + g) / 2) : height * width;
-
+		int items_count = static_cast<int>(height * width * fill_factor);
 		std::random_device rd;
 		std::uniform_int_distribution<int> row_distr(0, height - 1);
 		std::uniform_int_distribution<int> col_distr(0, width - 1);

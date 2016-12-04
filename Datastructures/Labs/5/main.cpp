@@ -161,25 +161,25 @@ int main(int argc, char* argv[]) {
 	// default values
 	int height = 1000;
 	int width = 1000;
-	double g = -2;
+	double fill_factor = -2;
 	bool user_dialog = false;
 	bool generate = false;
 
 	// handling arguments
 	if (argc == 2) {
-		if (std::string(argv[1]) == "ui") {
+		if (std::string(argv[1]) == "-ui") {
 			user_dialog = true;
 			generate = false;
 		} else {
-			g = std::atof(argv[1]);
+			fill_factor = std::atof(argv[1]);
 			generate = true;
 		}
 	} else if (argc == 3) {
-		g = std::atoi(argv[1]);
+		fill_factor = std::atoi(argv[1]);
 		height = width = std::atoi(argv[2]);
 		generate = true;
 	} else if (argc == 4) {
-		g = std::atof(argv[1]);
+		fill_factor = std::atof(argv[1]);
 		height = std::atoi(argv[2]);
 		width = std::atoi(argv[3]);
 		generate = true;
@@ -197,12 +197,12 @@ int main(int argc, char* argv[]) {
 
 	// generate matrix
 	if (generate) {
-		std::cout << "Generating matrix (g = " << g << ")..." << std::endl;
+		std::cout << "Generating matrix (fill factor is " << fill_factor << ")..." << std::endl;
 
 		std::uniform_int_distribution<> item_distribution(1, 10);
 
-		Generator::FillRandom(item_distribution, a_classic, g);
-		Generator::FillRandom(item_distribution, b_classic, g);
+		Generator::FillRandom(item_distribution, a_classic, fill_factor);
+		Generator::FillRandom(item_distribution, b_classic, fill_factor);
 	} else { // read
 		std::cout << "Reading matrix..." << std::endl;
 
