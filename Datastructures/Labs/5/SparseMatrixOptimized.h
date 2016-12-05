@@ -153,7 +153,7 @@ namespace Matrix {
 	template<class T>
 	SparseMatrixOptimized<T> SparseMatrixOptimized<T>::operator+(const SparseMatrixOptimized<T>& b) const {
 		SparseMatrixOptimized<T> result = *this;
-		add(*this, b, result);
+		result += *this;
 		return result;
 	}
 

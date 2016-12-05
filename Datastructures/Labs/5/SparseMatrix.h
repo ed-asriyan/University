@@ -154,7 +154,7 @@ namespace Matrix {
 		for (int i = 0; i < width; ++i) {
 			auto next_row = b.columns[i + 1];
 			for (auto bt = b.columns[i]; bt != next_row; ++bt) {
-				_set_item(bt->row, i, _get_item(bt->row, i) + bt->value);
+				_set_item(bt->row, i, _get_item(bt->row, i) + b.data[bt->index]);
 			}
 		}
 
@@ -164,7 +164,7 @@ namespace Matrix {
 	template<class T>
 	SparseMatrix<T> SparseMatrix<T>::operator+(const SparseMatrix<T>& b) const {
 		SparseMatrix<T> result = *this;
-		add(*this, b, result);
+		result += *this;
 		return result;
 	}
 
