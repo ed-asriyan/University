@@ -264,19 +264,31 @@ int main(int argc, char* argv[]) {
 	std::cout << " Classic C " << (c_classic == c_sparse ? '=' : '!') << "= sparse C" << std::endl;
 	std::cout << std::endl;
 
+	// test results
+	const size_t a_classic_size = a_classic.get_size();
+	const size_t b_classic_size = b_classic.get_size();
+	const size_t c_classic_size = c_classic.get_size();
+	const size_t a_sparse_size = a_sparse.get_size();
+	const size_t b_sparse_size = b_sparse.get_size();
+	const size_t c_sparse_size = c_sparse.get_size();
+
 	// print test result
 	std::cout << "Classic matrix (" << a_classic.get_height() << 'x' << a_classic.get_width() << "):" << std::endl;
 	std::cout << " Addition time: " << classic_time << std::endl;
-	std::cout << " Size of A: " << a_classic.get_size() << std::endl;
-	std::cout << " Size of B: " << b_classic.get_size() << std::endl;
-	std::cout << " Size of C: " << c_classic.get_size() << std::endl;
+	std::cout << " Size of A: " << a_classic_size << std::endl;
+	std::cout << " Size of B: " << b_classic_size << std::endl;
+	std::cout << " Size of C: " << c_classic_size << std::endl;
 	std::cout << std::endl;
 
 	std::cout << "Sparse matrix (" << a_sparse.get_height() << 'x' << a_sparse.get_width() << "):" << std::endl;
-	std::cout << " Addition time: " << sparse_time << std::endl;
-	std::cout << " Size of A: " << a_sparse.get_size() << std::endl;
-	std::cout << " Size of B: " << b_sparse.get_size() << std::endl;
-	std::cout << " Size of C: " << c_sparse.get_size() << std::endl;
+	std::cout << " Addition time: " << sparse_time << "  (ratio: " << static_cast<double>(sparse_time) / classic_time
+	          << ")" << std::endl;
+	std::cout << " Size of A: " << a_sparse_size << "  (ratio: " << static_cast<double>(a_sparse_size) / a_classic_size
+	          << ")" << std::endl;
+	std::cout << " Size of B: " << b_sparse_size << "  (ratio: " << static_cast<double>(b_sparse_size) / b_classic_size
+	          << ")" << std::endl;
+	std::cout << " Size of C: " << c_sparse_size << "  (ratio: " << static_cast<double>(c_sparse_size) / c_classic_size
+	          << ")" << std::endl;
 	std::cout << std::endl;
 
 	return 0;
