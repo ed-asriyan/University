@@ -5,8 +5,8 @@
 #ifndef MATRIX_GENERATOR_H
 #define MATRIX_GENERATOR_H
 
-#include <cmath>
 #include <random>
+#include <algorithm>
 
 #include "MatrixBase.h"
 
@@ -54,31 +54,38 @@ namespace Generator {
 	void FillRandom(DISTRIBUTION distr, Matrix::MatrixBase<T>& matrix, double fill_factor) {
 		int height = matrix.get_height();
 		int width = matrix.get_width();
-
 		int items_count = static_cast<int>(height * width * fill_factor);
+
 		std::random_device rd;
-		std::uniform_int_distribution<int> row_distr(0, height - 1);
-		std::uniform_int_distribution<int> col_distr(0, width - 1);
 
-		T default_item = T();
-		while (items_count) {
-			int row = row_distr(rd);
-			int col = col_distr(rd);
+		int* rows = new int[height];
+		int* cols = new int[width];
 
-			auto item = matrix.get_item(row, col);
-			T value = distr(rd);
+		std::iota(rows, rows + height, 0);
+		std::iota(cols, cols + width, 0);
 
-			if (item == default_item) {
-				matrix.set_item(row, col, value);
-				--items_count;
+		for (int i = 0; i < items_count; ++i) {
+			auto _height = i % height;
+			auto _width = i % width;
+
+			if (!_height) {
+				std::shuffle(rows, rows + height, rd);
 			}
+			if (!_width) {
+				std::shuffle(cols, cols + width, rd);
+			}
+
+			matrix.set_item(rows[_height], cols[_width], distr(rd));
 		}
+
+		delete[] cols;
+		delete[] rows;
 	}
 
 	/**
 	 * @brief Generates random double in range from min to max.
 	 * @param min Lower border.
-	 * @param max Highter border.
+	 * @param max Higher border.
 	 * @return Random double in range from min to max.
 	 */
 	double GetRandomDouble01(double min = 0, double max = 1) {
