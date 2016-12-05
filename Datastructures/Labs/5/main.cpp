@@ -4,6 +4,7 @@
 
 #include "ClassicMatrix.h"
 #include "SparseMatrix.h"
+#include "SparseMatrixOptimized.h"
 #include "Generator.h"
 #include "Helper.h"
 
@@ -139,6 +140,15 @@ void ReadMatrixDialog(Matrix::MatrixBase<T>& matrix, bool fixed_size = false) {
 }
 
 template<class T>
+void PrintAndCompareMatrix(std::ostream& out,
+                           Matrix::ClassicMatrix<T>& classic,
+                           Matrix::SparseMatrixOptimized<T>& sparse) {
+	Helper::ContecateStreamByRows(std::cout, classic, sparse);
+
+	out << std::endl;
+}
+
+template<class T>
 void PrintAndCompareMatrix(std::ostream& out, Matrix::ClassicMatrix<T>& classic, Matrix::SparseMatrix<T>& sparse) {
 	Helper::ContecateStreamByRows(std::cout, classic, sparse);
 
@@ -191,9 +201,10 @@ int main(int argc, char* argv[]) {
 	Matrix::ClassicMatrix<int> c_classic(height, width);
 
 	// sparse matrix
-	Matrix::SparseMatrix<int> a_sparse(height, width);
-	Matrix::SparseMatrix<int> b_sparse(height, width);
-	Matrix::SparseMatrix<int> c_sparse(height, width);
+	// replace 'SparseMatrixOptimized' with 'SparseMatrix' in the following 3 lines to use 'truth' algorithm
+	Matrix::SparseMatrixOptimized<int> a_sparse(height, width);
+	Matrix::SparseMatrixOptimized<int> b_sparse(height, width);
+	Matrix::SparseMatrixOptimized<int> c_sparse(height, width);
 
 	// generate matrix
 	if (generate) {

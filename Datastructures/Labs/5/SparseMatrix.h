@@ -163,8 +163,8 @@ namespace Matrix {
 
 	template<class T>
 	SparseMatrix<T> SparseMatrix<T>::operator+(const SparseMatrix<T>& b) const {
-		SparseMatrix<T> result = *this;
-		result += *this;
+		auto result = *this;
+		result += b;
 		return result;
 	}
 
