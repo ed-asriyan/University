@@ -140,29 +140,38 @@ void ReadMatrixDialog(Matrix::MatrixBase<T>& matrix, bool fixed_size = false) {
 }
 
 template<class T>
-void PrintAndCompareMatrix(std::ostream& out,
-                           Matrix::ClassicMatrix<T>& classic,
-                           Matrix::SparseMatrixOptimized<T>& sparse) {
-	Helper::ContecateStreamByRows(std::cout, classic, sparse);
+void PrintMatrix(std::ostream& out,
+                 const Matrix::MatrixBase<T>& classic,
+                 const Matrix::MatrixBase<T>& sparse) {
+	int height = classic.get_height();
+	int width = classic.get_width();
 
-	out << std::endl;
-}
+	if (height <= PRINT_MAX_HEIGHT && width <= PRINT_MAX_WIDTH &&
+		sparse.get_height() <= PRINT_MAX_HEIGHT && sparse.get_width() <= PRINT_MAX_WIDTH) {
+		Helper::ContecateStreamByRows(std::cout, classic, sparse);
+	} else {
+		out << "Classic non-zero items: ";
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < width; ++j) {
+				const auto& item = classic.get_item(i, j);
+				if (item) {
+					out << "[" << i << "," << j << "]=" << item << "  ";
+				}
+			}
+		}
+		out << std::endl;
 
-template<class T>
-void PrintAndCompareMatrix(std::ostream& out, Matrix::ClassicMatrix<T>& classic, Matrix::SparseMatrix<T>& sparse) {
-	Helper::ContecateStreamByRows(std::cout, classic, sparse);
-
-	out << "Data: ";
-	for (auto& item: sparse.get_data()) {
-		out << item << ' ';
+		out << "Sparse non-zero items:  ";
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < width; ++j) {
+				const auto& item = sparse.get_item(i, j);
+				if (item) {
+					out << "[" << i << "," << j << "]=" << item << "  ";
+				}
+			}
+		}
+		out << std::endl;
 	}
-	out << std::endl;
-
-	out << "Rows: ";
-	for (auto& item: sparse.get_rows()) {
-		out << "(" << item.index << ", " << item.row << ") ";
-	}
-	out << std::endl;
 
 	out << std::endl;
 }
@@ -258,16 +267,14 @@ int main(int argc, char* argv[]) {
 	std::cout << "Done!" << std::endl << std::endl;
 
 	// print matrix
-	if (height < PRINT_MAX_HEIGHT && width < PRINT_MAX_WIDTH) {
-		std::cout << "Matrix A (classic & sparse): " << std::endl;
-		PrintAndCompareMatrix(std::cout, a_classic, a_sparse);
+	std::cout << "Matrix A: " << std::endl;
+	PrintMatrix(std::cout, a_classic, a_sparse);
 
-		std::cout << "Matrix B (classic & sparse): " << std::endl;
-		PrintAndCompareMatrix(std::cout, b_classic, b_sparse);
+	std::cout << "Matrix B: " << std::endl;
+	PrintMatrix(std::cout, b_classic, b_sparse);
 
-		std::cout << "Matrix C = A + B (classic & sparse): " << std::endl;
-		PrintAndCompareMatrix(std::cout, c_classic, c_sparse);
-	}
+	std::cout << "Matrix C = A + B: " << std::endl;
+	PrintMatrix(std::cout, c_classic, c_sparse);
 
 	std::cout << "Equality check:" << std::endl;
 	std::cout << " Classic A " << (a_classic == a_sparse ? '=' : '!') << "= sparse A" << std::endl;
