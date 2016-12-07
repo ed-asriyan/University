@@ -3,5 +3,5 @@ project(Expression)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.c)
 add_executable(Expression ${SOURCE_FILES})
