@@ -7,8 +7,6 @@
 
 #include <libxml/parser.h>
 
-#include "Colors.h"
-
 void PrintSuppliers(xmlDoc* file, xmlNode* root);
 
 void PrintProducts(xmlDoc* file, xmlNode* root);

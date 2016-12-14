@@ -10,7 +10,6 @@
 #include <memory.h>
 
 #include "Helpers.h"
-#include "Colors.h"
 
 // Prints into stdout all supplier names which are located in one city.
 void GetCityLocalizedSuppliers();

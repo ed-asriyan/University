@@ -60,7 +60,7 @@ void GetCityLocalizedSuppliers() {
 
 	for (size_t i = 0; i < count; ++i) {
 
-		fprintf(stdout, BOLD(RED("%s: ")), cities[i]);
+		fprintf(stdout, "%s: ", cities[i]);
 
 		for (size_t j = 0; j < cities_count[i]; ++j) {
 
@@ -68,16 +68,12 @@ void GetCityLocalizedSuppliers() {
 
 				if (!xmlStrcmp(current->name, BAD_CAST "SupplierName")) {
 					xmlChar* content = xmlNodeListGetString(file, current->children, 1);
-					fprintf(stdout, BOLD(GREEN("%s ")) BOLD(CYAN("| ")), content);
+					fprintf(stdout, "%s " "| ", content);
 				}
 			}
 		}
 
 		fprintf(stdout, "\n");
-	}
-
-	for (size_t i = 0; i < count; ++i) {
-		xmlFree(cities[i]);
 	}
 
 	free(cities_count);
@@ -109,13 +105,13 @@ void GetAllEngagedSuppliers() {
 		}
 	}
 
-	fprintf(stdout, BOLD(YELLOW("Engaged SupplierID's: ")));
+	fprintf(stdout, "Engaged SupplierID's: ");
 
 	for (size_t i = 0; i < count; ++i) {
-		fprintf(stdout, BOLD(MAGENTA("%s | ")), suppliers[i]);
+		fprintf(stdout, "%s | ", suppliers[i]);
 	}
 
-	fprintf(stdout, BOLD(YELLOW("\nAmount of all suppliers engaged: ")) BOLD(MAGENTA("%lu\n")), count);
+	fprintf(stdout, "\nAmount of all suppliers engaged: " "%lu\n", count);
 
 	xmlFree(suppliers);
 	xmlFree(supplier_id);
@@ -201,8 +197,7 @@ void GetTotalProductCostBySupplier(int supplier_id) {
 		}
 	}
 
-	FPRINTF(BOLD(MAGENTA("Total products shipped by SupplierID{%d} cost: "))
-		        BOLD(BLUE("%lf")), supplier_id, result);
+	fprintf(stdout, "Total products shipped by SupplierID{%d} cost: " "%lf" "\n", supplier_id, result);
 
 	END:
 	xmlFree(temp);
@@ -269,7 +264,7 @@ void GetAllSuppliersTotalProductsQuantity() {
 	file = xmlReadFile("Examples/XML_Suppliers.xml", NULL, 0);
 	root = xmlDocGetRootElement(file);
 
-	fprintf(stdout, GREEN(BOLD("| SupplierID | Quantity |\n")));
+	fprintf(stdout, "| SupplierID | Quantity |\n");
 
 	for (xmlNode* i = root->children; i; i = i->next) {
 
@@ -287,7 +282,7 @@ void GetAllSuppliersTotalProductsQuantity() {
 			}
 		}
 
-		fprintf(stdout, BOLD(MAGENTA("| %*d | %*d |\n")),
+		fprintf(stdout, "| %*d | %*d |\n",
 		        (int) strlen("SupplierID"),
 		        supplier_id,
 		        (int) strlen("Quantity"),
@@ -324,7 +319,7 @@ void GetProductColor(int product_id) {
 
 					if (!xmlStrcmp(j->name, BAD_CAST "Color")) {
 						temp = xmlNodeListGetString(file, j->children, 1);
-						fprintf(stdout, BOLD(BLUE("%s")) BOLD(MAGENTA(" | ")), temp);
+						fprintf(stdout, "%s" " | ", temp);
 					}
 
 					goto END;
@@ -352,7 +347,7 @@ void GetProductColorBySupplier(int supplier_id) {
 	int compared_key = 0;
 	int product_id = 0;
 
-	fprintf(stdout, BOLD(MAGENTA("Product colors shipped by SupplierID{%d}: ")), supplier_id);
+	fprintf(stdout, "Product colors shipped by SupplierID{%d}: ", supplier_id);
 
 	for (xmlNode* i = root->children; i; i = i->next) {
 

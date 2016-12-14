@@ -10,31 +10,31 @@ int main(const int argc, const char* argv[]) {
 
 	while (true) {
 
-		fprintf(stdout, BOLD(RED("Add to table { 1 }\n")));
-		fprintf(stdout, BOLD(GREEN("Remove from table { 2 }\n")));
-		fprintf(stdout, BOLD(YELLOW("Modify table content { 3 }\n")));
-		fprintf(stdout, BOLD(BLUE("Print table { 4 }\n")));
-		fprintf(stdout, BOLD(MAGENTA("Request for database { 5 }\n\n")));
+		fprintf(stdout, "1. Add to table\n");
+		fprintf(stdout, "2. Remove from table\n");
+		fprintf(stdout, "3. Modify table content\n");
+		fprintf(stdout, "4. Print table\n");
+		fprintf(stdout, "5. Request for database\n\n");
 
 		int action_choice = 0;
 		int id = 0;
 
-		fprintf(stdout, BOLD(CYAN("Enter your choice: ")));
+		fprintf(stdout, "Enter your choice: ");
 
 		if (fscanf(stdin, "%d", &action_choice) != 1) {
 			goto END;
 		}
 
 		fgetc(stdin);
-		fprintf(stdout, BOLD("----------------------------------------------\n"));
+		fprintf(stdout, "----------------------------------------------\n");
 
 		switch (action_choice) {
 
 			case 1:
 
-				fprintf(stdout, "Examples/XML_Suppliers.xml { 1 }\n");
-				fprintf(stdout, "Examples/XML_Products.xml { 2 }\n");
-				fprintf(stdout, "Examples/XML_Shipments.xml { 3 }\n\n");
+				fprintf(stdout, "1. Examples/XML_Suppliers.xml\n");
+				fprintf(stdout, "2. Examples/XML_Products.xml\n");
+				fprintf(stdout, "3. Examples/XML_Shipments.xml\n\n");
 
 				fprintf(stdout, "Choose table to add to: ");
 
@@ -43,7 +43,7 @@ int main(const int argc, const char* argv[]) {
 				}
 
 				fgetc(stdin);
-				fprintf(stdout, BOLD("----------------------------------------------\n"));
+				fprintf(stdout, "----------------------------------------------\n");
 
 				switch (action_choice) {
 
@@ -67,9 +67,9 @@ int main(const int argc, const char* argv[]) {
 
 			case 2:
 
-				fprintf(stdout, "Examples/XML_Suppliers.xml { 1 }\n");
-				fprintf(stdout, "Examples/XML_Products.xml { 2 }\n");
-				fprintf(stdout, "Examples/XML_Shipments.xml { 3 }\n\n");
+				fprintf(stdout, "1. Examples/XML_Suppliers.xml\n");
+				fprintf(stdout, "2. Examples/XML_Products.xml\n");
+				fprintf(stdout, "3. Examples/XML_Shipments.xml\n\n");
 
 				fprintf(stdout, "Choose table to remove from: ");
 
@@ -84,7 +84,7 @@ int main(const int argc, const char* argv[]) {
 					goto END;
 				}
 
-				fprintf(stdout, BOLD("----------------------------------------------\n"));
+				fprintf(stdout, "----------------------------------------------\n");
 
 				switch (action_choice) {
 
@@ -108,9 +108,9 @@ int main(const int argc, const char* argv[]) {
 
 			case 3:
 
-				fprintf(stdout, "Examples/XML_Suppliers.xml { 1 }\n");
-				fprintf(stdout, "Examples/XML_Products.xml { 2 }\n");
-				fprintf(stdout, "Examples/XML_Shipments.xml { 3 }\n\n");
+				fprintf(stdout, "1. Examples/XML_Suppliers.xml\n");
+				fprintf(stdout, "2. Examples/XML_Products.xml\n");
+				fprintf(stdout, "3. Examples/XML_Shipments.xml\n\n");
 
 				fprintf(stdout, "Choose table to modify: ");
 
@@ -126,7 +126,7 @@ int main(const int argc, const char* argv[]) {
 				}
 
 				fgetc(stdin);
-				fprintf(stdout, BOLD("----------------------------------------------\n"));
+				fprintf(stdout, "----------------------------------------------\n");
 
 				switch (action_choice) {
 
@@ -150,9 +150,9 @@ int main(const int argc, const char* argv[]) {
 
 			case 4:
 
-				fprintf(stdout, "Examples/XML_Suppliers.xml { 1 }\n");
-				fprintf(stdout, "Examples/XML_Products.xml { 2 }\n");
-				fprintf(stdout, "Examples/XML_Shipments.xml { 3 }\n\n");
+				fprintf(stdout, "1. Examples/XML_Suppliers.xml\n");
+				fprintf(stdout, "2. Examples/XML_Products.xml\n");
+				fprintf(stdout, "3. Examples/XML_Shipments.xml\n\n");
 
 				fprintf(stdout, "Choose table to print: ");
 
@@ -161,7 +161,7 @@ int main(const int argc, const char* argv[]) {
 				}
 
 				fgetc(stdin);
-				fprintf(stdout, BOLD("----------------------------------------------\n"));
+				fprintf(stdout, "----------------------------------------------\n");
 
 				switch (action_choice) {
 
@@ -185,13 +185,14 @@ int main(const int argc, const char* argv[]) {
 
 			case 5:
 
-				fprintf(stdout, "Get all pairs of suppliers located in the same city. { 1 }\n");
-				fprintf(stdout, "Determine the total number of suppliers participating in supply. { 2 }\n");
+				fprintf(stdout, "1. Get all pairs of suppliers located in the same city.\n");
+				fprintf(stdout, "2. Determine the total number of suppliers participating in supply.\n");
 				fprintf(stdout,
-				        "To calculate the total value of all products supplied by the supplier under the number ?. { 3 }\n");
-				fprintf(stdout, "For each vendor specify the number and total volume of delivery in pieces. { 4 }\n");
+				        "3. To calculate the total value of all products supplied by the supplier under the number ?"
+					        ".\n");
+				fprintf(stdout, "4. For each vendor specify the number and total volume of delivery in pieces.\n");
 				fprintf(stdout,
-				        "Determine the colors of the products supplied by the supplier under the number ?. { 5 }\n\n");
+				        "5. Determine the colors of the products supplied by the supplier under the number ?.\n\n");
 
 				fprintf(stdout, "Choose request to database model: ");
 
@@ -200,7 +201,7 @@ int main(const int argc, const char* argv[]) {
 				}
 
 				fgetc(stdin);
-				fprintf(stdout, BOLD("----------------------------------------------\n"));
+				fprintf(stdout, "----------------------------------------------\n");
 
 				switch (action_choice) {
 
@@ -251,6 +252,6 @@ int main(const int argc, const char* argv[]) {
 				return 0;
 		}
 
-		fprintf(stdout, BOLD("----------------------------------------------\n"));
+		fprintf(stdout, "----------------------------------------------\n");
 	}
 }
