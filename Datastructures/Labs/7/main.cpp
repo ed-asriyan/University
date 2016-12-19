@@ -104,6 +104,7 @@ int main(const int argc, const char* argv[]) {
 	} else {
 		std::chrono::time_point<std::chrono::system_clock> start, stop;
 
+		avl_tree.Search(number);
 		start = std::chrono::system_clock::now();
 		avl_tree.Search(number);
 		stop = std::chrono::system_clock::now();
