@@ -44,7 +44,7 @@ typename BaseTree<T>::Node* NaiveTree<T>::find_min(Node* node) {
 template<class T>
 typename BaseTree<T>::Node* NaiveTree<T>::_remove(Node* node, const T& value) {
 	if (node == nullptr) {
-		return nullptr;
+		throw typename BaseTree<T>::ItemNotFoundException();
 	}
 
 	if (value < node->key) {

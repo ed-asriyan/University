@@ -10,12 +10,15 @@
 #include <deque>
 #include <sstream>
 #include <iomanip>
+#include <exception>
 
 #include "Colors.h"
 
 template<class T>
 class BaseTree {
 	public:
+		class ItemNotFoundException : public std::exception {};
+
 		explicit BaseTree() = default;
 		virtual ~BaseTree();
 
@@ -176,7 +179,7 @@ const T& BaseTree<T>::search(const Node* node, const T& value) const {
 			node = node->left;
 		}
 	}
-	return 0;
+	throw ItemNotFoundException();
 }
 
 template<class T>

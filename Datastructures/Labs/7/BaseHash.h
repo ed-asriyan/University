@@ -13,6 +13,8 @@
 template<class T, class HASH_FUNC>
 class BaseHash {
 	public:
+		class ItemNotFoundException : public std::exception {};
+
 		explicit BaseHash() = default;
 		virtual ~BaseHash() = default;
 

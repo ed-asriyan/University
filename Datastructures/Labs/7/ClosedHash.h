@@ -85,7 +85,7 @@ void ClosedHash<T, HASH_FUNC>::_remove(const T& _key) {
 	size_t hash{BaseHash<T, HASH_FUNC>::hash_func(_key, BaseHash<T, HASH_FUNC>::table.size())};
 
 	if (BaseHash<T, HASH_FUNC>::table[hash] == nullptr) {
-		return;
+		throw typename BaseHash<T, HASH_FUNC>::ItemNotFoundException();
 	}
 
 	Node* node = BaseHash<T, HASH_FUNC>::table[hash];
@@ -108,6 +108,8 @@ void ClosedHash<T, HASH_FUNC>::_remove(const T& _key) {
 			return;
 		}
 	}
+
+	throw typename BaseHash<T, HASH_FUNC>::ItemNotFoundException();
 }
 
 template<class T, class HASH_FUNC>
@@ -120,7 +122,7 @@ const T& ClosedHash<T, HASH_FUNC>::_search(const T& _key) const {
 		}
 	}
 
-	return 0;
+	throw typename BaseHash<T, HASH_FUNC>::ItemNotFoundException();
 }
 
 template<class T, class HASH_FUNC>

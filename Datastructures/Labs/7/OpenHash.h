@@ -108,6 +108,8 @@ void OpenHash<T, HASH_FUNC>::_remove(const T& _key) {
 		hash = (hash + (i * i)) % BaseHash<T, HASH_FUNC>::table.size();
 		++i;
 	}
+
+	throw typename BaseHash<T, HASH_FUNC>::ItemNotFoundException();
 }
 
 template<class T, class HASH_FUNC>
@@ -124,7 +126,7 @@ const T& OpenHash<T, HASH_FUNC>::_search(const T& _key) const {
 		++i;
 	}
 
-	return 0;
+	typename BaseHash<T, HASH_FUNC>::ItemNotFoundException();
 }
 
 template<class T, class HASH_FUNC>

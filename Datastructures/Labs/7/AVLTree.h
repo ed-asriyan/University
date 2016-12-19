@@ -113,7 +113,7 @@ typename BaseTree<T>::Node* AVLTree<T>::find_min(Node* node) {
 template<class T>
 typename BaseTree<T>::Node* AVLTree<T>::_remove(Node* node, const T& value) {
 	if (node == nullptr) {
-		return nullptr;
+		throw typename BaseTree<T>::ItemNotFoundException();
 	}
 
 	if (value < node->key) {
@@ -121,7 +121,6 @@ typename BaseTree<T>::Node* AVLTree<T>::_remove(Node* node, const T& value) {
 	} else if (value > node->key) {
 		node->right = _remove(node->right, value);
 	} else {
-
 		if (node->left == nullptr || node->right == nullptr) {
 			Node* temp{node->left ? node->left : node->right};
 
