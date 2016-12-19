@@ -29,7 +29,7 @@ class BaseHash {
 		/**
 		 * Searches hash table for element
 		 */
-		const T& Search(const T& _key);
+		const T& Search(const T& _key) const;
 
 		const size_t get_cmp_count() const;
 		const size_t get_memory_amount() const;
@@ -66,7 +66,7 @@ class BaseHash {
 
 		virtual void _insert(const T&) = 0;
 		virtual void _remove(const T&) = 0;
-		virtual const T& _search(const T&) = 0;
+		virtual const T& _search(const T&) const = 0;
 
 		virtual const size_t _get_memory_amount() const = 0;
 
@@ -110,7 +110,7 @@ template<class T, class HASH_FUNC>
 size_t BaseHash<T, HASH_FUNC>::Node::cmp_count{};
 
 template<class T, class HASH_FUNC>
-const T& BaseHash<T, HASH_FUNC>::Search(const T& _key) {
+const T& BaseHash<T, HASH_FUNC>::Search(const T& _key) const {
 	BaseHash<T, HASH_FUNC>::Node::reset_cmp_count();
 	return _search(_key);
 }

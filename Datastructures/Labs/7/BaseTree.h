@@ -32,14 +32,14 @@ class BaseTree {
 		/**
 		 * Returns true if element was found.
 		 */
-		const T& Search(T _key);
+		const T& Search(const T& _key) const;
 
 		const size_t get_cmp_count() const;
 		const size_t get_nodes_count() const;
 		const size_t get_memory_amount() const;
 
 		template<class U>
-		friend std::ostream& operator<<(std::ostream&, BaseTree<U>&);
+		friend std::ostream& operator<<(std::ostream&, const BaseTree<U>&);
 
 	protected:
 		struct Node {
@@ -52,11 +52,11 @@ class BaseTree {
 
 				explicit Node(const T& _key);
 
-				inline bool operator==(const T& rhs);
-				inline bool operator<(const T& rhs);
-				inline bool operator>(const T& rhs);
+				inline bool operator==(const T& rhs) const;
+				inline bool operator<(const T& rhs) const;
+				inline bool operator>(const T& rhs) const;
 
-				static const size_t get_cmp_count();
+				static size_t get_cmp_count();
 				static void reset_cmp_count();
 
 			private:
@@ -73,39 +73,39 @@ class BaseTree {
 
 	private:
 		void clear_tree(Node*);
-		const T& search(Node*, const T&);
+		const T& search(const Node*, const T&) const;
 
 		const size_t _get_nodes_count(const Node*) const;
 
-		std::string to_string(const T&);
-		void print_branches(std::ostream&, const std::deque<Node*>&, size_t, size_t, size_t, size_t);
-		void print_nodes(std::ostream&, const std::deque<Node*>&, size_t, size_t, size_t, size_t);
-		void print_leaves(std::ostream&, const std::deque<Node*>&, size_t, size_t, size_t);
-		const size_t height(Node*);
-		void print_pretty(std::ostream&, Node*, size_t, size_t);
-		void print(std::ostream&);
+		std::string to_string(const T&) const;
+		void print_branches(std::ostream&, const std::deque<const Node*>&, size_t, size_t, size_t, size_t) const;
+		void print_nodes(std::ostream&, const std::deque<const Node*>&, size_t, size_t, size_t, size_t) const;
+		void print_leaves(std::ostream&, const std::deque<const Node*>&, size_t, size_t, size_t) const;
+		const size_t height(const Node*) const;
+		void print_pretty(std::ostream&, const Node*, size_t, size_t) const;
+		void print(std::ostream&) const;
 };
 
 template<class T>
-inline bool BaseTree<T>::Node::operator==(const T& rhs) {
+inline bool BaseTree<T>::Node::operator==(const T& rhs) const {
 	++cmp_count;
 	return this->key == rhs;
 }
 
 template<class T>
-inline bool BaseTree<T>::Node::operator<(const T& rhs) {
+inline bool BaseTree<T>::Node::operator<(const T& rhs) const {
 	++cmp_count;
 	return this->key < rhs;
 }
 
 template<class T>
-inline bool BaseTree<T>::Node::operator>(const T& rhs) {
+inline bool BaseTree<T>::Node::operator>(const T& rhs) const {
 	++cmp_count;
 	return this->key > rhs;
 }
 
 template<class T>
-const size_t BaseTree<T>::Node::get_cmp_count() {
+size_t BaseTree<T>::Node::get_cmp_count() {
 	return cmp_count;
 }
 
@@ -128,7 +128,7 @@ void BaseTree<T>::Remove(const T& _key) {
 }
 
 template<class T>
-const T& BaseTree<T>::Search(T _key) {
+const T& BaseTree<T>::Search(const T& _key) const {
 	BaseTree<T>::Node::reset_cmp_count();
 	return search(root, _key);
 }
@@ -166,7 +166,7 @@ BaseTree<T>::~BaseTree() {
 }
 
 template<class T>
-const T& BaseTree<T>::search(Node* node, const T& value) {
+const T& BaseTree<T>::search(const Node* node, const T& value) const {
 	while (node != nullptr) {
 		if (*node == value) {
 			return node->key;
@@ -188,7 +188,7 @@ const size_t BaseTree<T>::_get_nodes_count(const Node* node) const {
 }
 
 template<typename T>
-std::string BaseTree<T>::to_string(const T& value) {
+std::string BaseTree<T>::to_string(const T& value) const {
 	std::ostringstream ss;
 	ss << value;
 	return ss.str();
@@ -196,12 +196,12 @@ std::string BaseTree<T>::to_string(const T& value) {
 
 template<typename T>
 void BaseTree<T>::print_branches(std::ostream& out,
-                                 const std::deque<Node*>& nodes_queue,
+                                 const std::deque<const Node*>& nodes_queue,
                                  size_t branch_len,
                                  size_t node_space_len,
                                  size_t start_len,
-                                 size_t level_node_count) {
-	typename std::deque<Node*>::const_iterator iter = nodes_queue.begin();
+                                 size_t level_node_count) const {
+	typename std::deque<const Node*>::const_iterator iter = nodes_queue.begin();
 
 	for (size_t i{}; i < level_node_count / 2; ++i) {
 		out << ((i == 0) ? std::setw(static_cast<int>(start_len - 1)) : std::setw(static_cast<int>(node_space_len - 2)))
@@ -213,12 +213,12 @@ void BaseTree<T>::print_branches(std::ostream& out,
 
 template<typename T>
 void BaseTree<T>::print_nodes(std::ostream& out,
-                              const std::deque<Node*>& nodes_queue,
+                              const std::deque<const Node*>& nodes_queue,
                               size_t branch_len,
                               size_t node_space_len,
                               size_t start_len,
-                              size_t level_node_count) {
-	typename std::deque<Node*>::const_iterator iter = nodes_queue.begin();
+                              size_t level_node_count) const {
+	typename std::deque<const Node*>::const_iterator iter = nodes_queue.begin();
 
 	for (size_t i{}; i < level_node_count; ++i, ++iter) {
 		out << ((i == 0) ? std::setw(static_cast<int>(start_len)) : std::setw(static_cast<int>(node_space_len))) << ""
@@ -233,11 +233,11 @@ void BaseTree<T>::print_nodes(std::ostream& out,
 
 template<typename T>
 void BaseTree<T>::print_leaves(std::ostream& out,
-                               const std::deque<Node*>& nodes_queue,
+                               const std::deque<const Node*>& nodes_queue,
                                size_t indent_space,
                                size_t level,
-                               size_t level_node_count) {
-	typename std::deque<Node*>::const_iterator iter = nodes_queue.begin();
+                               size_t level_node_count) const {
+	typename std::deque<const Node*>::const_iterator iter = nodes_queue.begin();
 
 	for (size_t i{}; i < level_node_count; ++i, ++iter) {
 		out << ((i == 0) ? std::setw(static_cast<int>(indent_space + 2)) : std::setw(static_cast<int>(2 * level + 2)))
@@ -247,7 +247,7 @@ void BaseTree<T>::print_leaves(std::ostream& out,
 }
 
 template<typename T>
-const size_t BaseTree<T>::height(Node* node) {
+const size_t BaseTree<T>::height(const Node* node) const {
 	if (node == nullptr || (node->left == nullptr && node->right == nullptr)) {
 		return 0;
 	}
@@ -260,7 +260,7 @@ const size_t BaseTree<T>::height(Node* node) {
 }
 
 template<typename T>
-void BaseTree<T>::print_pretty(std::ostream& out, Node* root, size_t level, size_t indent_space) {
+void BaseTree<T>::print_pretty(std::ostream& out, const Node* root, size_t level, size_t indent_space) const {
 	size_t h{height(root) + 1};
 	size_t level_node_count{1};
 
@@ -268,7 +268,7 @@ void BaseTree<T>::print_pretty(std::ostream& out, Node* root, size_t level, size
 	size_t node_space_len{2 + (level + 1) * static_cast<size_t>(pow(2.0, h))};
 	size_t start_len{branch_len + (3 - level) + indent_space};
 
-	std::deque<Node*> nodes_queue;
+	std::deque<const Node*> nodes_queue;
 	nodes_queue.push_back(root);
 
 	for (size_t r{1}; r < h; r++) {
@@ -279,7 +279,7 @@ void BaseTree<T>::print_pretty(std::ostream& out, Node* root, size_t level, size
 		print_nodes(out, nodes_queue, branch_len, node_space_len, start_len, level_node_count);
 
 		for (size_t i{}; i < level_node_count; i++) {
-			Node* current_node = nodes_queue.front();
+			const Node* current_node = nodes_queue.front();
 			nodes_queue.pop_front();
 
 			if (current_node) {
@@ -299,12 +299,12 @@ void BaseTree<T>::print_pretty(std::ostream& out, Node* root, size_t level, size
 }
 
 template<typename T>
-void BaseTree<T>::print(std::ostream& out) {
+void BaseTree<T>::print(std::ostream& out) const {
 	print_pretty(out, root, 2, 0);
 }
 
 template<typename T>
-std::ostream& operator<<(std::ostream& out, BaseTree<T>& tree) {
+std::ostream& operator<<(std::ostream& out, const BaseTree<T>& tree) {
 	out << BOLD CYAN;
 	tree.print(out);
 	out << RST;

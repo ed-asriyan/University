@@ -21,7 +21,7 @@ class ClosedHash : public BaseHash<T, HASH_FUNC> {
 
 		void _insert(const T&) override;
 		void _remove(const T&) override;
-		const T& _search(const T&) override;
+		const T& _search(const T&) const override;
 
 		void print(std::ostream&) const override;
 
@@ -111,7 +111,7 @@ void ClosedHash<T, HASH_FUNC>::_remove(const T& _key) {
 }
 
 template<class T, class HASH_FUNC>
-const T& ClosedHash<T, HASH_FUNC>::_search(const T& _key) {
+const T& ClosedHash<T, HASH_FUNC>::_search(const T& _key) const {
 	size_t hash{BaseHash<T, HASH_FUNC>::hash_func(_key, BaseHash<T, HASH_FUNC>::table.size())};
 
 	for (Node* node{BaseHash<T, HASH_FUNC>::table[hash]}; node != nullptr; node = node->next) {

@@ -22,7 +22,7 @@ class OpenHash : public BaseHash<T, HASH_FUNC> {
 
 		void _insert(const T&) override;
 		void _remove(const T&) override;
-		const T& _search(const T&) override;
+		const T& _search(const T&) const override;
 
 		const size_t _get_memory_amount() const override;
 
@@ -111,7 +111,7 @@ void OpenHash<T, HASH_FUNC>::_remove(const T& _key) {
 }
 
 template<class T, class HASH_FUNC>
-const T& OpenHash<T, HASH_FUNC>::_search(const T& _key) {
+const T& OpenHash<T, HASH_FUNC>::_search(const T& _key) const {
 	size_t hash{BaseHash<T, HASH_FUNC>::hash_func(_key, BaseHash<T, HASH_FUNC>::table.size())};
 	size_t i{};
 
