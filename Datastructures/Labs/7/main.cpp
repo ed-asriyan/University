@@ -123,7 +123,7 @@ int main(const int argc, const char* argv[]) {
 		std::cout << BOLD GREEN << "Amount of comparisons in Naive Binary Tree: "
 		          << BOLD BLUE << naive_tree.get_cmp_count() << RST << std::endl;
 		std::cout << BOLD GREEN << "Amount of memory allocated for Naive Binary Tree data structure: "
-		          << BOLD BLUE << naive_tree.get_memory_amount() << " (bytes);" << RST << std::endl;
+		          << BOLD BLUE << naive_tree.get_memory_amount() << " (bytes)" << RST << std::endl;
 		std::cout << BOLD GREEN << "Amount of time taken to find element in Naive Binary Tree: "
 		          << BOLD BLUE << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << " (ns)"
 		          << RST << std::endl << std::endl;
