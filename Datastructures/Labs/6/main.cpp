@@ -76,6 +76,7 @@ int main(const int argc, const char* argv[]) {
 		std::cout << BOLD << " 2. Remove item from tree" << RST << std::endl;
 		std::cout << BOLD << " 3. Search for item" << RST << std::endl;
 		std::cout << BOLD << " 4. Print tree" << RST << std::endl;
+		std::cout << BOLD << " 5. Print by level" << RST << std::endl;
 		std::cout << BOLD << " 0. Exit" << RST << std::endl;
 		std::cout << BOLD << ": ";
 
@@ -152,6 +153,13 @@ int main(const int argc, const char* argv[]) {
 				tree.Dfs<1>([](const int& i) {
 					std::cout << i << ' ';
 				});
+				std::cout << RST << std::endl;
+				break;
+			case 5:
+				std::cout << BOLD GREEN << "Count by level: " << BOLD BLUE;
+				for (auto count: tree.CountByLevel()) {
+					std::cout << count << ' ';
+				}
 				std::cout << RST << std::endl;
 				break;
 			default:

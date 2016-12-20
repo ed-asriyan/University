@@ -12,6 +12,7 @@
 #include <iomanip>
 #include <functional>
 #include <exception>
+#include <queue>
 
 #include "Colors.h"
 
@@ -40,6 +41,8 @@ class BaseTree {
 
 		template<int ORDER>
 		void Dfs(const std::function<void(const T&)>& handler) const;
+
+		std::vector<size_t> CountByLevel() const;
 
 		const size_t get_cmp_count() const;
 		const size_t get_nodes_count() const;
@@ -345,6 +348,34 @@ template<typename T>
 template<int ORDER>
 void BaseTree<T>::Dfs(const std::function<void(const T&)>& handler) const {
 	dfs<ORDER>(handler, root);
+}
+
+template<typename T>
+std::vector<size_t> BaseTree<T>::CountByLevel() const {
+	std::vector<size_t> result;
+	if (root == nullptr) {
+		return result;
+	}
+
+	std::queue<const Node*> deq;
+	deq.push(root);
+	while (deq.size()) {
+		auto n = deq.size();
+		result.push_back(n);
+
+		for (size_t i = 0; i < n; ++i) {
+			auto k = deq.front();
+			deq.pop();
+			if (k->left != nullptr) {
+				deq.push(k->left);
+			}
+			if (k->right != nullptr) {
+				deq.push(k->right);
+			}
+		}
+	}
+
+	return result;
 }
 
 #endif //LAB_06_BASETREE_H
