@@ -10,6 +10,7 @@
 #include <deque>
 #include <sstream>
 #include <iomanip>
+#include <functional>
 #include <exception>
 
 #include "Colors.h"
@@ -36,6 +37,9 @@ class BaseTree {
 		 * Returns true if element was found.
 		 */
 		const T& Search(const T& _key) const;
+
+		template<int ORDER>
+		void Dfs(const std::function<void(const T&)>& handler) const;
 
 		const size_t get_cmp_count() const;
 		const size_t get_nodes_count() const;
@@ -77,6 +81,9 @@ class BaseTree {
 	private:
 		void clear_tree(Node*);
 		const T& search(const Node*, const T&) const;
+
+		template<int ORDER>
+		void dfs(const std::function<void(const T&)>& handler, const Node* node) const;
 
 		const size_t _get_nodes_count(const Node*) const;
 
@@ -312,6 +319,32 @@ std::ostream& operator<<(std::ostream& out, const BaseTree<T>& tree) {
 	tree.print(out);
 	out << RST;
 	return out;
+}
+
+template<typename T>
+template<int ORDER>
+void BaseTree<T>::dfs(const std::function<void(const T&)>& handler, const BaseTree::Node* node) const {
+	if (node == nullptr) {
+		return;
+	}
+
+	if (ORDER < 0) {
+		handler(node->key);
+	}
+	dfs<ORDER>(handler, node->left);
+	if (ORDER == 0) {
+		handler(node->key);
+	}
+	dfs<ORDER>(handler, node->right);
+	if (ORDER > 0) {
+		handler(node->key);
+	}
+}
+
+template<typename T>
+template<int ORDER>
+void BaseTree<T>::Dfs(const std::function<void(const T&)>& handler) const {
+	dfs<ORDER>(handler, root);
 }
 
 #endif //LAB_06_BASETREE_H
