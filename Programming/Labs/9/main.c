@@ -21,12 +21,7 @@ Graph* build_graph(FILE* f) {
 }
 
 int main(int argc, char* argv[]) {
-	if (argc != 5) {
-		fprintf(stderr, "Invalid arguments.\n");
-		return -1;
-	}
-
-	FILE* a = fopen(argv[1], "r");
+	FILE* a = fopen("Examples/a.txt", "r");
 	if (a != NULL) {
 		Graph* a_graph = build_graph(a);
 
@@ -40,7 +35,7 @@ int main(int argc, char* argv[]) {
 		fprintf(stderr, "Can not open file %s\n", argv[1]);
 	}
 
-	FILE* b = fopen(argv[2], "r");
+	FILE* b = fopen("Examples/b.txt", "r");
 	if (b != NULL) {
 		Graph* b_graph = build_graph(b);
 
@@ -57,7 +52,7 @@ int main(int argc, char* argv[]) {
 		fprintf(stderr, "Can not open file %s\n", argv[2]);
 	}
 
-	FILE* c = fopen(argv[3], "r");
+	FILE* c = fopen("Examples/c.txt", "r");
 	if (c != NULL) {
 		Graph* c_graph = build_graph(c);
 
@@ -74,7 +69,7 @@ int main(int argc, char* argv[]) {
 		fprintf(stderr, "Can not open file %s\n", argv[3]);
 	}
 
-	FILE* d = fopen(argv[4], "r");
+	FILE* d = fopen("Examples/d.txt", "r");
 	if (d != NULL) {
 		Graph* build_graph1 = build_graph(d);
 
