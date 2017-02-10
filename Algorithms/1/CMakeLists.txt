@@ -5,5 +5,6 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
         main.cpp
+        Integral.hpp
         )
 add_executable(Integral ${SOURCE_FILES})
