@@ -29,7 +29,7 @@ T CalcIntegral(
 
 int main() {
 	std::cout << CalcIntegral<double>(
-		Solver::Integral::CalcTrapezium<double>,
+		Solver::Integral::CalcSimpson<double>,
 		Solver::Equations::CalcSecants<double>,
 		0,
 		2
