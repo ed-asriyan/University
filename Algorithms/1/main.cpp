@@ -15,7 +15,7 @@ T CalcIntegral(
 	const std::function<T(const std::function<T(T)>&, T, T, T)>& equation_func,
 	double left,
 	double right,
-	double eps = 0.001
+	double eps
 ) {
 	auto y = [&equation_func, left, right, eps](double x) {
 		auto section = [equation_func, x, left, right, eps](double yy) {
@@ -32,7 +32,8 @@ int main() {
 		Solver::Integral::CalcSimpson<double>,
 		Solver::Equations::CalcSecants<double>,
 		0,
-		2
+		2,
+		1e-6
 	) << std::endl;
 
 	return 0;
