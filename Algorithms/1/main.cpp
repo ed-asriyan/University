@@ -11,15 +11,16 @@ T F(T x, T y) {
 
 template<class T>
 T CalcIntegral(
+	const std::function<T(T, T)>& func,
 	const std::function<T(const std::function<T(T)>&, T, T, T)>& integral_func,
 	const std::function<T(const std::function<T(T)>&, T, T, T)>& equation_func,
 	double left,
 	double right,
 	double eps
 ) {
-	auto y = [&equation_func, left, right, eps](double x) {
-		auto section = [equation_func, x, left, right, eps](double yy) {
-			return F(x, yy);
+	auto y = [&func, &equation_func, left, right, eps](double x) {
+		auto section = [&func, &equation_func, x, left, right, eps](double yy) {
+			return func(x, yy);
 		};
 		return equation_func(section, left, left + eps, eps);
 	};
@@ -29,6 +30,7 @@ T CalcIntegral(
 
 int main() {
 	std::cout << CalcIntegral<double>(
+		F<double>,
 		Solver::Integral::CalcSimpson<double>,
 		Solver::Equations::CalcSecants<double>,
 		0,
