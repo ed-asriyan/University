@@ -32,7 +32,7 @@ int main() {
 	std::cout << CalcIntegral<double>(
 		F<double>,
 		Solver::Integral::CalcSimpson<double>,
-		Solver::Equations::CalcSecants<double>,
+		Solver::Equations::CalcTangents<double>,
 		0,
 		2,
 		1e-6

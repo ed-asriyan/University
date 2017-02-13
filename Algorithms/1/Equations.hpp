@@ -53,6 +53,34 @@ namespace Solver {
 			return std::abs(a_val) < std::abs(b_val) ? a : b;
 		}
 
+		/**
+		 * @brief Solve equation func(x) = 0 by tangents method
+		 * @param func Function
+		 * @param a Initial point
+		 * @param b Second point (b - a) = tangent accurace
+		 * @param eps X accuracy
+		 * @return Root
+		 *
+		 * Tangents method.
+		 *
+		 * https://en.wikipedia.org/wiki/Newton's_method
+		 */
+		template<class T>
+		T CalcTangents(const std::function<T(T)>& func, T a, T b, T eps) {
+			double dx = b - a;
+			auto df = [&func, &eps, &dx](double x) {
+				return (func(x + dx) - func(x)) / dx;
+			};
+
+			double x1 = a - func(a) / df(a);
+			double x0 = a;
+			while (std::abs(x0 - x1) > eps) {
+				x0 = x1;
+				x1 = x1 - func(x1) / df(x1);
+			}
+
+			return std::abs(func(x1)) < std::abs(func(x0)) ? x1 : x0;
+		}
 	}
 }
 
