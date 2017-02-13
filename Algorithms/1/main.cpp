@@ -18,8 +18,8 @@ T CalcIntegral(
 	double right,
 	double eps
 ) {
-	auto y = [&func, &equation_func, left, right, eps](double x) {
-		auto section = [&func, &equation_func, x, left, right, eps](double yy) {
+	auto y = [&func, &equation_func, left, right, eps](T x) {
+		auto section = [&func, &equation_func, x, left, right, eps](T yy) {
 			return func(x, yy);
 		};
 		return equation_func(section, left, left + eps, eps);
