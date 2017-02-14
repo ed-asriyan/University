@@ -7,11 +7,13 @@
 
 #include <functional>
 #include <algorithm>
+#include <type_traits>
 
 namespace Solver {
 	namespace Integral {
 		/**
 		 * @brief Calculates an integral by trapezium method
+		 * @tparam T Arithmetic type
 		 * @param func The integrand function
 		 * @param left_border Left integral border
 		 * @param right_border Right integral border
@@ -25,6 +27,8 @@ namespace Solver {
 			T right_border,
 			T interval
 		) {
+			static_assert(std::is_arithmetic<T>::value, "T must be arithmetic type");
+
 			T result = static_cast<T>(0);
 			T a = left_border;
 			T b = a + interval;
@@ -50,13 +54,13 @@ namespace Solver {
 		}
 
 		/**
+		 * @brief Calculates an integral by Simpson method
+		 * @tparam T Arithmetic type
 		 * @param func The integrand function
 		 * @param left_border Left integral border
 		 * @param right_border Right integral border
 		 * @param interval Interval length
 		 * @return Integral from left_border to right_border
-		 *
-		 * Calculates an integral by Simpson method
 		 *
 		 * https://en.wikipedia.org/wiki/Simpson's_rule
 		 */
@@ -67,6 +71,8 @@ namespace Solver {
 			T right_border,
 			T interval
 		) {
+			static_assert(std::is_arithmetic<T>::value, "T must be arithmetic type");
+
 			// number of intervals
 			int n = (right_border - left_border) / interval;
 			n += n & 1; // n += n % 2;

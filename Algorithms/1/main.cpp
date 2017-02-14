@@ -29,10 +29,12 @@ T CalcIntegral(
 }
 
 int main() {
-	std::cout << CalcIntegral<double>(
-		F<double>,
-		Solver::Integral::CalcSimpson<double>,
-		Solver::Equations::CalcTangents<double>,
+	typedef double arithmetic_t;
+
+	std::cout << CalcIntegral<arithmetic_t>(
+		F<arithmetic_t>,
+		Solver::Integral::CalcSimpson<arithmetic_t>,
+		Solver::Equations::CalcTangents<arithmetic_t>,
 		0,
 		2,
 		1e-6

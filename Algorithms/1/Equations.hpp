@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <functional>
 #include <exception>
+#include <type_traits>
 
 namespace Solver {
 	namespace Equations {
@@ -15,6 +16,7 @@ namespace Solver {
 
 		/**
 		 * @brief Solve equation func(x) = 0 by secants method
+		 * @tparam T Arithmetic type
 		 * @param func Function
 		 * @param a First secant's point
 		 * @param b Second secant's point
@@ -23,6 +25,8 @@ namespace Solver {
 		 */
 		template<class T>
 		T CalcSecants(const std::function<T(T)>& func, T a, T b, T eps) {
+			static_assert(std::is_arithmetic<T>::value, "T must be arithmetic type");
+
 			eps = std::abs(eps);
 			auto a_val = func(a);
 			auto b_val = func(b);
@@ -55,6 +59,7 @@ namespace Solver {
 
 		/**
 		 * @brief Solve equation func(x) = 0 by tangents method
+		 * @tparam T Arithmetic type
 		 * @param func Function
 		 * @param a Initial point
 		 * @param b Second point (b - a) = tangent accurace
@@ -67,6 +72,8 @@ namespace Solver {
 		 */
 		template<class T>
 		T CalcTangents(const std::function<T(T)>& func, T a, T b, T eps) {
+			static_assert(std::is_arithmetic<T>::value, "T must be arithmetic type");
+
 			double dx = b - a;
 			auto df = [&func, &eps, &dx](double x) {
 				return (func(x + dx) - func(x)) / dx;
