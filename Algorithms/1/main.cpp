@@ -4,11 +4,29 @@
 #include "Integral.hpp"
 #include "Equations.hpp"
 
+/**
+ * @brief Source math function
+ * @tparam T Math function type
+ * @param x First math argument
+ * @param y Second math argument
+ * @return Math function result
+ */
 template<class T = double>
 T F(T x, T y) {
 	return std::exp(x * x * x - y) - (x * x * x - y) * (x * x * x - y) + 2 * (x * x * x - y) - 2;
 }
 
+/**
+ * @brief Calculates integral of implicitly given math function
+ * @tparam T Math function type
+ * @param func Math function
+ * @param integral_func Function for calculating simple math function integral (like y(x))
+ * @param equation_func Function for calculating simple math function root (like y(x) = 0)
+ * @param left Left integral border (by X)
+ * @param right Right integral border (by X)
+ * @param eps Accuracy
+ * @return Integral from left to right
+ */
 template<class T>
 T CalcIntegral(
 	const std::function<T(T, T)>& func,

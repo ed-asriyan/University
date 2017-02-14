@@ -22,6 +22,9 @@ namespace Solver {
 		 * @param b Second secant's point
 		 * @param eps Accuracy
 		 * @return Root
+		 *
+		 * Secants method.
+		 * https://en.wikipedia.org/wiki/Secant_method
 		 */
 		template<class T>
 		T CalcSecants(const std::function<T(T)>& func, T a, T b, T eps) {
@@ -62,12 +65,11 @@ namespace Solver {
 		 * @tparam T Arithmetic type
 		 * @param func Function
 		 * @param a Initial point
-		 * @param b Second point (b - a) = tangent accurace
+		 * @param b Second point (b - a) = tangent accuracy
 		 * @param eps X accuracy
 		 * @return Root
 		 *
 		 * Tangents method.
-		 *
 		 * https://en.wikipedia.org/wiki/Newton's_method
 		 */
 		template<class T>

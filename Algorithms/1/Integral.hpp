@@ -19,6 +19,9 @@ namespace Solver {
 		 * @param right_border Right integral border
 		 * @param interval Trapezium width
 		 * @return Integral from left_border to right_border
+		 *
+		 * Trapezium method.
+		 * https://en.wikipedia.org/wiki/Trapezoidal_rule
 		 */
 		template<class T>
 		T CalcTrapezium(
@@ -62,6 +65,7 @@ namespace Solver {
 		 * @param interval Interval length
 		 * @return Integral from left_border to right_border
 		 *
+		 * Simpson method.
 		 * https://en.wikipedia.org/wiki/Simpson's_rule
 		 */
 		template<class T>
