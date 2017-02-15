@@ -32,9 +32,9 @@ T CalcIntegral(
 	const std::function<T(T, T)>& func,
 	const std::function<T(const std::function<T(T)>&, T, T, T)>& integral_func,
 	const std::function<T(const std::function<T(T)>&, T, T, T)>& equation_func,
-	double left,
-	double right,
-	double eps
+	T left,
+	T right,
+	T eps
 ) {
 	auto y = [&func, &equation_func, left, right, eps](T x) {
 		auto section = [&func, &equation_func, x, left, right, eps](T yy) {
