@@ -1,0 +1,5 @@
+Loma    5 8 5
+Borya   4 6 8
+Silasha 3 6 9
+Zaga    5 6 7
+
