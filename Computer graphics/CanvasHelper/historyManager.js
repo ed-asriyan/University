@@ -13,12 +13,12 @@ class HistoryManager {
     capture(obj) {
         this._history.length = this._position;
         this._history.push(obj);
-        ++this._position;
+        this._position = this._history.length;
     }
 
     undo() {
-        if (this._position > 0) {
-            return this._history[--this._position];
+        if (this._position > 1) {
+            return this._history[--this._position - 1];
         } else {
             return null;
         }
@@ -26,7 +26,7 @@ class HistoryManager {
 
     redo() {
         if (this._position < this._history.length) {
-            return this._history[++this._position];
+            return this._history[this._position++];
         } else {
             return null;
         }
