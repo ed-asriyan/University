@@ -10,6 +10,7 @@ class CanvasManager {
         }
 
         this._canvas = canvas;
+        this._historyManager = new HistoryManager();
 
         this._mousePositionLabal = document.createElement('label');
         this._mousePositionLabelVisibility = options.mousePositionLabelVisibility;
@@ -23,10 +24,8 @@ class CanvasManager {
         this._gridColor = options.gridColor || 'gray';
         this._gridOpacity = options.gridOpacity || 1;
 
-        this._operationHistory = [];
-        this._operationNumber = 0;
-
         this._drawGrid();
+        this.captureSource();
     }
 
     get mousePositionLabelVisibility() {
@@ -49,6 +48,26 @@ class CanvasManager {
         return this._gridOpacity;
     }
 
+    captureSource() {
+        this._historyManager.capture(this._canvas.toDataURL());
+    }
+
+    undoSource() {
+        let src = this._historyManager.undo();
+        if (src) {
+            this._applySource(src);
+        }
+        return src;
+    }
+
+    redoSource() {
+        let src = this._historyManager.redo();
+        if (src) {
+            this._applySource(src);
+        }
+        return src;
+    }
+
     getMousePosition(event) {
         if (event) {
             let rect = this._canvas.getBoundingClientRect();
@@ -61,12 +80,17 @@ class CanvasManager {
         }
     }
 
-    captureInHistory() {
-        this._operationHistory.push(this._canvas.toDataURL());
-        ++this._operationNumber;
+
+
+    _applySource(src) {
+        if (src) {
+            let ctx = this._canvas.getContext('2d');
+            let img = new Image();
+            img.src = src;
+            ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+            ctx.drawImage(img, 0, 0);
+        }
     }
-
-
 
     _updateMousePositionLabel(event) {
         if (!this._mousePositionLabelVisibility) {
