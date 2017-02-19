@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <title>Lab 1</title>
 
-    <script src="../CanvasHelper/canvas.js" defer></script>
+    <script src="../CanvasHelper/historyManager.js" defer></script>
     <script src="../CanvasHelper/canvasManager.js" defer></script>
     <script src="index.js" defer></script>
 </head>
-<body>
-<canvas id="mainCanvas"></canvas>
+<body id="body">
+<canvas id="mainCanvas"
+        height="500" width="1000"></canvas>
+<div>
+    <button onclick="(canvasManager.undoSource.bind(canvasManager))()">Undo</button>
+    <button onclick="(canvasManager.redoSource.bind(canvasManager))()">Redo</button>
+</div>
 </body>
 </html>
