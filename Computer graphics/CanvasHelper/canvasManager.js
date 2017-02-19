@@ -23,6 +23,9 @@ class CanvasManager {
         this._gridColor = options.gridColor || 'gray';
         this._gridOpacity = options.gridOpacity || 1;
 
+        this._operationHistory = [];
+        this._operationNumber = 0;
+
         this._drawGrid();
     }
 
@@ -57,6 +60,13 @@ class CanvasManager {
             return undefined;
         }
     }
+
+    captureInHistory() {
+        this._operationHistory.push(this._canvas.toDataURL());
+        ++this._operationNumber;
+    }
+
+
 
     _updateMousePositionLabel(event) {
         if (!this._mousePositionLabelVisibility) {
