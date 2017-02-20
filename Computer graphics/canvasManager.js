@@ -68,7 +68,7 @@ class CanvasManager {
         return src;
     }
 
-    resetSource(){
+    resetSource() {
         let src = this._historyManager.reset();
         if (src) {
             this.putImageData(src);
@@ -76,7 +76,7 @@ class CanvasManager {
         return src;
     }
 
-    clearSource(){
+    clearSource() {
         let src = this._historyManager.clear();
         if (src) {
             this.putImageData(src);

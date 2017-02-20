@@ -23,8 +23,8 @@
 
     <link href="../global.css" rel="stylesheet">
 
-    <script src="../CanvasHelper/historyManager.js" defer></script>
-    <script src="../CanvasHelper/canvasManager.js" defer></script>
+    <script src="../historyManager.js" defer></script>
+    <script src="../canvasManager.js" defer></script>
     <script src="index.js" defer></script>
 </head>
 <body id="body">
@@ -40,24 +40,28 @@
                             type="button"
                             onclick="(canvasManager.undoSource.bind(canvasManager))()">
                         <i class="glyphicon glyphicon-circle-arrow-left"></i>
+                        <div class="navigation-label">Undo</div>
                     </button>
                 </div>
                 <div class="col-xs-3">
                     <button class="navigation-control btn btn-link btn-lg btn-block"
                             onclick="(canvasManager.redoSource.bind(canvasManager))()">
-                        <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                        <i class="navigation-control glyphicon glyphicon-circle-arrow-right"></i>
+                        <div class="navigation-label">Redo</div>
                     </button>
                 </div>
                 <div class="col-xs-3">
                     <button class="navigation-control btn btn-link btn-lg btn-block"
                             onclick="(canvasManager.clearSource.bind(canvasManager))()">
                         <i class="glyphicon glyphicon-trash"></i>
+                        <div class="navigation-label">Clear</div>
                     </button>
                 </div>
                 <div class="col-xs-3">
                     <button class="navigation-control btn btn-link btn-lg btn-block"
                             onclick="(canvasManager.resetSource.bind(canvasManager))()">
                         <i class="glyphicon glyphicon-repeat"></i>
+                        <div class="navigation-label">Reset</div>
                     </button>
                 </div>
             </div>
