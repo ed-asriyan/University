@@ -5,30 +5,28 @@
  */
 
 class HistoryManager {
-    constructor() {
-        this._history = [];
+    constructor(initial) {
+        this._history = [initial];
         this._position = 0;
     }
 
     capture(obj) {
-        this._history.length = this._position;
-        this._history.push(obj);
-        this._position = this._history.length;
+        this._history[this._history.length = ++this._position] = obj;
     }
 
     undo() {
-        if (this._position > 1) {
-            return this._history[--this._position - 1];
-        } else {
-            return null;
+        if (this._position > 0) {
+            return this._history[--this._position];
         }
     }
 
     redo() {
-        if (this._position < this._history.length) {
-            return this._history[this._position++];
-        } else {
-            return null;
+        if (this._position + 1 < this._history.length) {
+            return this._history[++this._position];
         }
+    }
+
+    reset() {
+        return this._history[this._history.length = 0];
     }
 }
