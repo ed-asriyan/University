@@ -11,7 +11,7 @@ class HistoryManager {
     }
 
     capture(obj) {
-        this._history[this._history.length = ++this._position] = obj;
+        return this._history[this._history.length = ++this._position] = obj;
     }
 
     undo() {
@@ -27,6 +27,11 @@ class HistoryManager {
     }
 
     reset() {
-        return this._history[this._history.length = 0];
+        this._history.length = 1;
+        return this._history[this._position = 0];
+    }
+
+    clear() {
+        return this.capture(this._history[0]);
     }
 }

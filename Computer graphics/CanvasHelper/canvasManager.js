@@ -68,6 +68,22 @@ class CanvasManager {
         return src;
     }
 
+    resetSource(){
+        let src = this._historyManager.reset();
+        if (src) {
+            this.putImageData(src);
+        }
+        return src;
+    }
+
+    clearSource(){
+        let src = this._historyManager.clear();
+        if (src) {
+            this.putImageData(src);
+        }
+        return src;
+    }
+
     getMousePosition(event) {
         if (event) {
             let rect = this._canvas.getBoundingClientRect();
