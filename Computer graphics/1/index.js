@@ -6,6 +6,7 @@
 
 const body = document.getElementById('body');
 const mainCanvas = document.getElementById('mainCanvas');
+const mousePositionLabel = document.getElementById('mousePosition');
 
 mainCanvas.width = mainCanvas.parentNode.clientWidth;
 mainCanvas.height = mainCanvas.parentNode.clientHeight;
@@ -25,4 +26,16 @@ mainCanvas.addEventListener('click', function (e) {
         color: 'red'
     });
     canvasManager.captureSource();
+});
+
+mainCanvas.addEventListener('mousemove', function (e) {
+    let mousePosition = canvasManager.getMousePosition(e);
+
+    mousePositionLabel.innerHTML = `Mouse position: ${mousePosition.x}, ${mousePosition.y}`;
+    mousePositionLabel.style.visibility = 'visible';
+});
+
+mainCanvas.addEventListener('mouseleave', function (e) {
+    mousePositionLabel.style.visibility = 'hidden';
+
 });
