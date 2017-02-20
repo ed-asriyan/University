@@ -7,8 +7,8 @@
 const body = document.getElementById('body');
 const mainCanvas = document.getElementById('mainCanvas');
 
-mainCanvas.width = body.clientWidth;
-mainCanvas.height = body.clientHeight;
+mainCanvas.width = mainCanvas.parentNode.clientWidth;
+mainCanvas.height = mainCanvas.parentNode.clientHeight;
 
 const historyManager = new HistoryManager();
 
