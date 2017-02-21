@@ -13,9 +13,11 @@ const pointsNumber = document.getElementById('pointsNumber');
 mainCanvas.height = mainCanvas.parentNode.clientHeight;
 mainCanvas.width = mainCanvas.parentNode.clientWidth;
 
-const canvasManager = new CanvasManager(mainCanvas, {
-    gridColor: 'gray',
+const canvasManager = new CanvasManager(mainCanvas);
+canvasManager.drawGrid({
     gridStep: 20,
+    gridColor: 'gray',
+    gridBorder: true,
 });
 
 const getCurrentHistoryState = function () {
@@ -82,5 +84,4 @@ mainCanvas.addEventListener('mousemove', function (e) {
 
 mainCanvas.addEventListener('mouseleave', function (e) {
     mousePositionLabel.style.visibility = 'hidden';
-
 });

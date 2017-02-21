@@ -10,29 +10,6 @@ class CanvasManager {
         }
 
         this._canvas = canvas;
-
-        this._gridVisibility = options.gridVisibility || true;
-        this._gridStep = options.gridStep || 10;
-        this._gridColor = options.gridColor || 'gray';
-        this._gridOpacity = options.gridOpacity || 1;
-
-        this._drawGrid();
-    }
-
-    get gridVisibility() {
-        return this._gridVisibility;
-    }
-
-    get gridStep() {
-        return this._gridStep;
-    }
-
-    get gridColor() {
-        return this._gridColor;
-    }
-
-    get gridOpacity() {
-        return this._gridOpacity;
     }
 
     getMousePosition(event) {
@@ -95,30 +72,38 @@ class CanvasManager {
         }
     }
 
-    _drawGrid() {
-        if (!this._gridVisibility) {
-            return;
+    drawGrid(options) {
+        if (!options) {
+            options = {};
         }
+
+        let gridXStep = options.gridXStep || options.gridYStep || options.gridStep || 10;
+        let gridYStep = options.gridYStep || options.gridXStep || options.gridStep || 10;
+        let gridColor = options.gridColor || 'gray';
+        let gridOpacity = options.gridOpacity || 1;
+        let gridBorder = options.gridBorder || (options.gridBorder == undefined);
 
         let context = this._canvas.getContext("2d");
         context.beginPath();
-        for (let x = 0.5; x <= this._canvas.width; x += this._gridStep) {
+        for (let x = 0.5; x <= this._canvas.width; x += gridXStep) {
             context.moveTo(x, 0);
             context.lineTo(x, this._canvas.height);
         }
 
-        for (let y = 0.5; y <= this._canvas.height; y += this._gridStep) {
+        for (let y = 0.5; y <= this._canvas.height; y += gridYStep) {
             context.moveTo(0, y);
             context.lineTo(this._canvas.width, y);
         }
 
-        context.moveTo(this._canvas.width - 0.5, 0.5);
-        context.lineTo(this._canvas.width - 0.5, this._canvas.height - 0.5);
-        context.moveTo(0.5, this._canvas.height - 0.5);
-        context.lineTo(this._canvas.width - 0.5, this._canvas.height - 0.5);
+        if (gridBorder) {
+            context.moveTo(this._canvas.width - 0.5, 0.5);
+            context.lineTo(this._canvas.width - 0.5, this._canvas.height - 0.5);
+            context.moveTo(0.5, this._canvas.height - 0.5);
+            context.lineTo(this._canvas.width - 0.5, this._canvas.height - 0.5);
+        }
 
-        context.strokeStyle = this._gridColor;
-        context.strokeOpacity = this._gridOpacity;
+        context.strokeStyle = gridColor;
+        context.strokeOpacity = gridOpacity;
         context.stroke();
 
         context.closePath();
