@@ -17,8 +17,6 @@ class CanvasManager {
         this._gridOpacity = options.gridOpacity || 1;
 
         this._drawGrid();
-
-        this._historyManager = new HistoryManager(this.getImageData());
     }
 
     get gridVisibility() {
@@ -35,42 +33,6 @@ class CanvasManager {
 
     get gridOpacity() {
         return this._gridOpacity;
-    }
-
-    captureSource() {
-        this._historyManager.capture(this.getImageData());
-    }
-
-    undoSource() {
-        let src = this._historyManager.undo();
-        if (src) {
-            this.putImageData(src);
-        }
-        return src;
-    }
-
-    redoSource() {
-        let src = this._historyManager.redo();
-        if (src) {
-            this.putImageData(src);
-        }
-        return src;
-    }
-
-    resetSource() {
-        let src = this._historyManager.reset();
-        if (src) {
-            this.putImageData(src);
-        }
-        return src;
-    }
-
-    clearSource() {
-        let src = this._historyManager.clear();
-        if (src) {
-            this.putImageData(src);
-        }
-        return src;
     }
 
     getMousePosition(event) {
