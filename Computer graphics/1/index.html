@@ -43,32 +43,55 @@
                 <div class="col-xs-3">
                     <button class="navigation-control btn btn-link btn-lg btn-block"
                             type="button"
-                            onclick="(canvasManager.undoSource.bind(canvasManager))()">
+                            onclick="undoPoint()">
                         <i class="glyphicon glyphicon-circle-arrow-left"></i>
                         <div class="navigation-label">Undo</div>
                     </button>
                 </div>
                 <div class="col-xs-3">
                     <button class="navigation-control btn btn-link btn-lg btn-block"
-                            onclick="(canvasManager.redoSource.bind(canvasManager))()">
+                            onclick="redoPoint()">
                         <i class="navigation-control glyphicon glyphicon-circle-arrow-right"></i>
                         <div class="navigation-label">Redo</div>
                     </button>
                 </div>
                 <div class="col-xs-3">
                     <button class="navigation-control btn btn-link btn-lg btn-block"
-                            onclick="(canvasManager.clearSource.bind(canvasManager))()">
+                            onclick="clearPoint()">
                         <i class="glyphicon glyphicon-trash"></i>
                         <div class="navigation-label">Clear</div>
                     </button>
                 </div>
                 <div class="col-xs-3">
                     <button class="navigation-control btn btn-link btn-lg btn-block"
-                            onclick="(canvasManager.resetSource.bind(canvasManager))()">
+                            onclick="resetPoint()">
                         <i class="glyphicon glyphicon-repeat"></i>
                         <div class="navigation-label">Reset</div>
                     </button>
                 </div>
+            </div>
+            <div>
+                <h2 align="center">Points</h2>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>X</th>
+                        <th>Y</th>
+                    </tr>
+                    </thead>
+                    <tbody id="pointsList"></tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3" align="center">
+                            <label></label>
+                            <label id="pointsNumber">0</label>
+                            <label>points</label>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+
             </div>
         </div>
     </div>

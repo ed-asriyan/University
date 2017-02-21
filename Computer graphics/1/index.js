@@ -7,25 +7,70 @@
 const body = document.getElementById('body');
 const mainCanvas = document.getElementById('mainCanvas');
 const mousePositionLabel = document.getElementById('mousePosition');
+const pointList = document.getElementById('pointsList');
+const pointsNumber = document.getElementById('pointsNumber');
 
-mainCanvas.width = mainCanvas.parentNode.clientWidth;
 mainCanvas.height = mainCanvas.parentNode.clientHeight;
-
-const historyManager = new HistoryManager();
+mainCanvas.width = mainCanvas.parentNode.clientWidth;
 
 const canvasManager = new CanvasManager(mainCanvas, {
-    mousePositionLabelVisibility: true,
     gridColor: 'gray',
     gridStep: 20,
 });
 
-mainCanvas.addEventListener('click', function (e) {
-    let pos = canvasManager.getMousePosition(e);
-    canvasManager.drawPoint(pos.x, pos.y, {
+const getCurrentHistoryState = function () {
+    return {
+        points: pointList.innerHTML,
+        pointsNumber: pointsNumber.innerHTML,
+        canvas: canvasManager.getImageData(),
+    }
+};
+
+const setCurrentHistoryState = function (state) {
+    if (state) {
+        pointList.innerHTML = state.points;
+        pointsNumber.innerHTML = state.pointsNumber;
+        canvasManager.putImageData(state.canvas);
+    }
+};
+
+const historyManager = new HistoryManager(getCurrentHistoryState());
+
+const addPoint = function (x, y) {
+    canvasManager.drawPoint(x, y, {
         width: 5,
         color: 'red'
     });
-    canvasManager.captureSource();
+
+    let pointRow = document.createElement('tr');
+    pointRow.className = '';
+    pointRow.innerHTML = `<td>${pointList.childNodes.length + 1}</td><td>${x}</td><td>${y}</td>`;
+
+    pointList.appendChild(pointRow);
+    pointsNumber.innerHTML = pointList.childNodes.length - 1;
+
+    historyManager.capture(getCurrentHistoryState());
+};
+
+const undoPoint = function () {
+    setCurrentHistoryState(historyManager.undo());
+};
+
+const redoPoint = function () {
+    setCurrentHistoryState(historyManager.redo());
+};
+
+const resetPoint = function () {
+    setCurrentHistoryState(historyManager.reset());
+};
+
+const clearPoint = function () {
+    setCurrentHistoryState(historyManager.clear());
+};
+
+mainCanvas.addEventListener('click', function (e) {
+    let pos = canvasManager.getMousePosition(e);
+    addPoint(pos.x, pos.y);
 });
 
 mainCanvas.addEventListener('mousemove', function (e) {
