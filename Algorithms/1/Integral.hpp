@@ -32,28 +32,16 @@ namespace Solver {
 		) {
 			static_assert(std::is_arithmetic<T>::value, "T must be arithmetic type");
 
-			T result = static_cast<T>(0);
-			T a = left_border;
-			T b = a + interval;
+			const T length = right_border - left_border;
+			interval = length / (length / interval);
 
-			T a_val = func(a);
-			T b_val = func(b);
-			while (b < right_border) {
-				result += (a_val + b_val) * interval;
+			T result = func(left_border) + func(right_border) / 2;
 
-				a = b;
-				b += interval;
-				a_val = b_val;
-				b_val = func(b);
+			for (auto i = left_border; i < right_border; i += interval) {
+				result += func(i);
 			}
-			if (b != right_border) {
-				b = right_border;
-				b_val = func(b);
-			}
-			result += (a_val + b_val) * (b - a);
-			result /= 2;
 
-			return result;
+			return result * interval;
 		}
 
 		/**
