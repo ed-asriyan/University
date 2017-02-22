@@ -49,7 +49,7 @@ const addPoint = function (x, y) {
     pointRow.innerHTML = `<td>${pointList.childNodes.length + 1}</td><td>${x}</td><td>${y}</td>`;
 
     pointList.appendChild(pointRow);
-    pointsNumber.innerHTML = pointList.childNodes.length - 1;
+    pointsNumber.innerHTML = pointList.childNodes.length;
 
     historyManager.capture(getCurrentHistoryState());
 };
