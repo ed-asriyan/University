@@ -35,7 +35,7 @@ const updatePointsList = function () {
         pointsTable.appendChild(row);
     });
 
-    document.getElementById('pointsNumber').innerHTML = pointList.childNodes.length;
+    document.getElementById('pointsNumber').innerHTML = canvasManager.points.length
 };
 
 const historyManager = new HistoryManager(canvasManager.points);
