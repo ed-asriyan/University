@@ -64,7 +64,7 @@ const reset = function () {
     reDraw();
 };
 
-const clear = function () {
+const clean = function () {
     canvasManager.points = historyManager.clear();
     reDraw();
 };
