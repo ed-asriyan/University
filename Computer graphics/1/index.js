@@ -32,6 +32,17 @@ const updatePointsList = function () {
             capture();
             reDraw();
         };
+        row.addEventListener('mouseover', function () {
+            canvasManager.points[index].color = 'red';
+            canvasManager.points[index].radius = 4;
+            reDraw();
+        });
+
+        row.addEventListener('mouseout', function () {
+            canvasManager.points[index].color = 'black';
+            canvasManager.points[index].radius = 2.5;
+            reDraw();
+        });
         pointsTable.appendChild(row);
     });
 
@@ -39,6 +50,19 @@ const updatePointsList = function () {
 };
 
 const historyManager = new HistoryManager(canvasManager.points);
+
+const add = function () {
+    let pointsInput = document.getElementById('pointsInput');
+    let pos = pointsInput.value.split(',');
+    let x = parseInt(pos[0]);
+    let y = parseInt(pos[1]);
+    if (x && y) {
+        canvasManager.addPoint(x, y);
+        capture();
+        reDraw();
+        pointsInput.value = '';
+    }
+};
 
 const reDraw = function () {
     canvasManager.reDraw();

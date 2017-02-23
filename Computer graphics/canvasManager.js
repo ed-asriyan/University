@@ -24,7 +24,8 @@ class CanvasManager {
         this._pointOptions = options.pointOptions ||
             {
                 color: 'black',
-                radius: 2.5
+                radius: 2.5,
+
             };
 
         this._drawGrid();
@@ -82,7 +83,8 @@ class CanvasManager {
         this._points.push({
             x: x,
             y: y,
-            color: color || 'black'
+            color: color || 'black',
+            radius: 2.5
         });
     }
 
@@ -140,7 +142,7 @@ class CanvasManager {
 
             context.beginPath();
             context.fillStyle = context.strokeStyle = point.color;
-            context.arc(point.x, point.y, this._pointOptions.radius, 0, 2 * Math.PI);
+            context.arc(point.x, point.y, point.radius, 0, 2 * Math.PI);
             context.fill();
             context.closePath();
         }
