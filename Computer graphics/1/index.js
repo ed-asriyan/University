@@ -12,17 +12,6 @@ mainCanvas.width = mainCanvas.parentNode.clientWidth;
 
 const canvasManager = new CanvasManager(mainCanvas);
 
-const getCurrentHistoryState = function () {
-    return canvasManager.points.slice();
-};
-
-const setCurrentHistoryState = function (state) {
-    if (state) {
-        canvasManager.points = state;
-    }
-    reDraw();
-};
-
 const updatePointsList = function () {
     let pointsTable = document.getElementById('pointsList');
 
@@ -49,7 +38,7 @@ const updatePointsList = function () {
     document.getElementById('pointsNumber').innerHTML = pointList.childNodes.length;
 };
 
-const historyManager = new HistoryManager(getCurrentHistoryState());
+const historyManager = new HistoryManager(canvasManager.points);
 
 const reDraw = function () {
     canvasManager.reDraw();
@@ -57,26 +46,26 @@ const reDraw = function () {
 };
 
 const capture = function () {
-    historyManager.capture(canvasManager.points.slice());
+    historyManager.capture(canvasManager.points);
 };
 
 const undo = function () {
-    canvasManager.points = historyManager.undo() || canvasManager.points;
+    canvasManager.points = historyManager.undo();
     reDraw();
 };
 
 const redo = function () {
-    canvasManager.points = historyManager.redo() || canvasManager.points;
+    canvasManager.points = historyManager.redo();
     reDraw();
 };
 
 const reset = function () {
-    canvasManager.points = historyManager.reset() || canvasManager.points;
+    canvasManager.points = historyManager.reset();
     reDraw();
 };
 
 const clear = function () {
-    canvasManager.points = historyManager.clear() || canvasManager.points;
+    canvasManager.points = historyManager.clear();
     reDraw();
 };
 

@@ -35,7 +35,9 @@ class CanvasManager {
     }
 
     set points(value) {
-        this._points = value;
+        if (value) {
+            this._points = value.slice();
+        }
     }
 
     get pointOptions() {
