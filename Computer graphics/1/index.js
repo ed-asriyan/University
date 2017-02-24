@@ -59,8 +59,7 @@ const updatePointsList = function () {
             canvasManager.reDraw();
         });
         row.addEventListener('mouseout', function () {
-            this.point.radius = 2.5;
-            this.point.color = 'black';
+            canvasManager.points = historyManager.last();
             reDraw();
         });
         removeCol.appendChild(removeBtn);
@@ -80,7 +79,7 @@ const add = function () {
     let x = parseInt(pos[0]);
     let y = parseInt(pos[1]);
     if (x && y) {
-        canvasManager.addPoint(x, y);
+        canvasManager.addPoint(x, y, 'black');
         capture();
         reDraw();
         pointsInput.value = '';
