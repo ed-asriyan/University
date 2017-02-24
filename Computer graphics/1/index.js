@@ -5,7 +5,7 @@
  */
 
 const calcOrthocenter = function (p1, p2, p3) {
-    let res;
+    let res = '';
 
     var a = p2.y - p1.y;
     var a1 = p2.x - p1.x;
@@ -45,8 +45,7 @@ const calcOrthocenter = function (p1, p2, p3) {
 
         if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
             res = di1 + "," + y8;
-        }
-        else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
+        } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
             res = di1.toFixed(5) + "," + y8;
         } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
             res = di1 + "," + y8.toFixed(5);
@@ -139,7 +138,7 @@ const updatePointsList = function () {
         // the first column
         let indexCol = document.createElement('td');
         let indexLabel = document.createElement('label');
-        indexLabel.innerHTML = index.valueOf();
+        indexLabel.innerHTML = index.valueOf() + 1;
         indexCol.appendChild(indexLabel);
         row.appendChild(indexCol);
 
@@ -183,6 +182,71 @@ const updatePointsList = function () {
     document.getElementById('pointsNumber').innerHTML = canvasManager.points.length
 };
 
+const updateTrianglesList = function () {
+    let trianglesTable = document.getElementById('trianglesList');
+
+    // remove children
+    while (trianglesTable.firstChild) {
+        trianglesTable.removeChild(trianglesTable.firstChild);
+    }
+
+    let triangles = [];
+    for (let i = 0; i < canvasManager.points.length; ++i) {
+        for (let j = i + 1; j < canvasManager.points.length; ++j) {
+            for (let k = j + 1; k < canvasManager.points.length; ++k) {
+                let a = canvasManager.points[i];
+                let b = canvasManager.points[j];
+                let c = canvasManager.points[k];
+
+                triangles.push([a, b, c]);
+            }
+        }
+    }
+
+    triangles.forEach(function (triangle, index) {
+        let row = document.createElement('tr');
+        row.triangle = triangle;
+
+        // the first column
+        let indexCol = document.createElement('td');
+        let indexLabel = document.createElement('label');
+        indexLabel.innerHTML = index.valueOf() + 1;
+        indexCol.appendChild(indexLabel);
+        row.appendChild(indexCol);
+
+        // the second column
+        let col2 = document.createElement('td');
+        col2.innerHTML = `(${triangle[0].x}, ${triangle[0].y})`;
+        row.appendChild(col2);
+
+        // the third column
+        let col3 = document.createElement('td');
+        col3.innerHTML = `(${triangle[1].x}, ${triangle[1].y})`;
+        row.appendChild(col3);
+
+        // the fourth column
+        let col4 = document.createElement('td');
+        col4.innerHTML = `(${triangle[2].x}, ${triangle[2].y})`;
+        row.appendChild(col4);
+
+        row.addEventListener('mouseover', function () {
+            this.triangle.forEach(function (point) {
+                point.radius = 4;
+                point.color = 'red';
+            });
+            canvasManager.reDraw();
+        });
+        row.addEventListener('mouseout', function () {
+            canvasManager.points = historyManager.last();
+            reDraw();
+        });
+
+        trianglesTable.appendChild(row);
+    });
+
+    document.getElementById('trianglesNumber').innerHTML = triangles.length;
+};
+
 const historyManager = new HistoryManager(canvasManager.points);
 
 const add = function () {
@@ -201,6 +265,7 @@ const add = function () {
 const reDraw = function () {
     canvasManager.reDraw();
     updatePointsList();
+    updateTrianglesList();
 };
 
 const capture = function () {
