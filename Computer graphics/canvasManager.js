@@ -38,8 +38,8 @@ class CanvasManager {
         if (event) {
             let rect = this._canvas.getBoundingClientRect();
             return {
-                x: event.clientX - rect.left,
-                y: event.clientY - rect.top
+                x: Math.round(event.clientX - rect.left),
+                y: Math.round(event.clientY - rect.top)
             };
         } else {
             return undefined;
