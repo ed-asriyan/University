@@ -22,27 +22,50 @@ const updatePointsList = function () {
 
     canvasManager.points.forEach(function (point, index) {
         let row = document.createElement('tr');
-        let x = point.x.valueOf();
-        let y = point.y.valueOf();
-        index = index.valueOf();
+        row.point = point;
 
-        row.innerHTML = `<td>${index + 1}</td><td>${x}</td><td>${y}</td>`;
-        row.onclick = function () {
-            canvasManager.points.splice(index, 1);
+        // the first column
+        let indexCol = document.createElement('td');
+        let indexLabel = document.createElement('label');
+        indexLabel.innerHTML = index.valueOf();
+        indexCol.appendChild(indexLabel);
+        row.appendChild(indexCol);
+
+        // the second column
+        let xCol = document.createElement('td');
+        xCol.innerHTML = point.x.valueOf();
+        row.appendChild(xCol);
+
+        // the third column
+        let yCol = document.createElement('td');
+        yCol.innerHTML = point.y.valueOf();
+        row.appendChild(yCol);
+
+        // remove button
+        let removeCol = document.createElement('td');
+        let removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'btn btn-danger';
+        removeBtn.innerHTML = 'Remove';
+        removeBtn.addEventListener('click', function () {
+            // remove point from canvasManager
+            canvasManager.points.splice(canvasManager.points.indexOf(this.parentNode.parentNode.point), 1);
             capture();
-            reDraw();
-        };
+            canvasManager.reDraw();
+        });
         row.addEventListener('mouseover', function () {
-            canvasManager.points[index].color = 'red';
-            canvasManager.points[index].radius = 4;
-            reDraw();
+            this.point.radius = 4;
+            this.point.color = 'red';
+            canvasManager.reDraw();
         });
-
         row.addEventListener('mouseout', function () {
-            canvasManager.points[index].color = 'black';
-            canvasManager.points[index].radius = 2.5;
+            this.point.radius = 2.5;
+            this.point.color = 'black';
             reDraw();
         });
+        removeCol.appendChild(removeBtn);
+        row.appendChild(removeCol);
+
         pointsTable.appendChild(row);
     });
 

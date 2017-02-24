@@ -21,13 +21,6 @@ class CanvasManager {
                 visible: true,
             };
 
-        this._pointOptions = options.pointOptions ||
-            {
-                color: 'black',
-                radius: 2.5,
-
-            };
-
         this._drawGrid();
     }
 
@@ -39,14 +32,6 @@ class CanvasManager {
         if (value) {
             this._points = value.slice();
         }
-    }
-
-    get pointOptions() {
-        return this._pointOptions;
-    }
-
-    set pointOptions(value) {
-        this._pointOptions = value;
     }
 
     getMousePosition(event) {
@@ -135,16 +120,14 @@ class CanvasManager {
         this._drawGrid();
 
         context = this._canvas.getContext("2d");
-        for (let p in this._points) {
-            let point = this._points[p];
-
-            if (!point.x || !point.y) continue;
-
-            context.beginPath();
-            context.fillStyle = context.strokeStyle = point.color;
-            context.arc(point.x, point.y, point.radius, 0, 2 * Math.PI);
-            context.fill();
-            context.closePath();
-        }
+        this._points.forEach(function (point) {
+            if (point.x && point.y) {
+                context.beginPath();
+                context.fillStyle = context.strokeStyle = point.color;
+                context.arc(point.x, point.y, point.radius, 0, 2 * Math.PI);
+                context.fill();
+                context.closePath();
+            }
+        });
     }
 }
