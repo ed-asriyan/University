@@ -4,6 +4,118 @@
  * Created by ed on 19.02.17.
  */
 
+const calcOrthocenter = function (p1, p2, p3) {
+    let res;
+
+    var a = p2.y - p1.y;
+    var a1 = p2.x - p1.x;
+
+    if (a != 0 && a1 != 0) {
+        var ab = a / a1;
+        var ab1 = -1 / ab;
+        var ab2 = (p3.y) - (ab1 * p3.x);
+    }
+
+    var b = p3.y - p2.y;
+    var b1 = p3.x - p2.x;
+
+    if (b != 0 && b1 != 0) {
+        var bc = b / b1;
+        var bc1 = -1 / bc;
+        var bc2 = (p1.y) - (bc1 * p1.x);
+    }
+
+    var c = p3.y - p1.y;
+    var c1 = p3.x - p1.x;
+
+    if (c != 0 && c1 != 0) {
+        var ca = c / c1;
+        var ca1 = -1 / ca;
+        var ca2 = (p2.y) - (ca1 * p2.x);
+    }
+
+    if (a != 0 && a1 != 0 && b != 0 && b1 != 0 && c != 0 && c1 != 0) {
+        var con = -bc1;
+        var con1 = -bc2;
+        var ad = con + ab1;
+        var ad1 = ab2 + con1;
+        var di = ad1 / ad;
+        var di1 = -di;
+        var y8 = (bc1 * di1) + bc2;
+
+        if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
+            res = di1 + "," + y8;
+        }
+        else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
+            res = di1.toFixed(5) + "," + y8;
+        } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
+            res = di1 + "," + y8.toFixed(5);
+        } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
+            res = di1.toFixed(5) + "," + y8.toFixed(5);
+        }
+    } else if (a != 0 && a1 != 0 && b != 0 && b1 != 0) {
+        var con = -bc1;
+        var con1 = -bc2;
+        var ad = con + ab1;
+        var ad1 = ab2 + con1;
+        var di = ad1 / ad;
+        var di1 = -di;
+        var y8 = (bc1 * di1) + bc2;
+
+        if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
+            res = di1 + "," + y8;
+        } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
+            res = di1.toFixed(5) + "," + y8;
+        } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
+            res = di1 + "," + y8.toFixed(5);
+        } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
+            res = di1.toFixed(5) + "," + y8.toFixed(5);
+        }
+    } else if (b != 0 && b1 != 0 && c != 0 && c1 != 0) {
+        var con2 = -ca1;
+        var con3 = -ca2;
+        var ad2 = con2 + bc1;
+        var ad3 = bc2 + con3;
+        var di = ad3 / ad2;
+        var di1 = -di;
+        var y8 = (ca1 * di1) + ca2;
+
+        if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
+            res = di1 + "," + y8;
+        } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
+            res = di1.toFixed(5) + "," + y8;
+        } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
+            res = di1 + "," + y8.toFixed(5);
+        } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
+            res = di1.toFixed(5) + "," + y8.toFixed(5);
+        }
+    } else if (a != 0 && a1 != 0 && c != 0 && c1 != 0) {
+        var con2 = -ab1;
+        var con3 = -ab2;
+        var ad2 = con2 + ca1;
+        var ad3 = ca2 + con3;
+        var di = ad3 / ad2;
+        var di1 = -di;
+        var y8 = (ab1 * di1) + ab2;
+
+        if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
+            res = di1 + "," + y8;
+        } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
+            res = di1.toFixed(5) + "," + y8;
+        } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
+            res = di1 + "," + y8.toFixed(5);
+        } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
+            res = di1.toFixed(5) + "," + y8.toFixed(5);
+        }
+    }
+
+    res = res.split(',');
+    return {
+        x: parseFloat(res[0]),
+        y: parseFloat(res[1])
+    };
+};
+
 const mainCanvas = document.getElementById('mainCanvas');
 const mousePositionLabel = document.getElementById('mousePosition');
 
