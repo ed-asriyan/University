@@ -4,122 +4,15 @@
  * Created by ed on 19.02.17.
  */
 
-const calcOrthocenter = function (p1, p2, p3) {
-    let res = '';
-
-    var a = p2.y - p1.y;
-    var a1 = p2.x - p1.x;
-
-    if (a != 0 && a1 != 0) {
-        var ab = a / a1;
-        var ab1 = -1 / ab;
-        var ab2 = (p3.y) - (ab1 * p3.x);
-    }
-
-    var b = p3.y - p2.y;
-    var b1 = p3.x - p2.x;
-
-    if (b != 0 && b1 != 0) {
-        var bc = b / b1;
-        var bc1 = -1 / bc;
-        var bc2 = (p1.y) - (bc1 * p1.x);
-    }
-
-    var c = p3.y - p1.y;
-    var c1 = p3.x - p1.x;
-
-    if (c != 0 && c1 != 0) {
-        var ca = c / c1;
-        var ca1 = -1 / ca;
-        var ca2 = (p2.y) - (ca1 * p2.x);
-    }
-
-    if (a != 0 && a1 != 0 && b != 0 && b1 != 0 && c != 0 && c1 != 0) {
-        var con = -bc1;
-        var con1 = -bc2;
-        var ad = con + ab1;
-        var ad1 = ab2 + con1;
-        var di = ad1 / ad;
-        var di1 = -di;
-        var y8 = (bc1 * di1) + bc2;
-
-        if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
-            res = di1 + "," + y8;
-        } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
-            res = di1.toFixed(5) + "," + y8;
-        } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
-            res = di1 + "," + y8.toFixed(5);
-        } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
-            res = di1.toFixed(5) + "," + y8.toFixed(5);
-        }
-    } else if (a != 0 && a1 != 0 && b != 0 && b1 != 0) {
-        var con = -bc1;
-        var con1 = -bc2;
-        var ad = con + ab1;
-        var ad1 = ab2 + con1;
-        var di = ad1 / ad;
-        var di1 = -di;
-        var y8 = (bc1 * di1) + bc2;
-
-        if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
-            res = di1 + "," + y8;
-        } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
-            res = di1.toFixed(5) + "," + y8;
-        } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
-            res = di1 + "," + y8.toFixed(5);
-        } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
-            res = di1.toFixed(5) + "," + y8.toFixed(5);
-        }
-    } else if (b != 0 && b1 != 0 && c != 0 && c1 != 0) {
-        var con2 = -ca1;
-        var con3 = -ca2;
-        var ad2 = con2 + bc1;
-        var ad3 = bc2 + con3;
-        var di = ad3 / ad2;
-        var di1 = -di;
-        var y8 = (ca1 * di1) + ca2;
-
-        if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
-            res = di1 + "," + y8;
-        } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
-            res = di1.toFixed(5) + "," + y8;
-        } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
-            res = di1 + "," + y8.toFixed(5);
-        } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
-            res = di1.toFixed(5) + "," + y8.toFixed(5);
-        }
-    } else if (a != 0 && a1 != 0 && c != 0 && c1 != 0) {
-        var con2 = -ab1;
-        var con3 = -ab2;
-        var ad2 = con2 + ca1;
-        var ad3 = ca2 + con3;
-        var di = ad3 / ad2;
-        var di1 = -di;
-        var y8 = (ab1 * di1) + ab2;
-
-        if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
-            res = di1 + "," + y8;
-        } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
-            res = di1.toFixed(5) + "," + y8;
-        } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
-            res = di1 + "," + y8.toFixed(5);
-        } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
-            res = di1.toFixed(5) + "," + y8.toFixed(5);
-        }
-    }
-
-    res = res.split(',');
-    return {
-        x: parseFloat(res[0]),
-        y: parseFloat(res[1])
-    };
-};
-
 const mainCanvas = document.getElementById('mainCanvas');
 const mousePositionLabel = document.getElementById('mousePosition');
+const addPointButton = document.getElementById('addPoint');
 
 mainCanvas.height = mainCanvas.parentNode.clientHeight;
 mainCanvas.width = mainCanvas.parentNode.clientWidth;
+
+let pointId = 0;
+let points = [];
 
 const canvasManager = new CanvasManager(mainCanvas);
 
@@ -131,55 +24,11 @@ const updatePointsList = function () {
         pointsTable.removeChild(pointsTable.firstChild);
     }
 
-    canvasManager.points.forEach(function (point, index) {
-        let row = document.createElement('tr');
-        row.point = point;
-
-        // the first column
-        let indexCol = document.createElement('td');
-        let indexLabel = document.createElement('label');
-        indexLabel.innerHTML = index.valueOf() + 1;
-        indexCol.appendChild(indexLabel);
-        row.appendChild(indexCol);
-
-        // the second column
-        let xCol = document.createElement('td');
-        xCol.innerHTML = point.x.valueOf();
-        row.appendChild(xCol);
-
-        // the third column
-        let yCol = document.createElement('td');
-        yCol.innerHTML = point.y.valueOf();
-        row.appendChild(yCol);
-
-        // remove button
-        let removeCol = document.createElement('td');
-        let removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.className = 'btn btn-danger';
-        removeBtn.innerHTML = 'Remove';
-        removeBtn.addEventListener('click', function () {
-            // remove point from canvasManager
-            canvasManager.points.splice(canvasManager.points.indexOf(this.parentNode.parentNode.point), 1);
-            capture();
-            canvasManager.reDraw();
-        });
-        row.addEventListener('mouseover', function () {
-            this.point.radius = 4;
-            this.point.color = 'red';
-            canvasManager.reDraw();
-        });
-        row.addEventListener('mouseout', function () {
-            canvasManager.points = historyManager.last();
-            reDraw();
-        });
-        removeCol.appendChild(removeBtn);
-        row.appendChild(removeCol);
-
-        pointsTable.appendChild(row);
+    points.forEach(function (point, index) {
+        point.tableRow = addPoint(point);
     });
 
-    document.getElementById('pointsNumber').innerHTML = canvasManager.points.length
+    updatePointListFooter();
 };
 
 const updateTrianglesList = function () {
@@ -190,122 +39,228 @@ const updateTrianglesList = function () {
         trianglesTable.removeChild(trianglesTable.firstChild);
     }
 
-    let triangles = [];
-    for (let i = 0; i < canvasManager.points.length; ++i) {
-        for (let j = i + 1; j < canvasManager.points.length; ++j) {
-            for (let k = j + 1; k < canvasManager.points.length; ++k) {
-                let a = canvasManager.points[i];
-                let b = canvasManager.points[j];
-                let c = canvasManager.points[k];
+    let triangles = Triangle.fromPoints(points).sort(Triangle.compare).reverse();
+    triangles.forEach(function (triangle) {
+        addTriangle(triangle);
+        if (!triangle.orthocenter) {
+            triangle.tableRow.classList.add('danger');
+        }
+    });
 
-                triangles.push([a, b, c]);
-            }
+    if (triangles.length) {
+        if (triangles[0].orthocenter) {
+            triangles[0].tableRow.classList.add('success');
         }
     }
 
-    triangles.forEach(function (triangle, index) {
-        let row = document.createElement('tr');
-        row.triangle = triangle;
+    updateTrianglesListFooter();
+};
 
-        // the first column
-        let indexCol = document.createElement('td');
-        let indexLabel = document.createElement('label');
-        indexLabel.innerHTML = index.valueOf() + 1;
-        indexCol.appendChild(indexLabel);
-        row.appendChild(indexCol);
 
-        // the second column
-        let col2 = document.createElement('td');
-        col2.innerHTML = `(${triangle[0].x}, ${triangle[0].y})`;
-        row.appendChild(col2);
-
-        // the third column
-        let col3 = document.createElement('td');
-        col3.innerHTML = `(${triangle[1].x}, ${triangle[1].y})`;
-        row.appendChild(col3);
-
-        // the fourth column
-        let col4 = document.createElement('td');
-        col4.innerHTML = `(${triangle[2].x}, ${triangle[2].y})`;
-        row.appendChild(col4);
-
-        row.addEventListener('mouseover', function () {
-            this.triangle.forEach(function (point) {
-                point.radius = 4;
-                point.color = 'red';
-            });
-            canvasManager.reDraw();
-        });
-        row.addEventListener('mouseout', function () {
-            canvasManager.points = historyManager.last();
-            reDraw();
-        });
-
-        trianglesTable.appendChild(row);
+const reDrawPoints = function () {
+    canvasManager.clear();
+    canvasManager.drawGrid();
+    points.forEach(function (point) {
+        drawPoint(point);
     });
-
-    document.getElementById('trianglesNumber').innerHTML = triangles.length;
 };
 
-const historyManager = new HistoryManager(canvasManager.points);
-
-const add = function () {
-    let pointsInput = document.getElementById('pointsInput');
-    let pos = pointsInput.value.split(',');
-    let x = parseInt(pos[0]);
-    let y = parseInt(pos[1]);
-    if (x && y) {
-        canvasManager.addPoint(x, y, 'black');
-        capture();
-        reDraw();
-        pointsInput.value = '';
-    }
+const createPoint = function (point) {
+    points.push(point);
+    point.tableRow = addPoint(point);
+    drawPoint(point);
+    updateTrianglesList();
+    return point;
 };
 
-const reDraw = function () {
-    canvasManager.reDraw();
-    updatePointsList();
+const destroyPoint = function (point) {
+    let index = points.indexOf(point);
+    points.splice(index, 1);
+
+    removePoint(point);
+
+    reDrawPoints();
+
     updateTrianglesList();
 };
 
-const capture = function () {
-    historyManager.capture(canvasManager.points);
+
+const addPoint = function (point) {
+    // add the point to the list
+    let row = document.createElement('tr');
+    row.point = point;
+
+    // the first column
+    let indexCol = document.createElement('td');
+    let indexLabel = document.createElement('label');
+    indexLabel.innerHTML = ++pointId;
+    indexCol.appendChild(indexLabel);
+    row.appendChild(indexCol);
+
+    // the second column
+    let xCol = document.createElement('td');
+    xCol.innerHTML = Math.round(point.x);
+    row.appendChild(xCol);
+
+    // the third column
+    let yCol = document.createElement('td');
+    yCol.innerHTML = Math.round(point.y);
+    row.appendChild(yCol);
+
+    // remove button
+    let removeCol = document.createElement('td');
+    let removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'btn btn-danger';
+    removeBtn.innerHTML = 'Remove';
+    removeBtn.point = point;
+    removeBtn.addEventListener('click', onRemovePointButtonClick);
+    row.addEventListener('mouseover', onPointRowMouseOver);
+    row.addEventListener('mouseout', onPointRowMouseOut);
+    removeCol.appendChild(removeBtn);
+    row.appendChild(removeCol);
+
+    document.getElementById('pointsList').appendChild(row);
+
+    updatePointListFooter();
+
+
+    return row;
 };
 
-const undo = function () {
-    canvasManager.points = historyManager.undo();
-    reDraw();
+const removePoint = function (point) {
+    document.getElementById('pointsList').removeChild(point.tableRow);
+    delete point.tableRow;
+    updatePointListFooter();
 };
 
-const redo = function () {
-    canvasManager.points = historyManager.redo();
-    reDraw();
+
+const addTriangle = function (triangle) {
+    let row = document.createElement('tr');
+    row.triangle = triangle;
+
+    // the first column
+    let indexCol = document.createElement('td');
+    let indexLabel = document.createElement('label');
+    indexLabel.innerHTML = document.getElementById('trianglesList').childNodes.length + 1;
+    indexCol.appendChild(indexLabel);
+    row.appendChild(indexCol);
+
+    // the second column
+    let col2 = document.createElement('td');
+    col2.innerHTML = `<div>${Math.round(triangle.a.x)}</div><div>${Math.round(triangle.a.y)}</div>`;
+    row.appendChild(col2);
+
+    // the third column
+    let col3 = document.createElement('td');
+    col3.innerHTML = `<div>${Math.round(triangle.b.x)}</div><div>${Math.round(triangle.b.y)}</div>`;
+    row.appendChild(col3);
+
+    // the fourth column
+    let col4 = document.createElement('td');
+    col4.innerHTML = `<div>${Math.round(triangle.c.x)}</div><div>${Math.round(triangle.c.y)}</div>`;
+    row.appendChild(col4);
+
+    // the fifth column
+    let col5 = document.createElement('td');
+    col5.innerHTML = `<div>${Math.round(triangle.orthocenter.x)}</div><div>${Math.round(triangle.orthocenter.y)}</div>`;
+    row.appendChild(col5);
+
+    // the sixth column
+    let col6 = document.createElement('td');
+    col6.innerHTML = `<div>${Math.round(triangle.orthocenterDistance)}</div>`;
+    row.appendChild(col6);
+
+    row.addEventListener('mouseover', onTriangleRowMounseOver);
+    row.addEventListener('mouseout', onTriangleRowMounseOut);
+
+    triangle.tableRow = row;
+    document.getElementById('trianglesList').appendChild(row);
 };
 
-const reset = function () {
-    canvasManager.points = historyManager.reset();
-    reDraw();
+const removeTriangle = function (triangle) {
+    document.getElementById('trianglesList').removeChild(triangle.tableRow);
+    delete triangle.tableRow;
+    updateTrianglesListFooter();
 };
 
-const clean = function () {
-    canvasManager.points = historyManager.clear();
-    reDraw();
+const drawPoint = function (point) {
+    canvasManager.drawPoint({
+        point: point,
+        color: 'black',
+        radius: 3
+    });
 };
 
-mainCanvas.addEventListener('click', function (e) {
-    let pos = canvasManager.getMousePosition(e);
-    canvasManager.addPoint(pos.x, pos.y);
-    capture();
-    reDraw();
-});
+const drawHighlightedPoint = function (point) {
+    canvasManager.drawPoint({
+        point: point,
+        color: 'red',
+        radius: 4
+    });
+};
 
-mainCanvas.addEventListener('mousemove', function (e) {
-    let mousePosition = canvasManager.getMousePosition(e);
+const drawFadedPoint = function (point) {
+    canvasManager.drawPoint({
+        point: point,
+        color: 'mediumblue',
+        radius: 3
+    });
+};
 
-    mousePositionLabel.innerHTML = `Mouse position: ${mousePosition.x}, ${mousePosition.y}`;
-    mousePositionLabel.style.visibility = 'visible';
-});
+const drawTriangle = function (triangle) {
+    let a = triangle.a;
+    let b = triangle.b;
+    let c = triangle.c;
 
-mainCanvas.addEventListener('mouseleave', function (e) {
-    mousePositionLabel.style.visibility = 'hidden';
-});
+    let sideOptions = {lineWidth: 2};
+
+    canvasManager.drawLine(a, b, sideOptions);
+    canvasManager.drawLine(a, c, sideOptions);
+    canvasManager.drawLine(c, b, sideOptions);
+
+    let orthocenter = triangle.orthocenter;
+    if (orthocenter) {
+        let lineOptions = {
+            color: 'brown',
+            lineWidth: 2
+        };
+
+        canvasManager.drawLine(
+            {x: 0, y: orthocenter.y},
+            orthocenter,
+            lineOptions
+        );
+        canvasManager.drawLine(
+            {x: orthocenter.x, y: 0},
+            orthocenter,
+            lineOptions
+        );
+        drawFadedPoint(orthocenter);
+    }
+
+    drawHighlightedPoint(a);
+    drawHighlightedPoint(b);
+    drawHighlightedPoint(c);
+};
+
+const updatePointListFooter = function () {
+    let pointsNumber = document.getElementById('pointsNumber');
+    let pointsList = document.getElementById('pointsList');
+    pointsNumber.innerHTML = pointsList.childNodes.length.toString();
+};
+
+const updateTrianglesListFooter = function () {
+    let trianglesNumber = document.getElementById('trianglesNumber');
+    let trianglesList = document.getElementById('trianglesList');
+    trianglesNumber.innerHTML = trianglesList.childNodes.length.toString();
+};
+
+mainCanvas.addEventListener('click', onCanvasMouseClick);
+mainCanvas.addEventListener('mousemove', onCanvasMouseMove);
+mainCanvas.addEventListener('mouseleave', onCavasMouseLeave);
+
+addPointButton.addEventListener('click', onAddButtonClick);
+
+
+reDrawPoints();

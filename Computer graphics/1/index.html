@@ -8,10 +8,11 @@
     <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
 
-    <link href="../global.css" rel="stylesheet">
-
-    <script src="../historyManager.js" defer></script>
-    <script src="../canvasManager.js" defer></script>
+    <script src="point.js" defer></script>
+    <script src="triangle.js" defer></script>
+    <script src="historyManager.js" defer></script>
+    <script src="canvasManager.js" defer></script>
+    <script src="routedEvents.js" defer></script>
     <script src="index.js" defer></script>
 </head>
 <body id="body">
@@ -22,13 +23,7 @@
             виде.</h4>
     </div>
     <div class="row">
-        <div class="col-xs-8">
-            <canvas id="mainCanvas" height="505"></canvas>
-            <div class="row">
-                <div class="col-xs-4">
-                    <label id="mousePosition"></label>
-                </div>
-            </div>
+        <div class="col-xs-3">
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -36,12 +31,14 @@
                     <th>A</th>
                     <th>B</th>
                     <th>C</th>
+                    <th>Ortho</th>
+                    <th>Sum</th>
                 </tr>
                 </thead>
                 <tbody id="trianglesList"></tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="4" align="center">
+                    <td colspan="6" align="center">
                         <label></label>
                         <label id="trianglesNumber">0</label>
                         <label>triangles</label>
@@ -50,33 +47,37 @@
                 </tfoot>
             </table>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-5">
+            <canvas id="mainCanvas" height="505"></canvas>
+            <div class="row">
+                <label id="mousePosition"></label>
+            </div>
+
+        </div>
+        <div class="col-xs-3">
             <div>
                 <div class="col-xs-3">
                     <button class="navigation-control btn btn-link btn-lg btn-block"
-                            type="button"
-                            onclick="undo()">
+                            type="button">
                         <i class="glyphicon glyphicon-circle-arrow-left"></i>
                         <div class="navigation-label">Undo</div>
                     </button>
                 </div>
                 <div class="col-xs-3">
                     <button class="navigation-control btn btn-link btn-lg btn-block"
-                            onclick="redo()">
-                        <i class="navigation-control glyphicon glyphicon-circle-arrow-right"></i>
-                        <div class="navigation-label">Redo</div>
+                    ">
+                    <i class="navigation-control glyphicon glyphicon-circle-arrow-right"></i>
+                    <div class="navigation-label">Redo</div>
                     </button>
                 </div>
                 <div class="col-xs-3">
-                    <button class="navigation-control btn btn-link btn-lg btn-block"
-                            onclick="clean()">
+                    <button class="navigation-control btn btn-link btn-lg btn-block">
                         <i class="glyphicon glyphicon-trash"></i>
                         <div class="navigation-label">Clear</div>
                     </button>
                 </div>
                 <div class="col-xs-3">
-                    <button class="navigation-control btn btn-link btn-lg btn-block"
-                            onclick="reset()">
+                    <button class="navigation-control btn btn-link btn-lg btn-block">
                         <i class="glyphicon glyphicon-repeat"></i>
                         <div class="navigation-label">Reset</div>
                     </button>
@@ -89,17 +90,15 @@
                     <div class="col-xs-6">
                         <input id="pointsInput" class="form-control" placeholder="250,300">
                     </div>
-                    <button class="btn btn-default col-xs-2"
-                            onclick="add()">Add
+                    <button id="addPoint" class="btn btn-default col-xs-3">Add
                     </button>
                 </div>
             </div>
             <div>
-                <!--<h2 align="center">Points</h2>-->
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th>#</th>
+                        <th>ID</th>
                         <th>X</th>
                         <th>Y</th>
                         <th width="10"></th>
