@@ -15,6 +15,7 @@ let pointId = 0;
 let points = [];
 
 const canvasManager = new CanvasManager(mainCanvas);
+const historyManager = new HistoryManager(points);
 
 const updatePointsList = function () {
     let pointsTable = document.getElementById('pointsList');
@@ -24,7 +25,7 @@ const updatePointsList = function () {
         pointsTable.removeChild(pointsTable.firstChild);
     }
 
-    points.forEach(function (point, index) {
+    points.forEach(function (point) {
         point.tableRow = addPoint(point);
     });
 
@@ -69,7 +70,9 @@ const createPoint = function (point) {
     points.push(point);
     point.tableRow = addPoint(point);
     drawPoint(point);
-    updateTrianglesList();
+
+    capture();
+
     return point;
 };
 
@@ -78,10 +81,9 @@ const destroyPoint = function (point) {
     points.splice(index, 1);
 
     removePoint(point);
-
     reDrawPoints();
 
-    updateTrianglesList();
+    capture();
 };
 
 
@@ -256,11 +258,63 @@ const updateTrianglesListFooter = function () {
     trianglesNumber.innerHTML = trianglesList.childNodes.length.toString();
 };
 
+const capture = function () {
+    let p = points.map(function (point) {
+        return {x: point.x, y: point.y};
+    });
+    historyManager.capture(p);
+};
+
+const undo = function () {
+    let newPoints = historyManager.undo();
+    if (newPoints) {
+        points = newPoints;
+        reDrawPoints();
+        updateTrianglesList();
+        updatePointsList();
+    }
+};
+
+const redo = function () {
+    let newPoints = historyManager.redo();
+    if (newPoints) {
+        points = newPoints;
+        reDrawPoints();
+        updateTrianglesList();
+        updatePointsList();
+    }
+};
+
+const reset = function () {
+    let newPoints = historyManager.reset();
+    if (newPoints) {
+        points = newPoints;
+        reDrawPoints();
+        updateTrianglesList();
+        updatePointsList();
+    }
+};
+
+const clean = function () {
+    let newPoints = historyManager.clear();
+    if (newPoints) {
+        points = newPoints;
+        reDrawPoints();
+        updateTrianglesList();
+        updatePointsList();
+    }
+};
+
 mainCanvas.addEventListener('click', onCanvasMouseClick);
 mainCanvas.addEventListener('mousemove', onCanvasMouseMove);
 mainCanvas.addEventListener('mouseleave', onCavasMouseLeave);
 
 addPointButton.addEventListener('click', onAddButtonClick);
+
+document.getElementById('undo').addEventListener('click', onUndo);
+document.getElementById('redo').addEventListener('click', onRedo);
+document.getElementById('clean').addEventListener('click', onClean);
+document.getElementById('reset').addEventListener('click', onReset);
 
 
 reDrawPoints();

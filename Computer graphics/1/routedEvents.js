@@ -12,6 +12,7 @@ const onAddButtonClick = function (e) {
     if (x && y) {
         let point = new Point(x, y);
         createPoint(point);
+        updateTrianglesList();
         pointsInput.value = '';
     }
 };
@@ -20,6 +21,7 @@ const onCanvasMouseClick = function (e) {
     let point = canvasManager.getMousePosition(e);
 
     createPoint(point);
+    updateTrianglesList();
 };
 
 const onCanvasMouseMove = function (e) {
@@ -44,6 +46,7 @@ const onPointRowMouseOut = function () {
 const onRemovePointButtonClick = function () {
     let point = this.point;
     destroyPoint(point);
+    updateTrianglesList();
 };
 
 const onTriangleRowMounseOver = function () {
@@ -52,4 +55,20 @@ const onTriangleRowMounseOver = function () {
 
 const onTriangleRowMounseOut = function () {
     reDrawPoints();
+};
+
+const onUndo = function () {
+    undo();
+};
+
+const onRedo = function () {
+    redo();
+};
+
+const onReset = function () {
+    reset();
+};
+
+const onClean = function () {
+    clean();
 };
