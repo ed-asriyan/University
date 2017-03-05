@@ -16,13 +16,13 @@
     <script src="index.js" defer></script>
 </head>
 <body id="body">
-<div class="container">
-    <div class="row">
+<div class="">
+    <div class="">
         <h4>На плоскости дано множество точек. Найти такой треугольник с вершинами в этих точках, у которого сумма
             расстояний от точки пересечения высот до координатных осей максимальна. Вывести изображение в графическом
             виде.</h4>
     </div>
-    <div class="row">
+    <div class="">
         <div class="col-xs-3">
             <table class="table table-hover">
                 <thead>
@@ -47,14 +47,15 @@
                 </tfoot>
             </table>
         </div>
-        <div class="col-xs-5">
-            <div>
-                <canvas id="mainCanvas" height="505"></canvas>
+        <div class="col-xs-5" style="position: relative;">
+            <div style="position: fixed;">
+                <div>
+                    <canvas id="mainCanvas" height="1280"></canvas>
+                </div>
+                <div class="row">
+                    <label id="mousePosition"></label>
+                </div>
             </div>
-            <div class="row">
-                <label id="mousePosition"></label>
-            </div>
-
         </div>
         <div class="col-xs-3">
             <div>
@@ -92,8 +93,18 @@
                     <div class="col-xs-6">
                         <input id="pointsInput" class="form-control" placeholder="250,300">
                     </div>
-                    <button id="addPoint" class="btn btn-default col-xs-3">Add
-                    </button>
+                    <button id="addPoint" class="btn btn-default col-xs-3">Add</button>
+                </div>
+            </div>
+            <div align="center">
+                <div align="center">
+                    <button id="resetSize" class="btn btn-default col-xs-4">Reset</button>
+                </div>
+                <div align="center">
+                    <button id="resize" class="btn btn-default col-xs-4">Resize by points</button>
+                </div>
+                <div align="center">
+                    <button id="resizeOrtho" class="btn btn-default col-xs-4">Resize with ortho</button>
                 </div>
             </div>
             <div>

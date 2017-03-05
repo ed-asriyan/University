@@ -72,3 +72,18 @@ const onReset = function () {
 const onClean = function () {
     clean();
 };
+
+const onResize = function () {
+    resize();
+    reDrawPoints();
+};
+
+const onResizeOrtho = function () {
+    resize(true);
+    reDrawPoints();
+};
+
+const onResetSize = function () {
+    resetSize();
+    reDrawPoints();
+};

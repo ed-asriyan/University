@@ -8,8 +8,8 @@ const mainCanvas = document.getElementById('mainCanvas');
 const mousePositionLabel = document.getElementById('mousePosition');
 const addPointButton = document.getElementById('addPoint');
 
-mainCanvas.height = mainCanvas.parentNode.clientHeight;
-mainCanvas.width = mainCanvas.parentNode.clientWidth;
+// mainCanvas.height = mainCanvas.parentNode.parentNode.clientHeight;
+mainCanvas.width = mainCanvas.parentNode.parentNode.parentNode.clientWidth;
 
 let pointId = 0;
 let points = [];
@@ -134,6 +134,50 @@ const removePoint = function (point) {
     document.getElementById('pointsList').removeChild(point.tableRow);
     delete point.tableRow;
     updatePointListFooter();
+};
+
+const resetSize = function () {
+    canvasManager.setOffset(0, 0);
+    canvasManager.setScale(1, 1);
+};
+
+const resize = function (withOrtho) {
+    if (points.length >= 3) {
+        let xMap = points.map(function (point) {
+            return point.x;
+        });
+        let yMap = points.map(function (point) {
+            return point.y;
+        });
+
+        if (withOrtho) {
+            let triangles = Triangle.fromPoints(points);
+            let ortho = triangles.map(function (triangle) {
+                return triangle.orthocenter;
+            });
+            let xOrthoMap = ortho.map(function (point) {
+                return point.x;
+            });
+            let yOrthoMap = ortho.map(function (point) {
+                return point.y;
+            });
+            xMap = xMap.concat(xOrthoMap);
+            yMap = yMap.concat(yOrthoMap);
+        }
+
+        let xMin = Math.min.apply(Math, xMap);
+        let yMin = Math.min.apply(Math, yMap);
+        let xMax = Math.max.apply(Math, xMap);
+        let yMax = Math.max.apply(Math, yMap);
+
+        let xSize = mainCanvas.width / (xMax - xMin + 20);
+        let ySize = mainCanvas.height / (yMax - yMin + 20);
+
+        canvasManager.setOffset(-xMin + 10, -yMin + 10);
+        canvasManager.setScale(xSize, ySize);
+    } else {
+        resetSize();
+    }
 };
 
 
@@ -317,6 +361,10 @@ document.getElementById('undo').addEventListener('click', onUndo);
 document.getElementById('redo').addEventListener('click', onRedo);
 document.getElementById('clean').addEventListener('click', onClean);
 document.getElementById('reset').addEventListener('click', onReset);
+
+document.getElementById('resize').addEventListener('click', onResize);
+document.getElementById('resizeOrtho').addEventListener('click', onResizeOrtho);
+document.getElementById('resetSize').addEventListener('click', onResetSize);
 
 
 reDrawPoints();

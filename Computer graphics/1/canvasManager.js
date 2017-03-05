@@ -14,6 +14,16 @@ class CanvasManager {
         this._scale = {x: 1, y: 1};
     }
 
+    setOffset(x, y) {
+        this._offset.x = x;
+        this._offset.y = y;
+    }
+
+    setScale(x, y) {
+        this._scale.x = x;
+        this._scale.y = y;
+    }
+
     getMousePosition(event) {
         if (event) {
             let rect = this._canvas.getBoundingClientRect();
