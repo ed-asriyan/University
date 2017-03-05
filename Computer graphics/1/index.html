@@ -16,14 +16,69 @@
     <script src="index.js" defer></script>
 </head>
 <body id="body">
-<div class="">
-    <div class="">
+<div class="container">
+    <div class="row">
         <h4>На плоскости дано множество точек. Найти такой треугольник с вершинами в этих точках, у которого сумма
             расстояний от точки пересечения высот до координатных осей максимальна. Вывести изображение в графическом
             виде.</h4>
     </div>
-    <div class="">
-        <div class="col-xs-3">
+    <div class="row">
+        <div>
+            <div class="col-sm-2">
+                <button id="undo" class="btn btn-link btn-lg btn-block"
+                        type="button">
+                    <i class="glyphicon glyphicon-circle-arrow-left"></i>
+                    Undo
+                </button>
+            </div>
+            <div class="col-sm-2">
+                <button id="redo" class="btn btn-link btn-lg btn-block">
+                    <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                    Redo
+                </button>
+            </div>
+            <div id="clean" class="col-sm-2">
+                <button class="btn btn-link btn-lg btn-block">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    Clear
+                </button>
+            </div>
+            <div id="reset" class="col-sm-2">
+                <button class="btn btn-link btn-lg btn-block">
+                    <i class="glyphicon glyphicon-repeat"></i>
+                    Reset
+                </button>
+            </div>
+
+            <div class="col-sm-4 form-horizontal">
+                <label class="col-xs-4 control-label center-block"
+                       style="text-align: center; vertical-align: middle" for="pointsInput">Add point:</label>
+                <div class="col-xs-5">
+                    <input id="pointsInput" class="form-control" placeholder="250,300">
+                </div>
+                <button id="addPoint" class="btn btn-default col-xs-3">Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <canvas id="mainCanvas" height="500"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="">
+        <button id="resetSize" class="btn btn-default col-md-2 col-md-offset-1">Reset</button>
+        <button id="resize" class="btn btn-default col-md-2 col-md-offset-2">Resize by points</button>
+        <button id="resizeOrtho" class="btn btn-default col-md-2 col-md-offset-2">Resize with ortho</button>
+        <div class="col-xs-3" align="center" style="display: none">
+            <label id="mousePosition"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Triangles</h3>
+            <hr/>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -47,64 +102,18 @@
                 </tfoot>
             </table>
         </div>
-        <div class="col-xs-5" style="position: relative;">
-            <div style="position: fixed;">
-                <div>
-                    <canvas id="mainCanvas" height="1280"></canvas>
-                </div>
-                <div class="row">
-                    <label id="mousePosition"></label>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-3">
-            <div>
-                <div class="col-xs-3">
-                    <button id="undo" class="btn btn-link btn-lg btn-block"
-                            type="button">
-                        <i class="glyphicon glyphicon-circle-arrow-left" style="font-size: 21pt"></i>
-                        <div class="navigation-label" style="font-size: 15pt">Undo</div>
-                    </button>
-                </div>
-                <div class="col-xs-3">
-                    <button id="redo" class="navigation-control btn btn-link btn-lg btn-block">
-                        <i class="navigation-control glyphicon glyphicon-circle-arrow-right"
-                           style="font-size: 21pt"></i>
-                        <div class="navigation-label" style="font-size: 15pt">Redo</div>
-                    </button>
-                </div>
-                <div id="clean" class="col-xs-3">
-                    <button class="navigation-control btn btn-link btn-lg btn-block">
-                        <i class="glyphicon glyphicon-trash" style="font-size: 21pt"></i>
-                        <div class="navigation-label" style="font-size: 15pt">Clear</div>
-                    </button>
-                </div>
-                <div id="reset" class="col-xs-3">
-                    <button class="navigation-control btn btn-link btn-lg btn-block">
-                        <i class="glyphicon glyphicon-repeat" style="font-size: 21pt"></i>
-                        <div class="navigation-label" style="font-size: 15pt">Reset</div>
-                    </button>
-                </div>
-            </div>
-            <div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label center-block"
-                           style="text-align: center">Add point:</label>
-                    <div class="col-xs-6">
-                        <input id="pointsInput" class="form-control" placeholder="250,300">
-                    </div>
-                    <button id="addPoint" class="btn btn-default col-xs-3">Add</button>
-                </div>
-            </div>
+        <div class="col-sm-6">
+            <h3>Points</h3>
+            <hr/>
             <div align="center">
                 <div align="center">
-                    <button id="resetSize" class="btn btn-default col-xs-4">Reset</button>
+
                 </div>
                 <div align="center">
-                    <button id="resize" class="btn btn-default col-xs-4">Resize by points</button>
+
                 </div>
                 <div align="center">
-                    <button id="resizeOrtho" class="btn btn-default col-xs-4">Resize with ortho</button>
+
                 </div>
             </div>
             <div>
