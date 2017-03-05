@@ -222,6 +222,8 @@ const drawTriangle = function (triangle) {
     canvasManager.drawLine(c, b, sideOptions);
 
     let orthocenter = triangle.orthocenter;
+    orthocenter.x = Math.round(orthocenter.x);
+    orthocenter.y = Math.round(orthocenter.y);
     if (orthocenter) {
         let lineOptions = {
             color: 'brown',

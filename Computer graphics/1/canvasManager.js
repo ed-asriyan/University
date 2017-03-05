@@ -94,37 +94,62 @@ class CanvasManager {
         }
         options.color = options.color || 'gray';
         options.lineWidth = options.lineWidth || 1;
+        options.axisWidth = options.axisWidth || 3;
+        options.axisColor = options.axisColor || 'pink';
         let step = options.step || 10;
 
         let top = this._toVirtualCoordinates({x: 0, y: 0});
         let bottom = this._toVirtualCoordinates({x: this._canvas.width, y: this._canvas.height});
 
-        for (let x = top.x + 0.5; x <= bottom.x; x += step) {
+        for (let x = Math.round(top.x / step) * step; x <= bottom.x; x += step) {
             this.drawLine(
-                {x: x, y: 0},
+                {x: x, y: top.y},
                 {x: x, y: bottom.y},
                 options
             );
         }
 
-        for (let y = top.y + 0.5; y <= bottom.y; y += step) {
+        for (let y = Math.round(top.y / step) * step; y <= bottom.y; y += step) {
             this.drawLine(
-                {x: 0, y: y},
-                {x: this._canvas.width, y: y},
+                {x: top.x, y: y},
+                {x: bottom.x, y: y},
                 options
             );
         }
 
         this.drawLine(
-            {x: bottom.x - 1, y: top.y},
-            {x: bottom.x - 1, y: bottom.y},
+            top,
+            {x: top.x, y: bottom.y},
             options
         );
         this.drawLine(
-            {x: top.x, y: bottom.y - 1},
-            {x: bottom.x, y: bottom.y - 1},
+            top,
+            {x: bottom.x, y: top.y},
             options
         );
+        this.drawLine(
+            {x: bottom.x, y: top.y},
+            {x: bottom.x, y: bottom.y},
+            options
+        );
+        this.drawLine(
+            {x: top.x, y: bottom.y},
+            {x: bottom.x, y: bottom.y},
+            options
+        );
+
+        options.lineWidth = options.axisWidth;
+        options.color = options.axisColor;
+        this.drawLine(
+            {x: top.x, y: 0},
+            {x: bottom.x, y: 0},
+            options
+        );
+        this.drawLine(
+            {x: 0, y: top.y},
+            {x: 0, y: bottom.y},
+            options
+        )
     }
 
     _toScreenCoordinates(point) {
