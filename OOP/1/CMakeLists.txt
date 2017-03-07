@@ -7,6 +7,7 @@ set(SOURCE_FILES
         main.c main.c
         core/math.c core/math.h
         core/transformation.c core/transformation.h
+        core/canvas.c core/canvas.h
         )
 add_executable(3dView ${SOURCE_FILES})
 
