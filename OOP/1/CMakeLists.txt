@@ -10,6 +10,7 @@ set(SOURCE_FILES
         core/canvas.c core/canvas.h
         core/camera.c core/camera.h
         core/errors.h
+        core/commands.h
         )
 add_executable(3dView ${SOURCE_FILES})
 
