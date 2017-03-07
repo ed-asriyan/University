@@ -43,7 +43,7 @@ typedef struct {
 typedef struct {
 } shutdown_data_t;
 
-union command_data_t {
+typedef union {
 	startup_data_t startup_data;
 	load_model_data_t load_model_data;
 	transform_object_data_t transform_object_data;
@@ -51,6 +51,6 @@ union command_data_t {
 	render_data_t render_data;
 	unload_model_data_t unload_model_data;
 	shutdown_data_t shutdown_data;
-};
+} command_data_t;
 
 #endif //INC_3DVIEW_COMMANDS_H

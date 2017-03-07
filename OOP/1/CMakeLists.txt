@@ -13,6 +13,7 @@ set(SOURCE_FILES
         core/commands.h
         core/model.c core/model.h
         core/object.c core/object.h
+        core/service.c core/service.h
         )
 add_executable(3dView ${SOURCE_FILES})
 
