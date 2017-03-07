@@ -12,6 +12,7 @@ set(SOURCE_FILES
         core/errors.h
         core/commands.h
         core/model.c core/model.h
+        core/object.c core/object.h
         )
 add_executable(3dView ${SOURCE_FILES})
 
