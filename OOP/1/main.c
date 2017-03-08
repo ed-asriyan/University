@@ -16,9 +16,9 @@
 
 point_t mouse_position = {-1, -1};
 
-bool mouse_button_left_pressed;
+bool mouse_button_left_pressed = false;
 
-bool mouse_button_right_pressed;
+bool mouse_button_right_pressed = false;
 
 void redraw(void) {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
