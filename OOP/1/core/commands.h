@@ -33,9 +33,6 @@ typedef struct {
 	transformation_t transformation;
 } transform_camera_data_t;
 
-typedef struct {
-	canvas_t* canvas;
-} render_data_t;
 
 typedef struct {
 } unload_model_data_t;
@@ -48,7 +45,6 @@ typedef union {
 	load_model_data_t load_model_data;
 	transform_object_data_t transform_object_data;
 	transform_camera_data_t transform_camera_data;
-	render_data_t render_data;
 	unload_model_data_t unload_model_data;
 	shutdown_data_t shutdown_data;
 } command_data_t;

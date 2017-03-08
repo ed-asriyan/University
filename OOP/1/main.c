@@ -9,6 +9,7 @@
 
 #include "core/commands.h"
 #include "core/execute.h"
+#include "core/canvas.h"
 #include "core/errors.h"
 
 #include "point.h"
@@ -37,9 +38,10 @@ void redraw(void) {
 void mouse_left_handler(int state, int x, int y) {
 	switch (state) {
 		case GLUT_UP:
-			mouse_button_left_pressed = !mouse_button_left_pressed;
+			mouse_button_left_pressed = false;
 			break;
 		case GLUT_DOWN:
+			mouse_button_left_pressed = true;
 			break;
 		default:
 			break;
@@ -49,9 +51,10 @@ void mouse_left_handler(int state, int x, int y) {
 void mouse_right_handler(int state, int x, int y) {
 	switch (state) {
 		case GLUT_UP:
-			mouse_button_right_pressed = !mouse_button_right_pressed;
+			mouse_button_right_pressed = false;
 			break;
 		case GLUT_DOWN:
+			mouse_button_right_pressed = true;
 			break;
 		default:
 			break;
@@ -59,16 +62,16 @@ void mouse_right_handler(int state, int x, int y) {
 }
 
 void mouse_wheel_handler(int state, int x, int y) {
-	const double factor = -0.9;
+	const double factor = 0.9;
 	command_data_t command_data;
 	switch (state) {
-		case GLUT_UP:
+		case GLUT_DOWN:
 			command_data.transform_object_data.transformation.type = UNIFORM_SCALING;
 			command_data.transform_object_data.transformation.uniform_scaling.factor = factor;
 			execute(TRANSFORM_OBJECT, &command_data);
 			redraw();
 			break;
-		case GLUT_DOWN:
+		case GLUT_UP:
 			command_data.transform_object_data.transformation.type = UNIFORM_SCALING;
 			command_data.transform_object_data.transformation.uniform_scaling.factor = 1.0 / factor;
 			execute(TRANSFORM_OBJECT, &command_data);
@@ -103,6 +106,11 @@ void mouse_button_handler(int button, int state, int x, int y) {
 	glutPostRedisplay();
 }
 
+void mouse_passive_move_handler(int x, int y) {
+	mouse_position.y = y;
+	mouse_position.x = x;
+}
+
 void mouse_move_handler(int x, int y) {
 	if (mouse_position.x >= 0 && mouse_position.y >= 0) {
 		int dx = x - mouse_position.x;
@@ -115,7 +123,7 @@ void mouse_move_handler(int x, int y) {
 				command_data.transform_object_data.transformation.rotation.axis_x = -dy;
 				command_data.transform_object_data.transformation.rotation.axis_y = dx;
 				command_data.transform_object_data.transformation.rotation.axis_z = 0.0;
-				command_data.transform_object_data.transformation.rotation.angle = to_radians(1.0);
+				command_data.transform_object_data.transformation.rotation.angle = to_radians(1.5);
 				execute(TRANSFORM_OBJECT, &command_data);
 				redraw();
 			} else if (mouse_button_right_pressed) {
@@ -130,8 +138,7 @@ void mouse_move_handler(int x, int y) {
 		}
 	}
 
-	mouse_position.x = x;
-	mouse_position.y = y;
+	mouse_passive_move_handler(x, y);
 }
 
 int main(int argc, char** argv) {
@@ -147,8 +154,10 @@ int main(int argc, char** argv) {
 	// glut initialization
 	glutInit(&argc, argv);
 	glutInitWindowPosition(10, 10);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(get_width(), get_height());
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+
+	// create glut window
 	glutCreateWindow("3D Viewer");
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glMatrixMode(GL_PROJECTION);
@@ -158,7 +167,8 @@ int main(int argc, char** argv) {
 
 	// subscribe for mouse events
 	glutMouseFunc(mouse_button_handler);
-	glutPassiveMotionFunc(mouse_move_handler);
+	glutPassiveMotionFunc(mouse_passive_move_handler);
+	glutMotionFunc(mouse_move_handler);
 
 	// initialize core
 	command_data_t command_data;
@@ -167,6 +177,7 @@ int main(int argc, char** argv) {
 		return -10;
 	}
 
+	// init camera properties
 	command_data.transform_camera_data.transformation.type = TRANSLATION;
 	command_data.transform_camera_data.transformation.translation.displacement_x = 0.0;
 	command_data.transform_camera_data.transformation.translation.displacement_y = 0.0;
@@ -180,9 +191,12 @@ int main(int argc, char** argv) {
 	command_data_t load_command_data;
 	load_command_data.load_model_data.file_path = argv[1];
 	if (execute(LOAD_MODEL, &load_command_data) != NONE) {
-		fprintf(stderr, "Can not load mode from %s\n", load_command_data.load_model_data.file_path);
+		fprintf(stderr, "Can not load model from %s\n", load_command_data.load_model_data.file_path);
 		return -12;
 	}
 
+	// main glut loop
 	glutMainLoop();
+
+	return 0;
 }

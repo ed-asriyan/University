@@ -28,7 +28,7 @@ bool model_is_loaded(const model_t* model) {
 	return model->is_loaded;
 }
 
-error_t model_render(const model_t* model, const matrix_t* object_to_canvas, canvas_t* canvas) {
+error_t model_render(const model_t* model, const matrix_t* object_to_canvas) {
 	if (!model->is_loaded) {
 		return MODEL_NOT_LOADED;
 	}
@@ -38,7 +38,7 @@ error_t model_render(const model_t* model, const matrix_t* object_to_canvas, can
 		vector_t edge_vertex_a = vector_transform(&vector, object_to_canvas);
 		const vector_t vector1 = model->vertices[edge.b];
 		vector_t edge_vertex_b = vector_transform(&vector1, object_to_canvas);
-		draw_line(canvas, &edge_vertex_a, &edge_vertex_b);
+		draw_line(&edge_vertex_a, &edge_vertex_b);
 	}
 }
 

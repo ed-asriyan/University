@@ -20,7 +20,7 @@ void object_initialize(object_t* object);
 error_t object_load_model(object_t* object, char const* file_path);
 bool object_model_is_loaded(const object_t* object);
 error_t object_transform(object_t* object, const matrix_t* transformation);
-error_t object_render(const object_t* object, const camera_t* camera, canvas_t* canvas);
+error_t object_render(const object_t* object, const camera_t* camera);
 void object_deinitialize(object_t* object);
 
 #endif //INC_3DVIEW_OBJECT_H

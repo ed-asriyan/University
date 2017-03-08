@@ -47,8 +47,7 @@ error_t service_render(const service_t* service, const command_data_t* command_d
 	if (!service) {
 		return NOT_INITIALIZED;
 	}
-	const render_data_t* data = &command_data->render_data;
-	return object_render(&service->object, &service->camera, data->canvas);
+	return object_render(&service->object, &service->camera);
 }
 
 error_t service_shutdown(service_t** service, const command_data_t* data) {
