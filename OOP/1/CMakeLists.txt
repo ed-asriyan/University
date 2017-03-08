@@ -15,6 +15,7 @@ set(SOURCE_FILES
         core/object.c core/object.h
         core/service.c core/service.h
         core/execute.c core/execute.h
+        point.h
         )
 add_executable(3dView ${SOURCE_FILES})
 

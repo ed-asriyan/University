@@ -5,7 +5,7 @@
 #include "service.h"
 
 error_t service_startup(service_t** service, const command_data_t* data) {
-	if (service) {
+	if (*service) {
 		return ALREADY_INITIALIZED;
 	}
 	if (!(*service = (service_t*) malloc(sizeof(service_t)))) {

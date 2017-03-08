@@ -5,6 +5,8 @@
 #ifndef INC_3DVIEW_CANVAS_H
 #define INC_3DVIEW_CANVAS_H
 
+#include <GL/glut.h>
+
 #include "math.h"
 
 typedef struct canvas canvas_t;
