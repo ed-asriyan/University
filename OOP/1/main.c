@@ -198,5 +198,9 @@ int main(int argc, char** argv) {
 	// main glut loop
 	glutMainLoop();
 
+	// shutdown the core
+	command_data_t shutdown_command_data;
+	execute(SHUTDOWN, &shutdown_command_data);
+
 	return 0;
 }
