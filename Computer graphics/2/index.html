@@ -10,14 +10,101 @@
 
     <script src="point.js" defer></script>
     <script src="solver.js" defer></script>
+    <script src="canvasManager.js" defer></script>
     <script src="index.js" defer></script>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <h4>
+        <h4 align="middle">
             Нарисовать рисунок, затем его перенести, промаштабировать, повернуть.
         </h4>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <div>
+                <canvas id="mainCanvas" height="720"></canvas>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="row">
+                <button id="reset" class="btn btn-info col-xs-10 col-xs-offset-1">Reset</button>
+            </div>
+            <hr/>
+
+            <!-- offset form !-->
+            <div class="form-horizontal">
+                <h2 align="middle">Offset</h2>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="xOffset">Factor:</label>
+                    <div class="col-xs-4">
+                        <input id="xOffset" class="form-control" placeholder="x"/>
+                    </div>
+                    <div class="col-xs-4">
+                        <input id="yOffset" class="form-control" placeholder="y"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="offsetBtn" class="btn btn-default col-xs-10 col-xs-offset-1">Apply</button>
+                </div>
+            </div>
+            <hr/>
+
+            <!-- scale form !-->
+            <div class="form-horizontal">
+                <h2 align="middle">Scale</h2>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="xScale">Center:</label>
+                    <div class="col-xs-4">
+                        <input id="xScaleCenter" class="form-control" placeholder="x"/>
+                    </div>
+                    <div class="col-xs-4">
+                        <input id="yScaleCenter" class="form-control" placeholder="y"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="xScale">Factor:</label>
+                    <div class="col-xs-4">
+                        <input id="xScale" class="form-control" placeholder="x"/>
+                    </div>
+                    <div class="col-xs-4">
+                        <input id="yScale" class="form-control" placeholder="y"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="scaleBtn" class="btn btn-default col-xs-10 col-xs-offset-1">Apply</button>
+                </div>
+            </div>
+            <hr/>
+
+            <!-- rotate form !-->
+            <div class="form-horizontal">
+                <h2 align="middle">Rotation</h2>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="xScale">Center:</label>
+                    <div class="col-xs-4">
+                        <input id="xRotationCenter" class="form-control" placeholder="x"/>
+                    </div>
+                    <div class="col-xs-4">
+                        <input id="yRotationCenter" class="form-control" placeholder="y"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="rotation">Angle:</label>
+                    <div class="col-xs-8">
+                        <input id="rotation" class="form-control" placeholder="angle"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="rotationBtn" class="btn btn-default col-xs-10 col-xs-offset-1">Apply</button>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <button id="redraw" class="btn btn-primary col-xs-10 col-xs-offset-1">Redraw</button>
+            </div>
+        </div>
     </div>
 </div>
 </body>
