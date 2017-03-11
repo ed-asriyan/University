@@ -9,7 +9,7 @@ const onAddButtonClick = function (e) {
     let pos = pointsInput.value.split(',');
     let x = parseInt(pos[0]);
     let y = parseInt(pos[1]);
-    if (x && y) {
+    if (isFinite(x) && isFinite(y)) {
         let point = new Point(x, y);
         createPoint(point);
         updateTrianglesList();

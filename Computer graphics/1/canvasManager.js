@@ -65,7 +65,7 @@ class CanvasManager {
 
     drawPoint(options) {
         if (!options) return false;
-        if (!options.point || !(options.point.x && options.point.y)) return false;
+        if (!options.point || !(isFinite(options.point.x) && isFinite(options.point.y))) return false;
 
         let point = options.point;
         if (!point) return false;
