@@ -36,8 +36,26 @@ class Solver {
         }
     }
 
+    *bottomSequence(options = {distance: this.b, step: 1e-2}) {
+        // left vertical line
+        for (let y = 0; y < this.b + options.distance; y += options.step) {
+            yield new Point(-this.b, y);
+        }
+
+        // bottom horizontal line
+        for (let x = -this.b; x < this.b; x += options.step) {
+            yield new Point(x, this.b + options.distance);
+        }
+
+        // right vertical line
+        for (let y = this.b + options.distance; y > 0; y -= options.step) {
+            yield new Point(this.b, y);
+        }
+    }
+
     *allPointsSequence(options = {}) {
         yield* this.astroidSequence(options.astroid);
         yield* this.circleSequence(options.circle);
+        yield* this.bottomSequence(options.bottom);
     }
 }
