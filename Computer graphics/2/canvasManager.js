@@ -12,6 +12,7 @@ class CanvasManager {
         this._canvas = canvas;
         this._offset = {x: 0, y: 0};
         this._scale = {x: 1, y: 1, center: new Point(0, 0)};
+        this._rotation = {angle: 0, center: new Point(0, 0)};
     }
 
     set offset(options) {
@@ -23,6 +24,11 @@ class CanvasManager {
         this._scale.x = options.x;
         this._scale.y = options.y;
         this._scale.center = options.center;
+    }
+
+    set rotation(options) {
+        this._rotation.angle = options.angle;
+        this._rotation.center = options.center;
     }
 
     get scale() {
@@ -38,6 +44,13 @@ class CanvasManager {
             x: this._offset.x,
             y: this._offset.y,
         };
+    }
+
+    get rotation() {
+        return {
+            angle: this._rotation.angle,
+            center: this._rotation.center
+        }
     }
 
     getMousePosition(event) {
@@ -174,13 +187,19 @@ class CanvasManager {
         result.x = this._scale.center.x + (result.x - this._scale.center.x) * this._scale.x;
         result.y = this._scale.center.y + (result.y - this._scale.center.y) * this._scale.y;
 
+        // rotation
+        let newX = this._rotation.center.x + (result.x - this._rotation.center.x) * Math.cos(this._rotation.angle) + (result.y - this._rotation.center.y) * Math.sin(this._rotation.angle);
+        let newY = this._rotation.center.y - (result.x - this._rotation.center.x) * Math.sin(this._rotation.angle) + (result.y - this._rotation.center.y) * Math.cos(this._rotation.angle);
+        result.x = newX;
+        result.y = newY;
+
         // offset
         result.x += this._offset.x;
         result.y += this._offset.y;
 
+        console.log(point, '->', result);
         return result;
     }
-
 
     _toVirtualCoordinates(point) {
         let result = new Point(point.x, point.y);

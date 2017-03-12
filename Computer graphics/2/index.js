@@ -45,17 +45,20 @@ const reDraw = function () {
 
 const resetImage = function () {
     mainCanvas.width = mainCanvas.parentNode.clientWidth;
+
     canvasManager.offset = {
         x: Math.round(mainCanvas.width / 2),
         y: Math.round(mainCanvas.height / 2)
     };
-
     canvasManager.scale = {
         x: 1,
         y: 1,
         center: new Point(0, 0)
     };
-    // todo: reset rotation
+    canvasManager.rotation = {
+        angle: 0,
+        center: new Point(0, 0)
+    };
 
     reDraw();
 };
@@ -89,13 +92,16 @@ const scaleImage = function (options = {x: 1, y: 1, center: new Point(0, 0)}) {
         x: canvasManager.scale.x * options.x,
         y: canvasManager.scale.y * options.y,
         center: options.center
-}
-    ;
+    };
     reDraw();
 };
 
 const rotateImage = function (options = {angle: 0, center: new Point(0, 0)}) {
-    // todo: implement
+    canvasManager.rotation = {
+        angle: canvasManager.rotation.angle + options.angle,
+        center: options.center
+    };
+    reDraw();
 };
 
 
