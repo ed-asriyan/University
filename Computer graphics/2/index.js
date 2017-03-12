@@ -33,11 +33,37 @@ const solver = new Solver(100);
 //
 // Functions
 //
-const resetOptions = function () {
-    mainCanvas.width = mainCanvas.parentNode.clientWidth;
+const reDraw = function () {
+    canvasManager.clear();
+    canvasManager.drawGrid();
+    for (let point of solver.allPointsSequence()) {
+        canvasManager.drawPoint({
+            point: point
+        });
+    }
+};
 
-    xOffsetInput.value = Math.round(mainCanvas.width / 2);
-    yOffsetInput.value = Math.round(mainCanvas.height / 2);
+const resetImage = function () {
+    mainCanvas.width = mainCanvas.parentNode.clientWidth;
+    canvasManager.offset = {
+        x: Math.round(mainCanvas.width / 2),
+        y: Math.round(mainCanvas.height / 2)
+    };
+
+    canvasManager.scale = {
+        x: 1,
+        y: 1
+    };
+    // todo: reset rotation
+
+    reDraw();
+};
+
+const resetOptions = function () {
+    mainCanvas.height = 720;
+
+    xMoveInput.value = 0;
+    yMoveInput.value = 0;
 
     xScaleInput.value = 1;
     yScaleInput.value = 1;
@@ -49,32 +75,32 @@ const resetOptions = function () {
     rotationInput.value = 0;
 };
 
-const reDraw = function () {
-    let xOffset = parseInt(xOffsetInput.value);
-    let yOffset = parseInt(yOffsetInput.value);
+const moveImage = function (options = {x: 0, y: 0}) {
+    canvasManager.offset = {
+        x: canvasManager.offset.x + options.x,
+        y: canvasManager.offset.y + options.y
+    };
+    reDraw();
+};
 
-    let xScale = parseInt(xScaleInput.value);
-    let yScale = parseInt(yScaleInput.value);
+const scaleImage = function (options = {x: 1, y: 1, center: new Point(0, 0)}) {
+    canvasManager.scale = {
+        x: canvasManager.scale.x * options.x,
+        y: canvasManager.scale.y * options.y
+    };
+    canvasManager.scale.center = options.center;
+    reDraw();
+};
 
-    return new Promise(() => {
-        canvasManager.clear();
-
-        canvasManager.offset = new Point(xOffset, yOffset);
-        canvasManager.scale = new Point(xScale, yScale);
-
-        canvasManager.drawGrid();
-        for (let point of solver.allPointsSequence()) {
-            canvasManager.drawPoint({
-                point: point
-            });
-        }
-    });
+const rotateImage = function (options = {angle: 0, center: new Point(0, 0)}) {
+    // todo: implement
 };
 
 
 //
 // XML elements initialization
 //
+resetImage();
 resetOptions();
 reDraw();
 
