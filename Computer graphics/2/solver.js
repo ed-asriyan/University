@@ -36,7 +36,7 @@ class Solver {
         }
     }
 
-    *bottomSequence(options = {distance: this.b, step: 1e-2}) {
+    *bottomSequence(options = {distance: this.b, step: 1}) {
         // left vertical line
         for (let y = 0; y < this.b + options.distance; y += options.step) {
             yield new Point(-this.b, y);
