@@ -12,9 +12,9 @@ const mainCanvas = document.getElementById('mainCanvas');
 const resetButton = document.getElementById('reset');
 const redrawButton = document.getElementById('redraw');
 
-const xOffsetInput = document.getElementById('xOffset');
-const yOffsetInput = document.getElementById('yOffset');
-const offsetButton = document.getElementById('offsetBtn');
+const xMoveInput = document.getElementById('xMove');
+const yMoveInput = document.getElementById('yMove');
+const moveButton = document.getElementById('moveBtn');
 
 const xScaleInput = document.getElementById('xScale');
 const yScaleInput = document.getElementById('yScale');
@@ -79,11 +79,3 @@ resetOptions();
 reDraw();
 
 
-//
-// Add routed event listeners
-//
-resetButton.addEventListener('click', resetOptions);
-redrawButton.addEventListener('click', reDraw);
-offsetButton.addEventListener('click', reDraw);
-scaleButton.addEventListener('click', reDraw);
-rotationButton.addEventListener('click', reDraw);
