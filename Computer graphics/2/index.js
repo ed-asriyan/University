@@ -52,7 +52,8 @@ const resetImage = function () {
 
     canvasManager.scale = {
         x: 1,
-        y: 1
+        y: 1,
+        center: new Point(0, 0)
     };
     // todo: reset rotation
 
@@ -86,9 +87,10 @@ const moveImage = function (options = {x: 0, y: 0}) {
 const scaleImage = function (options = {x: 1, y: 1, center: new Point(0, 0)}) {
     canvasManager.scale = {
         x: canvasManager.scale.x * options.x,
-        y: canvasManager.scale.y * options.y
-    };
-    canvasManager.scale.center = options.center;
+        y: canvasManager.scale.y * options.y,
+        center: options.center
+}
+    ;
     reDraw();
 };
 

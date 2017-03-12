@@ -11,25 +11,33 @@ class CanvasManager {
 
         this._canvas = canvas;
         this._offset = {x: 0, y: 0};
-        this._scale = {x: 1, y: 1};
+        this._scale = {x: 1, y: 1, center: new Point(0, 0)};
     }
 
-    set offset(point) {
-        this._offset.x = point.x;
-        this._offset.y = point.y;
+    set offset(options) {
+        this._offset.x = options.x;
+        this._offset.y = options.y;
     }
 
-    set scale(point) {
-        this._scale.x = point.x;
-        this._scale.y = point.y;
+    set scale(options) {
+        this._scale.x = options.x;
+        this._scale.y = options.y;
+        this._scale.center = options.center;
     }
 
     get scale() {
-        return new Point(this._scale.x, this._scale.y);
+        return {
+            x: this._scale.x,
+            y: this._scale.y,
+            center: this._scale.center
+        };
     }
 
     get offset() {
-        return new Point(this._offset.x, this._offset.y);
+        return {
+            x: this._offset.x,
+            y: this._offset.y,
+        };
     }
 
     getMousePosition(event) {
@@ -160,16 +168,31 @@ class CanvasManager {
     }
 
     _toScreenCoordinates(point) {
-        return {
-            x: (this._offset.x + point.x) * this._scale.x,
-            y: (this._offset.y + point.y) * this._scale.y,
-        }
+        let result = new Point(point.x, point.y);
+
+        // scale
+        result.x = this._scale.center.x + (result.x - this._scale.center.x) * this._scale.x;
+        result.y = this._scale.center.y + (result.y - this._scale.center.y) * this._scale.y;
+
+        // offset
+        result.x += this._offset.x;
+        result.y += this._offset.y;
+
+        return result;
     }
 
+
     _toVirtualCoordinates(point) {
-        return {
-            x: point.x / this._scale.x - this._offset.x,
-            y: point.y / this._scale.y - this._offset.y
-        }
+        let result = new Point(point.x, point.y);
+
+        // offset
+        result.x -= this._offset.x;
+        result.y -= this._offset.y;
+
+        // scale
+        result.x = (result.x - this._scale.center.x) / this._scale.x + this._scale.center.x;
+        result.y = (result.y - this._scale.center.y) / this._scale.y + this._scale.center.y;
+
+        return result;
     }
 }
