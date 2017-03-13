@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 11)
 set(SOURCE_FILES
         main.c main.c
         core/math.c core/math.h
-        core/transformation.c core/transformation.h
+        core/transformation.h
         core/canvas.c core/canvas.h
         core/camera.c core/camera.h
         core/errors.h

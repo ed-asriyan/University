@@ -26,7 +26,7 @@ typedef struct {
 } model_t;
 
 void model_initialize(model_t* model);
-error_t model_load(model_t* model, char const* file_path);
+error_t model_load(model_t* model, const char* file_path);
 bool model_is_loaded(const model_t* model);
 error_t model_render(const model_t* model, const matrix_t* object_to_canvas);
 void model_deinitialize(model_t* model);

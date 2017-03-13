@@ -5,6 +5,7 @@
 #include "camera.h"
 
 double const camera_default_field_of_view = M_PI / 3; //to_radians(60.0);
+
 double const camera_default_min_distance = 0.01;
 
 double const camera_default_max_distance = 100.0;

@@ -9,7 +9,7 @@ void object_initialize(object_t* object) {
 	model_initialize(&object->model);
 }
 
-error_t object_load_model(object_t* object, char const* file_path) {
+error_t object_load_model(object_t* object, const char* file_path) {
 	error_t error = model_load(&object->model, file_path);
 	if (error == NONE) {
 		object->to_world = matrix_identity;

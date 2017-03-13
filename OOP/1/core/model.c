@@ -8,7 +8,7 @@ void model_initialize(model_t* model) {
 	model->is_loaded = false;
 }
 
-error_t model_load(model_t* model, char const* file_path) {
+error_t model_load(model_t* model, const char* file_path) {
 	FILE* file = fopen(file_path, "r");
 	if (!file) {
 		return UNABLE_TO_OPEN_FILE;

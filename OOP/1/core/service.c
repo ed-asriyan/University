@@ -4,7 +4,7 @@
 
 #include "service.h"
 
-error_t service_startup(service_t** service, const command_data_t* data) {
+error_t service_startup(service_t** service, const command_data_t* command_data) {
 	if (*service) {
 		return ALREADY_INITIALIZED;
 	}
@@ -50,13 +50,12 @@ error_t service_render(const service_t* service, const command_data_t* command_d
 	return object_render(&service->object, &service->camera);
 }
 
-error_t service_shutdown(service_t** service, const command_data_t* data) {
+error_t service_shutdown(service_t** service, const command_data_t* command_data) {
 	if (!service) {
 		return NOT_INITIALIZED;
 	}
 	camera_deinitialize(&(*service)->camera);
 	object_deinitialize(&(*service)->object);
 	free(service);
-	service = NULL;
 	return NONE;
 }
