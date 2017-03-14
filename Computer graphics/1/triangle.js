@@ -39,16 +39,13 @@ class Triangle {
     }
 
     isDegenerate() {
-        // points equality
-        if (
-            (this.a.x == this.b.x && this.a.y == this.b.y) ||
-            (this.a.x == this.c.x && this.a.y == this.c.y) ||
-            (this.b.x == this.c.x && this.b.y == this.c.y)
-        ) {
-            return true;
-        }
+        let aX = this.b.x - this.a.x;
+        let aY = this.b.y - this.a.y;
 
-        return false;
+        let cX = this.c.x - this.a.x;
+        let cY = this.c.y - this.a.y;
+
+        return aX * cY == aY * cX;
     }
 
     static findOrthocenter(p1, p2, p3) {
