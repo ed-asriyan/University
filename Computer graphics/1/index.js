@@ -252,7 +252,7 @@ const drawFadedPoint = function (point) {
     canvasManager.drawPoint({
         point: point,
         color: 'mediumblue',
-        radius: 3
+        radius: 4
     });
 };
 
@@ -266,6 +266,10 @@ const drawTriangle = function (triangle) {
     canvasManager.drawLine(a, b, sideOptions);
     canvasManager.drawLine(a, c, sideOptions);
     canvasManager.drawLine(c, b, sideOptions);
+
+    drawHighlightedPoint(a);
+    drawHighlightedPoint(b);
+    drawHighlightedPoint(c);
 
     let orthocenter = triangle.orthocenter;
     orthocenter.x = Math.round(orthocenter.x);
@@ -288,10 +292,6 @@ const drawTriangle = function (triangle) {
         );
         drawFadedPoint(orthocenter);
     }
-
-    drawHighlightedPoint(a);
-    drawHighlightedPoint(b);
-    drawHighlightedPoint(c);
 };
 
 const updatePointListFooter = function () {
