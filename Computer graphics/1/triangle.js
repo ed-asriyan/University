@@ -54,128 +54,81 @@ class Triangle {
     static findOrthocenter(p1, p2, p3) {
         let res = {};
 
-        let a = p2.y - p1.y;
-        let a1 = p2.x - p1.x;
+        let aX = p2.x - p1.x;
+        let aY = p2.y - p1.y;
 
-        let ab, ab1, ab2;
-        if (a != 0 && a1 != 0) {
-            ab = a / a1;
-            ab1 = -1 / ab;
-            ab2 = (p3.y) - (ab1 * p3.x);
-        }
+        let aTan = -aX / aY;
+        let ab2 = (p3.y) - (aTan * p3.x);
 
-        let b = p3.y - p2.y;
-        let b1 = p3.x - p2.x;
 
-        let bc, bc1, bc2;
-        if (b != 0 && b1 != 0) {
-            bc = b / b1;
-            bc1 = -1 / bc;
-            bc2 = (p1.y) - (bc1 * p1.x);
-        }
+        let bX = p3.x - p2.x;
+        let bY = p3.y - p2.y;
 
-        let c = p3.y - p1.y;
-        let c1 = p3.x - p1.x;
+        let bTan = -bX / bY;
+        let bc2 = (p1.y) - (bTan * p1.x);
 
-        let ca, ca1, ca2;
-        if (c != 0 && c1 != 0) {
-            ca = c / c1;
-            ca1 = -1 / ca;
-            ca2 = (p2.y) - (ca1 * p2.x);
-        }
+
+        let cX = p3.x - p1.x;
+        let cY = p3.y - p1.y;
+
+        let cTan = -cX / cY;
+        let ca2 = (p2.y) - (cTan * p2.x);
+
 
         let con, con1, con2, con3;
         let ad, ad1, ad2, ad3;
         let di, di1;
         let y8;
-        if (a != 0 && a1 != 0 && b != 0 && b1 != 0 && c != 0 && c1 != 0) {
-            con = -bc1;
+        if (aY != 0 && aX != 0 && bY != 0 && bX != 0 && cY != 0 && cX != 0) {
+            con = -bTan;
             con1 = -bc2;
-            ad = con + ab1;
+            ad = con + aTan;
             ad1 = ab2 + con1;
             di = ad1 / ad;
             di1 = -di;
-            y8 = (bc1 * di1) + bc2;
+            y8 = (bTan * di1) + bc2;
 
-            if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
-                res.x = di1;
-                res.y = y8;
-            } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
-                res.x = di1.toFixed(5);
-                res.y = y8;
-            } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
-                res.x = di1;
-                res.y = y8.toFixed(5);
-            } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
-                res.x = di1.toFixed(5);
-                res.y = y8.toFixed(5);
-            }
-        } else if (a != 0 && a1 != 0 && b != 0 && b1 != 0) {
-            con = -bc1;
+            res.x = di1;
+            res.y = y8;
+        } else if (aY != 0 && aX != 0 && bY != 0 && bX != 0) {
+            con = -bTan;
             con1 = -bc2;
-            ad = con + ab1;
+            ad = con + aTan;
             ad1 = ab2 + con1;
             di = ad1 / ad;
             di1 = -di;
-            y8 = (bc1 * di1) + bc2;
+            y8 = (bTan * di1) + bc2;
 
-            if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
-                res.x = di1;
-                res.y = y8;
-            } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
-                res.x = di1.toFixed(5);
-                res.y = y8;
-            } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
-                res.x = di1;
-                res.y = y8.toFixed(5);
-            } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
-                res.x = di1.toFixed(5);
-                res.y = y8.toFixed(5);
-            }
-        } else if (b != 0 && b1 != 0 && c != 0 && c1 != 0) {
-            con2 = -ca1;
+            res.x = di1;
+            res.y = y8;
+        } else if (bY != 0 && bX != 0 && cY != 0 && cX != 0) {
+            con2 = -cTan;
             con3 = -ca2;
-            ad2 = con2 + bc1;
+            ad2 = con2 + bTan;
             ad3 = bc2 + con3;
             di = ad3 / ad2;
             di1 = -di;
-            y8 = (ca1 * di1) + ca2;
+            y8 = (cTan * di1) + ca2;
 
-            if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
-                res.x = di1;
-                res.y = y8;
-            } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
-                res.x = di1.toFixed(5);
-                res.y = y8;
-            } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
-                res.x = di1;
-                res.y = y8.toFixed(5);
-            } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
-                res.x = di1.toFixed(5);
-                res.y = y8.toFixed(5);
-            }
-        } else if (a != 0 && a1 != 0 && c != 0 && c1 != 0) {
-            con2 = -ab1;
+            res.x = di1;
+            res.y = y8;
+        } else if (aY != 0 && aX != 0 && cY != 0 && cX != 0) {
+            con2 = -aTan;
             con3 = -ab2;
-            ad2 = con2 + ca1;
+            ad2 = con2 + cTan;
             ad3 = ca2 + con3;
             di = ad3 / ad2;
             di1 = -di;
-            y8 = (ab1 * di1) + ab2;
+            y8 = (aTan * di1) + ab2;
 
-            if (Math.round(di1) == (di1) && Math.round(y8) == (y8)) {
-                res.x = di1;
-                res.y = y8;
-            } else if (Math.round(di1) != (di1) && Math.round(y8) == (y8)) {
-                res.x = di1.toFixed(5);
-                res.y = y8;
-            } else if (Math.round(di1) == (di1) && Math.round(y8) != (y8)) {
-                res.x = di1;
-                res.y = y8.toFixed(5);
-            } else if (Math.round(di1) != (di1) && Math.round(y8) != (y8)) {
-                res.x = di1.toFixed(5);
-                res.y = y8.toFixed(5);
-            }
+            res.x = di1;
+            res.y = y8;
+        } else if (aY != 0 && aX != 0) {
+            res = p3;
+        } else if (bY != 0 && bX != 0) {
+            res = p1;
+        } else if (cY != 0 && cX != 0) {
+            res = p2;
         }
 
         if (isFinite(res.x) && isFinite(res.y)) {
