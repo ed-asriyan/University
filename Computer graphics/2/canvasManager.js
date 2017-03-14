@@ -4,11 +4,7 @@
  * Created by ed on 11.03.17.
  */
 class CanvasManager {
-    constructor(canvas, options) {
-        if (!options) {
-            options = {}
-        }
-
+    constructor(canvas) {
         this._canvas = canvas;
         this._offset = {x: 0, y: 0};
         this._scale = {x: 1, y: 1, center: new Point(0, 0)};
@@ -42,7 +38,7 @@ class CanvasManager {
     get offset() {
         return {
             x: this._offset.x,
-            y: this._offset.y,
+            y: this._offset.y
         };
     }
 
@@ -70,11 +66,7 @@ class CanvasManager {
         context.clearRect(0, 0, this._canvas.width, this._canvas.height);
     }
 
-    drawLine(p1, p2, options) {
-        if (!options) {
-            options = {}
-        }
-
+    drawLine(p1, p2, options = {}) {
         p1 = this._toScreenCoordinates(p1);
         p2 = this._toScreenCoordinates(p2);
 
@@ -116,20 +108,17 @@ class CanvasManager {
         return true;
     }
 
-    drawGrid(options) {
-        if (!options) {
-            options = {};
-        }
+    drawGrid(options = {}) {
         options.color = options.color || 'gray';
         options.lineWidth = options.lineWidth || 1;
         options.axisWidth = options.axisWidth || 3;
         options.axisColor = options.axisColor || 'pink';
-        let step = options.step || 10;
+        options.step = options.step || 10;
 
         let top = this._toVirtualCoordinates({x: 0, y: 0});
         let bottom = this._toVirtualCoordinates({x: this._canvas.width, y: this._canvas.height});
 
-        for (let x = Math.round(top.x / step) * step; x <= bottom.x; x += step) {
+        for (let x = Math.round(top.x / options.step) * options.step; x <= bottom.x; x += options.step) {
             this.drawLine(
                 {x: x, y: top.y},
                 {x: x, y: bottom.y},
@@ -137,7 +126,7 @@ class CanvasManager {
             );
         }
 
-        for (let y = Math.round(top.y / step) * step; y <= bottom.y; y += step) {
+        for (let y = Math.round(top.y / options.step) * options.step; y <= bottom.y; y += options.step) {
             this.drawLine(
                 {x: top.x, y: y},
                 {x: bottom.x, y: y},
@@ -197,7 +186,6 @@ class CanvasManager {
         result.x += this._offset.x;
         result.y += this._offset.y;
 
-        console.log(point, '->', result);
         return result;
     }
 
