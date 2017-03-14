@@ -23,7 +23,7 @@ const onMouseMove = function (e) {
         let dx = newMousePosition.x - mousePosition.y;
         let dy = newMousePosition.y - mousePosition.y;
 
-        moveImage({
+        moveCamera({
             x: dx,
             y: dy
         });
@@ -33,7 +33,8 @@ const onMouseMove = function (e) {
 };
 
 const onReset = function () {
-    resetImage();
+    resetPoints();
+    resetCamera();
 };
 
 const onRedraw = function () {
@@ -51,7 +52,7 @@ const onMoveApply = function () {
         // todo:
     }
 
-    moveImage({x: x, y: y});
+    movePoints({x: x, y: y});
 };
 
 const onScaleApply = function () {
@@ -67,7 +68,7 @@ const onScaleApply = function () {
         // todo:
     }
 
-    scaleImage({x: x, y: y, center: new Point(xCenter, yCenter)});
+    scalePoints({x: x, y: y, center: new Point(xCenter, yCenter)});
 };
 
 const onRotationApply = function () {
@@ -85,11 +86,10 @@ const onRotationApply = function () {
         // todo:
     }
 
-    rotateImage({angle: angle, center: new Point(xCenter, yCenter)});
+    rotatePoints({angle: angle, center: new Point(xCenter, yCenter)});
 };
 
 resetButton.addEventListener('click', onReset);
-redrawButton.addEventListener('click', onRedraw);
 moveButton.addEventListener('click', onMoveApply);
 scaleButton.addEventListener('click', onScaleApply);
 rotationButton.addEventListener('click', onRotationApply);

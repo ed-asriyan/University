@@ -10,7 +10,6 @@
 const mainCanvas = document.getElementById('mainCanvas');
 
 const resetButton = document.getElementById('reset');
-const redrawButton = document.getElementById('redraw');
 
 const xMoveInput = document.getElementById('xMove');
 const yMoveInput = document.getElementById('yMove');
@@ -28,7 +27,8 @@ const rotationInput = document.getElementById('rotation');
 const rotationButton = document.getElementById('rotationBtn');
 
 const canvasManager = new CanvasManager(mainCanvas);
-const solver = new Solver(100);
+
+let imagePoints = [];
 
 //
 // Functions
@@ -36,36 +36,18 @@ const solver = new Solver(100);
 const reDraw = function () {
     canvasManager.clear();
     canvasManager.drawGrid();
-    for (let point of solver.allPointsSequence()) {
+    imagePoints.forEach(function (point) {
         canvasManager.drawPoint({
             point: point
         });
-    }
+    });
 };
 
-const resetImage = function () {
-    mainCanvas.width = mainCanvas.parentNode.clientWidth;
-
-    canvasManager.offset = {
-        x: Math.round(mainCanvas.width / 2),
-        y: Math.round(mainCanvas.height / 2)
-    };
-    canvasManager.scale = {
-        x: 1,
-        y: 1,
-        center: new Point(0, 0)
-    };
-    canvasManager.rotation = {
-        angle: 0,
-        center: new Point(0, 0)
-    };
-
-    reDraw();
+const resetPoints = function (solver = new Solver(100), options) {
+    imagePoints = [...solver.allPointsSequence(options)];
 };
 
 const resetOptions = function () {
-    mainCanvas.height = 720;
-
     xMoveInput.value = 0;
     yMoveInput.value = 0;
 
@@ -79,36 +61,58 @@ const resetOptions = function () {
     rotationInput.value = 0;
 };
 
-const moveImage = function (options = {x: 0, y: 0}) {
-    canvasManager.offset = {
-        x: canvasManager.offset.x + options.x,
-        y: canvasManager.offset.y + options.y
-    };
+const movePoints = function (options) {
+    imagePoints.forEach(function (point, index) {
+        imagePoints[index] = transformations.move(point, options);
+    });
     reDraw();
 };
 
-const scaleImage = function (options = {x: 1, y: 1, center: new Point(0, 0)}) {
-    canvasManager.scale = {
-        x: canvasManager.scale.x * options.x,
-        y: canvasManager.scale.y * options.y,
-        center: options.center
-    };
+const scalePoints = function (options) {
+    imagePoints.forEach(function (point, index) {
+        imagePoints[index] = transformations.scale(point, options);
+    });
     reDraw();
 };
 
-const rotateImage = function (options = {angle: 0, center: new Point(0, 0)}) {
-    canvasManager.rotation = {
-        angle: canvasManager.rotation.angle + options.angle,
-        center: options.center
-    };
+const rotatePoints = function (options = {angle: 0, center: new Point(0, 0)}) {
+    imagePoints.forEach(function (point, index) {
+        imagePoints[index] = transformations.rotate(point, options);
+    });
     reDraw();
 };
 
+const resetCamera = function () {
+    mainCanvas.width = mainCanvas.parentNode.clientWidth;
+    mainCanvas.height = Math.min(window.innerHeight - mainCanvas.getBoundingClientRect().top - 10, 720);
+
+    canvasManager.cameraOffset = {
+        x: Math.round(mainCanvas.width / 2),
+        y: Math.round(mainCanvas.height / 2)
+    };
+    canvasManager.cameraScale = {
+        x: 1,
+        y: 1,
+        center: new Point(0, 0)
+    };
+    canvasManager.cameraRotation = {
+        angle: 0,
+        center: new Point(0, 0)
+    };
+
+    reDraw();
+};
+
+const moveCamera = function (options) {
+    canvasManager.moveCamera(options);
+    reDraw();
+};
 
 //
 // XML elements initialization
 //
-resetImage();
+resetPoints();
+resetCamera();
 resetOptions();
 reDraw();
 

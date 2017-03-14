@@ -6,46 +6,25 @@
 class CanvasManager {
     constructor(canvas) {
         this._canvas = canvas;
-        this._offset = {x: 0, y: 0};
-        this._scale = {x: 1, y: 1, center: new Point(0, 0)};
-        this._rotation = {angle: 0, center: new Point(0, 0)};
+        this._cameraOffset = {x: 0, y: 0};
     }
 
-    set offset(options) {
-        this._offset.x = options.x;
-        this._offset.y = options.y;
+    set cameraOffset(options) {
+        this._cameraOffset.x = options.x;
+        this._cameraOffset.y = options.y;
     }
 
-    set scale(options) {
-        this._scale.x = options.x;
-        this._scale.y = options.y;
-        this._scale.center = options.center;
-    }
-
-    set rotation(options) {
-        this._rotation.angle = options.angle;
-        this._rotation.center = options.center;
-    }
-
-    get scale() {
+    get cameraOffset() {
         return {
-            x: this._scale.x,
-            y: this._scale.y,
-            center: this._scale.center
+            x: this._cameraOffset.x,
+            y: this._cameraOffset.y
         };
     }
 
-    get offset() {
-        return {
-            x: this._offset.x,
-            y: this._offset.y
-        };
-    }
-
-    get rotation() {
-        return {
-            angle: this._rotation.angle,
-            center: this._rotation.center
+    moveCamera(options) {
+        this._cameraOffset = {
+            x: this._cameraOffset.x + options.x,
+            y: this._cameraOffset.y + options.y
         }
     }
 
@@ -93,7 +72,6 @@ class CanvasManager {
         let screenPoint = this._toScreenCoordinates(point);
         let x = screenPoint.x;
         let y = screenPoint.y;
-        if (!(x && y)) return false;
         let color = options.color || 'black';
         let radius = options.radius || 1;
 
@@ -117,7 +95,6 @@ class CanvasManager {
 
         let top = this._toVirtualCoordinates({x: 0, y: 0});
         let bottom = this._toVirtualCoordinates({x: this._canvas.width, y: this._canvas.height});
-
         for (let x = Math.round(top.x / options.step) * options.step; x <= bottom.x; x += options.step) {
             this.drawLine(
                 {x: x, y: top.y},
@@ -172,19 +149,7 @@ class CanvasManager {
     _toScreenCoordinates(point) {
         let result = new Point(point.x, point.y);
 
-        // scale
-        result.x = this._scale.center.x + (result.x - this._scale.center.x) * this._scale.x;
-        result.y = this._scale.center.y + (result.y - this._scale.center.y) * this._scale.y;
-
-        // rotation
-        let newX = this._rotation.center.x + (result.x - this._rotation.center.x) * Math.cos(this._rotation.angle) + (result.y - this._rotation.center.y) * Math.sin(this._rotation.angle);
-        let newY = this._rotation.center.y - (result.x - this._rotation.center.x) * Math.sin(this._rotation.angle) + (result.y - this._rotation.center.y) * Math.cos(this._rotation.angle);
-        result.x = newX;
-        result.y = newY;
-
-        // offset
-        result.x += this._offset.x;
-        result.y += this._offset.y;
+        result = transformations.move(result, this._cameraOffset);
 
         return result;
     }
@@ -192,13 +157,10 @@ class CanvasManager {
     _toVirtualCoordinates(point) {
         let result = new Point(point.x, point.y);
 
-        // offset
-        result.x -= this._offset.x;
-        result.y -= this._offset.y;
-
-        // scale
-        result.x = (result.x - this._scale.center.x) / this._scale.x + this._scale.center.x;
-        result.y = (result.y - this._scale.center.y) / this._scale.y + this._scale.center.y;
+        result = transformations.move(result, {
+            x: -this._cameraOffset.x,
+            y: -this._cameraOffset.y
+        });
 
         return result;
     }
