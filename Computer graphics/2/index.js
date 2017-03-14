@@ -8,7 +8,7 @@
 // XML elements
 //
 const mainCanvas = document.getElementById('mainCanvas');
-
+const controlPanel = document.getElementById('controlPanel');
 const resetButton = document.getElementById('reset');
 
 const xMoveInput = document.getElementById('xMove');
@@ -84,7 +84,7 @@ const rotatePoints = function (options = {angle: 0, center: new Point(0, 0)}) {
 
 const resetCamera = function () {
     mainCanvas.width = mainCanvas.parentNode.clientWidth;
-    mainCanvas.height = Math.min(window.innerHeight - mainCanvas.getBoundingClientRect().top - 10, 720);
+    mainCanvas.height = controlPanel.clientHeight;
 
     canvasManager.cameraOffset = {
         x: Math.round(mainCanvas.width / 2),
