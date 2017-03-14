@@ -40,6 +40,7 @@ error_t model_render(const model_t* model, const matrix_t* object_to_canvas) {
 		vector_t edge_vertex_b = vector_transform(&vector1, object_to_canvas);
 		draw_line(&edge_vertex_a, &edge_vertex_b);
 	}
+	return NONE;
 }
 
 void model_deinitialize(model_t* model) {
