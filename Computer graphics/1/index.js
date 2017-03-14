@@ -8,9 +8,6 @@ const mainCanvas = document.getElementById('mainCanvas');
 const mousePositionLabel = document.getElementById('mousePosition');
 const addPointButton = document.getElementById('addPoint');
 
-// mainCanvas.height = mainCanvas.parentNode.parentNode.clientHeight;
-mainCanvas.width = mainCanvas.parentNode.parentNode.parentNode.clientWidth;
-
 let pointId = 0;
 let points = [];
 
@@ -48,17 +45,21 @@ const updateTrianglesList = function () {
         }
     });
 
-    if (triangles.length) {
-        if (triangles[0].orthocenter) {
-            triangles[0].tableRow.classList.add('success');
+    triangles.forEach(function (triangle) {
+        if (Math.round(triangle.orthocenterDistance) == Math.round(triangles[0].orthocenterDistance)) {
+            triangle.tableRow.classList.add('success');
+        } else {
+            return false;
         }
-    }
+    });
 
     updateTrianglesListFooter();
 };
 
 
 const reDrawPoints = function () {
+    mainCanvas.width = mainCanvas.parentNode.parentNode.parentNode.clientWidth;
+
     canvasManager.clear();
     canvasManager.drawGrid();
     points.forEach(function (point) {
@@ -368,5 +369,4 @@ document.getElementById('resize').addEventListener('click', onResize);
 document.getElementById('resizeOrtho').addEventListener('click', onResizeOrtho);
 document.getElementById('resetSize').addEventListener('click', onResetSize);
 
-
-reDrawPoints();
+setTimeout(reDrawPoints, 10);
