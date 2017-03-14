@@ -173,8 +173,10 @@ const resize = function (withOrtho) {
         let xSize = mainCanvas.width / (xMax - xMin + 20);
         let ySize = mainCanvas.height / (yMax - yMin + 20);
 
+        let size = Math.min(xSize, ySize);
+
         canvasManager.setOffset(-xMin + 10, -yMin + 10);
-        canvasManager.setScale(xSize, ySize);
+        canvasManager.setScale(size, size);
     } else {
         resetSize();
     }
