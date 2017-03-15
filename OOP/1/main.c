@@ -178,6 +178,25 @@ void mouse_move_handler(int x, int y) {
 	mouse_passive_move_handler(x, y);
 }
 
+error_t init_core() {
+	error_t error = NONE;
+	command_data_t command_data;
+	if ((error = log_if_error("startup", execute(STARTUP, &command_data))) == NONE) {
+		command_data.transform_camera_data.transformation.type = TRANSLATION;
+		command_data.transform_camera_data.transformation.translation.displacement_x = 0.0;
+		command_data.transform_camera_data.transformation.translation.displacement_y = 0.0;
+		command_data.transform_camera_data.transformation.translation.displacement_z = 10.0;
+		error = log_if_error("camera transformation", execute(TRANSFORM_CAMERA, &command_data));
+	}
+	return error;
+}
+
+error_t load_core(const char* file_path) {
+	command_data_t load_command_data;
+	load_command_data.load_model_data.file_path = file_path;
+	return log_if_error("model loading", execute(LOAD_MODEL, &load_command_data));
+}
+
 int main(int argc, char** argv) {
 	if (argc == 1) {
 		printf("Usage:\n");
@@ -200,39 +219,17 @@ int main(int argc, char** argv) {
 	glMatrixMode(GL_PROJECTION);
 	gluOrtho2D(0.0, 300.0, 0.0, 300.0);
 
-	glutDisplayFunc(redraw);
-
-	// subscribe for mouse events
-	glutMouseFunc(mouse_button_handler);
-	glutPassiveMotionFunc(mouse_passive_move_handler);
-	glutMotionFunc(mouse_move_handler);
-
-	// initialize core
-	command_data_t command_data;
-	if (log_if_error("startup", execute(STARTUP, &command_data)) != NONE) {
-		return -10;
+	if (init_core() == NONE) {
+		if (load_core(argv[1]) == NONE) {
+			glutDisplayFunc(redraw);
+			glutMouseFunc(mouse_button_handler);
+			glutPassiveMotionFunc(mouse_passive_move_handler);
+			glutMotionFunc(mouse_move_handler);
+		}
 	}
 
-	// init camera properties
-	command_data.transform_camera_data.transformation.type = TRANSLATION;
-	command_data.transform_camera_data.transformation.translation.displacement_x = 0.0;
-	command_data.transform_camera_data.transformation.translation.displacement_y = 0.0;
-	command_data.transform_camera_data.transformation.translation.displacement_z = 10.0;
-	if (log_if_error("camera transformation", execute(TRANSFORM_CAMERA, &command_data)) != NONE) {
-		return -11;
-	}
-
-	// load from file
-	command_data_t load_command_data;
-	load_command_data.load_model_data.file_path = argv[1];
-	if (log_if_error("model loading", execute(LOAD_MODEL, &load_command_data)) != NONE) {
-		return -12;
-	}
-
-	// main glut loop
 	glutMainLoop();
 
-	// shutdown the core
 	command_data_t shutdown_command_data;
 	log_if_error("shutdown", execute(SHUTDOWN, &shutdown_command_data));
 

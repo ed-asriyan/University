@@ -107,7 +107,7 @@ matrix_t matrix_from_scaling(const uniform_scaling_t* us) {
 }
 
 matrix_t matrix_create(const transformation_t* t) {
-	matrix_t result;
+	matrix_t result = {0};
 	switch (t->type) {
 		case TRANSLATION:
 			result = matrix_from_translation(&t->translation);
@@ -220,7 +220,7 @@ matrix_t matrix_inv(const matrix_t* m) {
 }
 
 matrix_t matrix_mul(const matrix_t* a, const matrix_t* b) {
-	matrix_t r;
+	matrix_t r = {0};
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
 			double e = 0.0;

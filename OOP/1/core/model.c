@@ -9,18 +9,20 @@ void model_initialize(model_t* model) {
 }
 
 error_t model_load(model_t* model, const char* file_path) {
+	error_t error = NONE;
 	FILE* file = fopen(file_path, "r");
-	if (!file) {
-		return UNABLE_TO_OPEN_FILE;
+	if (file) {
+		model_t new_model;
+		model_initialize(&new_model);
+		error = model_read(&new_model, file);
+		if (error == NONE) {
+			model_deinitialize(model);
+			*model = new_model;
+		}
+		fclose(file);
+	} else {
+		error = UNABLE_TO_OPEN_FILE;
 	}
-	model_t new_model;
-	model_initialize(&new_model);
-	error_t error = model_read(&new_model, file);
-	if (error == NONE) {
-		model_deinitialize(model);
-		*model = new_model;
-	}
-	fclose(file);
 	return error;
 }
 
@@ -29,26 +31,27 @@ bool model_is_loaded(const model_t* model) {
 }
 
 error_t model_render(const model_t* model, const matrix_t* object_to_canvas) {
-	if (!model->is_loaded) {
-		return MODEL_NOT_LOADED;
+	error_t error = NONE;
+	if (model->is_loaded) {
+		for (int i = 0; i < model->edge_count; ++i) {
+			edge_t edge = model->edges[i];
+			const vector_t vector = model->vertices[edge.a];
+			vector_t edge_vertex_a = vector_transform(&vector, object_to_canvas);
+			const vector_t vector1 = model->vertices[edge.b];
+			vector_t edge_vertex_b = vector_transform(&vector1, object_to_canvas);
+			draw_line(&edge_vertex_a, &edge_vertex_b);
+		}
+	} else {
+		error = MODEL_NOT_LOADED;
 	}
-	for (int i = 0; i < model->edge_count; ++i) {
-		edge_t edge = model->edges[i];
-		const vector_t vector = model->vertices[edge.a];
-		vector_t edge_vertex_a = vector_transform(&vector, object_to_canvas);
-		const vector_t vector1 = model->vertices[edge.b];
-		vector_t edge_vertex_b = vector_transform(&vector1, object_to_canvas);
-		draw_line(&edge_vertex_a, &edge_vertex_b);
-	}
-	return NONE;
+	return error;
 }
 
 void model_deinitialize(model_t* model) {
 	if (!model->is_loaded) {
-		return;
+		free(model->vertices);
+		free(model->edges);
 	}
-	free(model->vertices);
-	free(model->edges);
 }
 
 static bool read_int(int* value, FILE* file) {

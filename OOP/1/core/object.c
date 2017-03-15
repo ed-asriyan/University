@@ -22,11 +22,13 @@ bool object_model_is_loaded(const object_t* object) {
 }
 
 error_t object_transform(object_t* object, const matrix_t* transformation) {
-	if (!object_model_is_loaded(object)) {
-		return MODEL_NOT_LOADED;
+	error_t error = NONE;
+	if (object_model_is_loaded(object)) {
+		object->to_world = matrix_mul(&object->to_world, transformation);
+	} else {
+		error = MODEL_NOT_LOADED;
 	}
-	object->to_world = matrix_mul(&object->to_world, transformation);
-	return NONE;
+	return error;
 }
 
 error_t object_render(const object_t* object, const camera_t* camera) {
