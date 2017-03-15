@@ -4,15 +4,13 @@
 
 #include "service.h"
 
-error_t service_startup(service_t** service, const command_data_t* command_data) {
-	if (*service) {
+error_t service_initialize(service_t* service, const command_data_t* command_data) {
+	if (service->is_initialized) {
 		return ALREADY_INITIALIZED;
 	}
-	if (!(*service = (service_t*) malloc(sizeof(service_t)))) {
-		return OUT_OF_MEMORY;
-	}
-	camera_initialize(&(*service)->camera);
-	object_initialize(&(*service)->object);
+	camera_initialize(&service->camera);
+	object_initialize(&service->object);
+	service->is_initialized = true;
 	return NONE;
 }
 
@@ -50,12 +48,12 @@ error_t service_render(const service_t* service, const command_data_t* command_d
 	return object_render(&service->object, &service->camera);
 }
 
-error_t service_shutdown(service_t** service, const command_data_t* command_data) {
-	if (!service) {
+error_t service_shutdown(service_t* service, const command_data_t* command_data) {
+	if (!service->is_initialized) {
 		return NOT_INITIALIZED;
 	}
-	camera_deinitialize(&(*service)->camera);
-	object_deinitialize(&(*service)->object);
-	free(service);
+	camera_deinitialize(&service->camera);
+	object_deinitialize(&service->object);
+	service->is_initialized = false;
 	return NONE;
 }
