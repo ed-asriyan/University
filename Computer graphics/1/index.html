@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 1</title>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+
+    <script src="point.js" defer></script>
+    <script src="triangle.js" defer></script>
+    <script src="historyManager.js" defer></script>
+    <script src="canvasManager.js" defer></script>
+    <script src="routedEvents.js" defer></script>
+    <script src="index.js" defer></script>
+</head>
+<body id="body">
+<div class="container">
+    <div class="row">
+        <h4>На плоскости дано множество точек. Найти такой треугольник с вершинами в этих точках, у которого сумма
+            расстояний от точки пересечения высот до координатных осей максимальна. Вывести изображение в графическом
+            виде.</h4>
+    </div>
+    <div class="row">
+        <div>
+            <div class="col-sm-2">
+                <button id="undo" class="btn btn-link btn-lg btn-block"
+                        type="button">
+                    <i class="glyphicon glyphicon-circle-arrow-left"></i>
+                    Undo
+                </button>
+            </div>
+            <div class="col-sm-2">
+                <button id="redo" class="btn btn-link btn-lg btn-block">
+                    <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                    Redo
+                </button>
+            </div>
+            <div id="clean" class="col-sm-2">
+                <button class="btn btn-link btn-lg btn-block">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    Clear
+                </button>
+            </div>
+            <div id="reset" class="col-sm-2">
+                <button class="btn btn-link btn-lg btn-block">
+                    <i class="glyphicon glyphicon-repeat"></i>
+                    Reset
+                </button>
+            </div>
+
+            <div class="col-sm-4 form-horizontal">
+                <label class="col-xs-4 control-label center-block"
+                       style="text-align: center; vertical-align: middle" for="pointsInput">Add point:</label>
+                <div class="col-xs-5">
+                    <input id="pointsInput" class="form-control" placeholder="250,300">
+                </div>
+                <button id="addPoint" class="btn btn-default col-xs-3">Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <canvas id="mainCanvas" height="500"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="">
+        <button id="resetSize" class="btn btn-default col-md-2 col-md-offset-1">Reset</button>
+        <button id="resize" class="btn btn-default col-md-2 col-md-offset-2">Resize by points</button>
+        <button id="resizeOrtho" class="btn btn-default col-md-2 col-md-offset-2">Resize with ortho</button>
+        <div class="col-xs-3" align="center" style="display: none">
+            <label id="mousePosition"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Triangles</h3>
+            <hr/>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>Ortho</th>
+                    <th>Sum</th>
+                </tr>
+                </thead>
+                <tbody id="trianglesList"></tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="6" align="center">
+                        <label></label>
+                        <label id="trianglesNumber">0</label>
+                        <label>triangles</label>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="col-sm-6">
+            <h3>Points</h3>
+            <hr/>
+            <div align="center">
+                <div align="center">
+
+                </div>
+                <div align="center">
+
+                </div>
+                <div align="center">
+
+                </div>
+            </div>
+            <div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th width="10"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="pointsList"></tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" align="center">
+                            <label></label>
+                            <label id="pointsNumber">0</label>
+                            <label>points</label>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
