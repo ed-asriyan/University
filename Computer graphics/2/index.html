@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 2</title>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+
+    <script src="point.js" defer></script>
+    <script src="solver.js" defer></script>
+    <script src="transformations.js" defer></script>
+    <script src="canvasManager.js" defer></script>
+    <script src="index.js" defer></script>
+    <script src="routedEvents.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h4 align="middle">
+            Нарисовать рисунок, затем его перенести, промаштабировать, повернуть.
+        </h4>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <div>
+                <canvas id="mainCanvas"></canvas>
+            </div>
+        </div>
+        <div id="controlPanel" class="col-xs-4">
+            <div class="row">
+                <button id="reset" class="btn btn-info col-xs-10 col-xs-offset-1">Reset</button>
+            </div>
+            <hr/>
+
+            <!-- offset form !-->
+            <div class="form-horizontal">
+                <h2 align="middle">Offset</h2>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="xMove">Factor:</label>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">x</span>
+                            <input id="xMove" class="form-control" placeholder="x"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">y</span>
+                            <input id="yMove" class="form-control" placeholder="y"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="moveBtn" class="btn btn-default col-xs-10 col-xs-offset-1">Apply</button>
+                </div>
+            </div>
+            <hr/>
+
+            <!-- scale form !-->
+            <div class="form-horizontal">
+                <h2 align="middle">Scale</h2>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="xScale">Center:</label>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">x</span>
+                            <input id="xScaleCenter" class="form-control" placeholder="x"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">y</span>
+                            <input id="yScaleCenter" class="form-control" placeholder="y"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="xScale">Factor:</label>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">x</span>
+                            <input id="xScale" class="form-control" placeholder="x"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">y</span>
+                            <input id="yScale" class="form-control" placeholder="y"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="scaleBtn" class="btn btn-default col-xs-10 col-xs-offset-1">Apply</button>
+                </div>
+            </div>
+            <hr/>
+
+            <!-- rotate form !-->
+            <div class="form-horizontal">
+                <h2 align="middle">Rotation</h2>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="xScale">Center:</label>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">x</span>
+                            <input id="xRotationCenter" class="form-control" placeholder="x"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">y</span>
+                            <input id="yRotationCenter" class="form-control" placeholder="y"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label center-block" for="rotation">Angle:</label>
+                    <div class="col-xs-8">
+                        <input id="rotation" class="form-control" placeholder="angle"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="rotationBtn" class="btn btn-default col-xs-10 col-xs-offset-1">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
