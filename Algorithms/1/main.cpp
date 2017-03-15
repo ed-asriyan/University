@@ -30,20 +30,21 @@ T F(T x, T y) {
 template<class T>
 T CalcIntegral(
 	const std::function<T(T, T)>& func,
-	const std::function<T(const std::function<T(T)>&, T, T, T)>& integral_func,
-	const std::function<T(const std::function<T(T)>&, T, T, T)>& equation_func,
+	const std::function<T(const std::function<T(T)>&, T, T, size_t)>& integral_func,
+	const std::function<T(const std::function<T(T)>&, T, T, double)>& equation_func,
 	T left,
 	T right,
-	T eps
+	double eps,
+	size_t n
 ) {
 	auto y = [&func, &equation_func, left, right, eps](T x) {
 		auto section = [&func, &equation_func, x, left, right, eps](T yy) {
 			return func(x, yy);
 		};
-		return equation_func(section, left, left + eps, eps);
+		return equation_func(section, left, right, eps);
 	};
 
-	return integral_func(y, left, right, eps);
+	return integral_func(y, left, right, n);
 }
 
 int main() {
@@ -51,11 +52,12 @@ int main() {
 
 	std::cout << CalcIntegral<arithmetic_t>(
 		F<arithmetic_t>,
-		Solver::Integral::CalcSimpson<arithmetic_t>,
+		Solver::Integral::CalcTrapezium<arithmetic_t>,
 		Solver::Equations::CalcTangents<arithmetic_t>,
 		0,
 		2,
-		1e-6
+		1e-5,
+		50
 	) << std::endl;
 
 	return 0;

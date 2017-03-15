@@ -17,7 +17,7 @@ namespace Solver {
 		 * @param func The integrand function
 		 * @param left_border Left integral border
 		 * @param right_border Right integral border
-		 * @param interval Trapezium width
+		 * @param n Interval count
 		 * @return Integral from left_border to right_border
 		 *
 		 * Trapezium method.
@@ -28,61 +28,20 @@ namespace Solver {
 			const std::function<T(T)>& func,
 			T left_border,
 			T right_border,
-			T interval
+			size_t n
 		) {
 			static_assert(std::is_arithmetic<T>::value, "T must be arithmetic type");
 
-			const T length = right_border - left_border;
-			interval = length / (length / interval);
+			const auto interval = (right_border - left_border) / n;
 
-			T result = func(left_border) + func(right_border) / 2;
+			T result = (func(left_border) + func(right_border)) / 2;
 
-			for (auto i = left_border; i < right_border; i += interval) {
-				result += func(i);
+			for (size_t i = 1; i < n; ++i) {
+				auto x = left_border + i * interval;
+				result += func(x);
 			}
 
 			return result * interval;
-		}
-
-		/**
-		 * @brief Calculates an integral by Simpson method
-		 * @tparam T Arithmetic type
-		 * @param func The integrand function
-		 * @param left_border Left integral border
-		 * @param right_border Right integral border
-		 * @param interval Interval length
-		 * @return Integral from left_border to right_border
-		 *
-		 * Simpson method.
-		 * https://en.wikipedia.org/wiki/Simpson's_rule
-		 */
-		template<class T>
-		T CalcSimpson(
-			const std::function<T(T)>& func,
-			T left_border,
-			T right_border,
-			T interval
-		) {
-			static_assert(std::is_arithmetic<T>::value, "T must be arithmetic type");
-
-			// number of intervals
-			int n = (right_border - left_border) / interval;
-			n += n & 1; // n += n % 2;
-
-			// formula's elements
-			double h = (right_border - left_border) / n;
-			double s = func(left_border) * func(right_border);
-
-			// calculating integral
-			double double_h = 2 * h;
-			for (double i = left_border + h; i < right_border; i += double_h) {
-				s += 4 * func(i);
-			}
-			for (double i = left_border + double_h; i < right_border; i += double_h) {
-				s += 2 * func(i);
-			}
-
-			return s * h / 3;
 		}
 	}
 }

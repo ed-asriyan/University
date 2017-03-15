@@ -15,52 +15,6 @@ namespace Solver {
 		class SolveErrorException : public std::exception {};
 
 		/**
-		 * @brief Solve equation func(x) = 0 by secants method
-		 * @tparam T Arithmetic type
-		 * @param func Function
-		 * @param a First secant's point
-		 * @param b Second secant's point
-		 * @param eps Accuracy
-		 * @return Root
-		 *
-		 * Secants method.
-		 * https://en.wikipedia.org/wiki/Secant_method
-		 */
-		template<class T>
-		T CalcSecants(const std::function<T(T)>& func, T a, T b, T eps) {
-			static_assert(std::is_arithmetic<T>::value, "T must be arithmetic type");
-
-			eps = std::abs(eps);
-			auto a_val = func(a);
-			auto b_val = func(b);
-
-			while ((std::abs(a_val) > eps && std::abs(b_val) > eps)) {
-				// if secant is parallel to the OX
-				if (a_val == b_val) {
-					throw SolveErrorException();
-				}
-
-				// a must be left of b
-				if (std::abs(a_val) < std::abs(b_val)) {
-					std::swap(a_val, b_val);
-					std::swap(a, b);
-				}
-
-				// move points
-				auto tmp = b;
-				b -= (b - a) * b_val / (b_val - a_val);
-				a = tmp;
-
-				// calculate new values
-				a_val = func(a);
-				b_val = func(b);
-			}
-
-			// return the value which is the closest to a zero
-			return std::abs(a_val) < std::abs(b_val) ? a : b;
-		}
-
-		/**
 		 * @brief Solve equation func(x) = 0 by tangents method
 		 * @tparam T Arithmetic type
 		 * @param func Function
@@ -73,17 +27,19 @@ namespace Solver {
 		 * https://en.wikipedia.org/wiki/Newton's_method
 		 */
 		template<class T>
-		T CalcTangents(const std::function<T(T)>& func, T a, T b, T eps) {
+		T CalcTangents(const std::function<T(T)>& func, T a, T b, double eps) {
 			static_assert(std::is_arithmetic<T>::value, "T must be arithmetic type");
 
-			double dx = b - a;
-			auto df = [&func, &eps, &dx](double x) {
+			const auto length = std::abs(a - b);
+
+			auto df = [&func, &eps](double x) {
+				const double dx = 1e-3;
 				return (func(x + dx) - func(x)) / dx;
 			};
 
-			double x1 = a - func(a) / df(a);
-			double x0 = a;
-			while (std::abs(x0 - x1) > eps) {
+			auto x1 = a - func(a) / df(a);
+			auto x0 = a;
+			while (std::abs(x0 - x1) > x0 * eps + eps) {
 				x0 = x1;
 				x1 = x1 - func(x1) / df(x1);
 			}
