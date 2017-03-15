@@ -88,22 +88,32 @@ static bool read_body(model_t* model, FILE* file) {
 		&& read_edges(model->edges, model->edge_count, file);
 }
 
-error_t model_read(model_t* model, FILE* file) {
-	if (!read_header(model, file)) {
-		return INVALID_FILE;
+static bool allocate_body(model_t* model) {
+	bool ok = false;
+	if ((model->vertices = (vector_t*) malloc(model->vertex_count * sizeof(vector_t)))) {
+		if ((model->edges = (edge_t*) malloc(model->edge_count * sizeof(edge_t)))) {
+			ok = true;
+		} else {
+			free(model->vertices);
+		}
 	}
+	return ok;
+}
+
+error_t model_read(model_t* model, FILE* file) {
 	error_t error = NONE;
-	if (!(model->vertices = (vector_t*) malloc(model->vertex_count * sizeof(vector_t)))) {
-		error = OUT_OF_MEMORY;
-	} else if (!(model->edges = (edge_t*) malloc(model->edge_count * sizeof(edge_t)))) {
-		free(model->vertices);
-		error = OUT_OF_MEMORY;
-	} else if (!read_body(model, file)) {
-		free(model->vertices);
-		free(model->edges);
-		error = INVALID_FILE;
+	if (read_header(model, file)) {
+		if (!allocate_body(model)) {
+			error = OUT_OF_MEMORY;
+		} else if (!read_body(model, file)) {
+			free(model->vertices);
+			free(model->edges);
+			error = INVALID_FILE;
+		} else {
+			model->is_loaded = true;
+		}
 	} else {
-		model->is_loaded = true;
+		error = INVALID_FILE;
 	}
 	return error;
 }
