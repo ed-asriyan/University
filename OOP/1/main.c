@@ -195,8 +195,8 @@ error_t init_core() {
 	command_data_t command_data;
 	if ((error = log_if_error("startup", execute(STARTUP, &command_data))) == NONE) {
 		command_data.transform_camera_data.transformation.type = TRANSLATION;
-		command_data.transform_camera_data.transformation.translation.displacement_x = 0.0;
-		command_data.transform_camera_data.transformation.translation.displacement_y = 0.0;
+		command_data.transform_camera_data.transformation.translation.displacement_x = 1.5;
+		command_data.transform_camera_data.transformation.translation.displacement_y = -1.5;
 		command_data.transform_camera_data.transformation.translation.displacement_z = 10.0;
 		error = log_if_error("camera transformation", execute(TRANSFORM_CAMERA, &command_data));
 	}
@@ -206,7 +206,19 @@ error_t init_core() {
 error_t load_core(const char* file_path) {
 	command_data_t load_command_data;
 	load_command_data.load_model_data.file_path = file_path;
-	return log_if_error("model loading", execute(LOAD_MODEL, &load_command_data));
+
+	log_if_error("model loading", execute(LOAD_MODEL, &load_command_data));
+
+	command_data_t command_data;
+	command_data.transform_object_data.transformation.type = ROTATION;
+	command_data.transform_object_data.transformation.rotation.axis_x = 1;
+	command_data.transform_object_data.transformation.rotation.axis_y = 0;
+	command_data.transform_object_data.transformation.rotation.axis_z = 0;
+	command_data.transform_object_data.transformation.rotation.angle = to_radians(70);
+	log_if_error("object rotation", execute(TRANSFORM_OBJECT, &command_data));
+
+
+	return NONE;
 }
 
 int main(int argc, char** argv) {
