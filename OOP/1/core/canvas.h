@@ -5,12 +5,12 @@
 #ifndef INC_3DVIEW_CANVAS_H
 #define INC_3DVIEW_CANVAS_H
 
-#include <GL/glut.h>
-
 #include "math.h"
 
-unsigned get_width();
-unsigned get_height();
-void draw_line(const vector_t* point_a, const vector_t* point_b);
+typedef struct {
+	unsigned int width;
+	unsigned int height;
+	void (* draw_line)(const vector_t*, const vector_t*);
+} canvas_t;
 
 #endif //INC_3DVIEW_CANVAS_H

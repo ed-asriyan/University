@@ -31,12 +31,12 @@ error_t object_transform(object_t* object, const matrix_t* transformation) {
 	return error;
 }
 
-error_t object_render(const object_t* object, const camera_t* camera) {
+error_t object_render(const object_t* object, const camera_t* camera, const canvas_t* canvas) {
 	const matrix_t matrix_b = matrix_inv(&camera->to_world);
 	matrix_t object_to_camera = matrix_mul(&object->to_world, &matrix_b);
-	const matrix_t b = camera_to_canvas(camera);
+	const matrix_t b = camera_to_canvas(camera, canvas);
 	matrix_t object_to_canvas = matrix_mul(&object_to_camera, &b);
-	return model_render(&object->model, &object_to_canvas);
+	return model_render(&object->model, &object_to_canvas, canvas);
 }
 
 void object_deinitialize(object_t* object) {

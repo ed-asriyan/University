@@ -29,10 +29,15 @@ typedef struct {
 	transformation_t transformation;
 } transform_camera_data_t;
 
+typedef struct {
+	canvas_t canvas;
+} render_data_t;
+
 typedef union {
 	load_model_data_t load_model_data;
 	transform_object_data_t transform_object_data;
 	transform_camera_data_t transform_camera_data;
+	render_data_t render_data;
 } command_data_t;
 
 #endif //INC_3DVIEW_COMMANDS_H

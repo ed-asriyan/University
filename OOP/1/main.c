@@ -14,6 +14,10 @@
 
 #include "point.h"
 
+const unsigned int WINDOW_HEIGHT = 500;
+
+const unsigned int WINDOW_WIDTH = 500;
+
 point_t mouse_position = {-1, -1};
 
 bool mouse_button_left_pressed = false;
@@ -58,6 +62,11 @@ error_t log_if_error(const char* action, error_t error) {
 	return error;
 }
 
+void draw_line(const vector_t* a, const vector_t* b) {
+	glVertex2d(a->x, a->y);
+	glVertex2d(b->x, b->y);
+}
+
 void redraw(void) {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -67,6 +76,9 @@ void redraw(void) {
 
 	glBegin(GL_LINES);
 	command_data_t command_data;
+	command_data.render_data.canvas.height = WINDOW_WIDTH;
+	command_data.render_data.canvas.width = WINDOW_HEIGHT;
+	command_data.render_data.canvas.draw_line = draw_line;
 	log_if_error("rendering", execute(RENDER, &command_data));
 
 	glEnd();
@@ -210,7 +222,7 @@ int main(int argc, char** argv) {
 	// glut initialization
 	glutInit(&argc, argv);
 	glutInitWindowPosition(10, 10);
-	glutInitWindowSize(get_width(), get_height());
+	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
 	// create glut window

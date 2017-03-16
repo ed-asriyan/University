@@ -43,8 +43,8 @@ static matrix_t ndc_to_canvas(double width, double height) {
 	return result;
 }
 
-matrix_t camera_to_canvas(const camera_t* camera) {
-	double width = get_width(), height = get_height();
+matrix_t camera_to_canvas(const camera_t* camera, const canvas_t* canvas) {
+	double width = canvas->width, height = canvas->height;
 	double aspect_ratio = width / height;
 	const matrix_t a = camera_to_ndc(camera, aspect_ratio);
 	const matrix_t b = ndc_to_canvas(width, height);

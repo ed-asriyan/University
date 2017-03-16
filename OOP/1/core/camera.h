@@ -25,7 +25,7 @@ typedef struct {
 void camera_initialize(camera_t* camera);
 
 void camera_transform(camera_t* camera, const matrix_t* transformation);
-matrix_t camera_to_canvas(const camera_t* camera);
+matrix_t camera_to_canvas(const camera_t* camera, const canvas_t* canvas);
 
 void camera_deinitialize(camera_t* camera);
 

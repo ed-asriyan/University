@@ -7,7 +7,7 @@ set(SOURCE_FILES
         main.c main.c
         core/math.c core/math.h
         core/transformation.h
-        core/canvas.c core/canvas.h
+        core/canvas.h
         core/camera.c core/camera.h
         core/errors.h
         core/commands.h

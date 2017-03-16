@@ -3,6 +3,7 @@
 //
 
 #include "service.h"
+#include "commands.h"
 
 error_t service_initialize(service_t* service, const command_data_t* command_data) {
 	error_t error = NONE;
@@ -54,7 +55,7 @@ error_t service_transform_camera(service_t* service, const command_data_t* comma
 error_t service_render(const service_t* service, const command_data_t* command_data) {
 	error_t error = NONE;
 	if (service) {
-		error = object_render(&service->object, &service->camera);
+		error = object_render(&service->object, &service->camera, &command_data->render_data.canvas);
 	} else {
 		error = NOT_INITIALIZED;
 	}
