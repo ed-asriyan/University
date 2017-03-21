@@ -103,14 +103,18 @@ static bool allocate_body(model_t* model) {
 	return ok;
 }
 
+static void free_body(model_t* model) {
+	free(model->vertices);
+	free(model->edges);
+}
+
 error_t model_read(model_t* model, FILE* file) {
 	error_t error = NONE;
 	if (read_header(model, file)) {
 		if (!allocate_body(model)) {
 			error = OUT_OF_MEMORY;
 		} else if (!read_body(model, file)) {
-			free(model->vertices);
-			free(model->edges);
+			free_body(model);
 			error = INVALID_FILE;
 		} else {
 			model->is_loaded = true;
