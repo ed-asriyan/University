@@ -18,7 +18,7 @@ typedef struct {
 	object_t object;
 } service_t;
 
-error_t service_initialize(service_t* service, const command_data_t* command_data);
+error_t service_initialize(service_t* service);
 error_t service_load_model(service_t* service, const command_data_t* command_data);
 error_t service_transform_object(service_t* service, const command_data_t* command_data);
 error_t service_transform_camera(service_t* service, const command_data_t* command_data);

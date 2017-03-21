@@ -6,11 +6,11 @@
 
 error_t execute(command_t command, const command_data_t* command_data) {
 	static service_t service;
+	if (!service.is_initialized) {
+		service_initialize(&service);
+	}
 	error_t error = NONE;
 	switch (command) {
-		case STARTUP:
-			error = service_initialize(&service, command_data);
-			break;
 		case LOAD_MODEL:
 			error = service_load_model(&service, command_data);
 			break;

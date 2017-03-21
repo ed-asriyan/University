@@ -9,7 +9,6 @@
 #include "canvas.h"
 
 typedef enum {
-	STARTUP,
 	LOAD_MODEL,
 	TRANSFORM_OBJECT,
 	TRANSFORM_CAMERA,
