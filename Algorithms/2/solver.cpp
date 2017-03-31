@@ -18,3 +18,21 @@ std::vector<Solver::Point> Solver::GenerateTable(
 	}
 	return result;
 }
+
+int Solver::GetIndexofInterpolationPoint(
+	const std::vector<Point>& points,
+	double x
+) {
+	int result = -1;
+	for (int i = 0; i < points.size(); ++i) {
+		if (x < points[i].x) {
+			result = i - 1;
+			break;
+		}
+	}
+
+	if (result == -1 && x > points[points.size() - 1].x) {
+		result = static_cast<int>(points.size() - 1);
+	}
+	return result;
+}

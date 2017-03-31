@@ -8,8 +8,6 @@
 #include <algorithm>
 #include <functional>
 
-#include "point.hpp"
-
 namespace Solver {
 	struct Point {
 		double x, y;
@@ -29,6 +27,14 @@ namespace Solver {
 		double x_begin,
 		double x_end,
 		double x_step
+	);
+
+	/*
+	 * Returns index after which the interpolation point should be.
+	 */
+	int GetIndexofInterpolationPoint(
+		const std::vector<Point>& points,
+		double x
 	);
 }
 
