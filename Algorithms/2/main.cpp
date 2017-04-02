@@ -20,6 +20,8 @@ class InputValues {
 			in >> x;
 			out << "Enter polynomial degree: ";
 			in >> degree;
+
+			out << std::endl;
 		}
 
 		InputValues(int argc, const char* argv[]) {
@@ -60,21 +62,29 @@ void PrintTable(std::ostream& out, const std::vector<Solver::Point>& table) {
 	}
 }
 
-int main() {
-	InputValues input_values;
-
+void RunTest(const InputValues& input_values, const std::function<double(double)>& func, std::ostream& out) {
 	auto table = Solver::GenerateTable(Functions::F1,
 	                                   input_values.get_x_begin(),
 	                                   input_values.get_x_end(),
 	                                   input_values.get_x_step());
-	std::cout << "PointsTable:" << std::endl;
+	out << "PointsTable:" << std::endl;
 	PrintTable(std::cout, table);
-
+	out << std::endl;
 	auto index = Solver::GetIndexOfInterpolationPoint(table, input_values.get_x());
 	auto indexes = Solver::GetInterpolationPoints(table, index, input_values.get_degree());
-	auto res = Solver::NewtonArrDividedDivision(table, indexes.first, indexes.second, input_values.get_x());
+	auto interpolated_value =
+		Solver::NewtonArrDividedDivision(table, indexes.first, indexes.second, input_values.get_x());
+	auto real_value = func(input_values.get_x());
 
-	std::cout << res << std::endl;
+	out << "Interpolated value: " << interpolated_value << std::endl;
+	out << "Real value        : " << real_value << std::endl;
+	out << "Difference        : " << std::abs(interpolated_value - real_value) << std::endl;
+
+}
+
+int main() {
+	InputValues input_values;
+	RunTest(input_values, Functions::F1, std::cout);
 
 	return 0;
 }
