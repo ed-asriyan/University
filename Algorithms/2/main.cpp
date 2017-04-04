@@ -2,7 +2,8 @@
 #include <iomanip>
 
 #include "math_functions.hpp"
-#include "solver.hpp"
+#include "Interpolator.h"
+#include "Utils.hpp"
 
 class InputValues {
 	public:
@@ -56,30 +57,29 @@ class InputValues {
 		unsigned int degree;
 };
 
-void PrintTable(std::ostream& out, const std::vector<Solver::Point>& table) {
+void PrintTable(std::ostream& out, const Utils::PointsTable& table) {
 	for (auto& point: table) {
 		out << std::setw(5) << point.x << ": " << point.y << std::endl;
 	}
 }
 
 void RunTest(const InputValues& input_values, const std::function<double(double)>& func, std::ostream& out) {
-	auto table = Solver::GenerateTable(Functions::F1,
-	                                   input_values.get_x_begin(),
-	                                   input_values.get_x_end(),
-	                                   input_values.get_x_step());
-	out << "PointsTable:" << std::endl;
+	auto table = Utils::GenerateTable(Functions::F1,
+	                                  input_values.get_x_begin(),
+	                                  input_values.get_x_end(),
+	                                  input_values.get_x_step());
+	out << "Points table:" << std::endl;
 	PrintTable(std::cout, table);
 	out << std::endl;
-	auto index = Solver::GetIndexOfInterpolationPoint(table, input_values.get_x());
-	auto indexes = Solver::GetInterpolationPoints(table, index, input_values.get_degree());
-	auto interpolated_value =
-		Solver::NewtonArrDividedDivision(table, indexes.first, indexes.second, input_values.get_x());
+
+	Interpolator interpolator(table.begin(), table.end());
+
+	auto interpolated_value = interpolator.Calc(input_values.get_x(), input_values.get_degree());
 	auto real_value = func(input_values.get_x());
 
 	out << "Interpolated value: " << interpolated_value << std::endl;
 	out << "Real value        : " << real_value << std::endl;
 	out << "Difference        : " << std::abs(interpolated_value - real_value) << std::endl;
-
 }
 
 int main() {
