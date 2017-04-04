@@ -21,6 +21,7 @@ target_link_libraries(Lab2-1 Interpolator m)
 # 2nd lab part (inverse interpolation)
 set(SOURCE_FILES_PART2
         part2.cpp
+        Equations.cpp Equations.hpp
         )
 add_executable(Lab2-2 ${SOURCE_FILES_PART2})
 target_link_libraries(Lab2-2 Interpolator m)
