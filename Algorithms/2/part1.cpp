@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 
-#include "math_functions.hpp"
 #include "Interpolator.h"
 #include "Utils.hpp"
 
@@ -56,6 +56,12 @@ class InputValues {
 		double x;
 		unsigned int degree;
 };
+
+namespace Functions {
+	double F1(double x) {
+		return std::sin(M_PI * x / 6);
+	}
+}
 
 void PrintTable(std::ostream& out, const Utils::PointsTable& table) {
 	for (auto& point: table) {
