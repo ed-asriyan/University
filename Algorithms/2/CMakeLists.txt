@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.5)
 project(Lab2)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 # interpolator library (common to all lab parts)
 set(SOURCE_FILES_INTERPOLATOR
         Point2d.h Point2d.cpp
         Interpolator.cpp Interpolator.h
+        Interpolation.hpp
         part2.cpp)
 add_library(Interpolator STATIC ${SOURCE_FILES_INTERPOLATOR})
 
