@@ -37,10 +37,15 @@ namespace Interpolation {
 		double polynomial_ratio = 1;
 
 		return [X, polynomial_degree, polynomial_ratio, polynomial_sum, differences](double x) {
+			auto ratio = polynomial_ratio;
+			auto sum = polynomial_sum;
+
 			for (int i = 1; i <= polynomial_degree; ++i) {
-				polynomial_ratio *= (x - X[i - 1]);
-				polynomial_sum += polynomial_ratio * differences[i];
+				ratio *= (x - X[i - 1]);
+				sum += ratio * differences[i];
 			}
+
+			return sum;
 		};
 	}
 }
