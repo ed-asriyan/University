@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <cmath>
 
-#include "Interpolator.h"
+#include "Interpolation.hpp"
 #include "Utils.hpp"
 
 class InputValues {
@@ -78,9 +78,11 @@ void RunTest(const InputValues& input_values, const std::function<double(double)
 	PrintTable(std::cout, table);
 	out << std::endl;
 
-	Interpolator interpolator(table.begin(), table.end());
+	auto borders =
+		Interpolation::FindSubTableBorders(table.begin(), table.end(), input_values.get_x(), input_values.get_degree());
 
-	auto interpolated_value = interpolator.Calc(input_values.get_x(), input_values.get_degree());
+	auto interpolated_fun = Interpolation::CalcIterpolatedFunc(borders.first, borders.second);
+	auto interpolated_value = interpolated_fun(input_values.get_x());
 	auto real_value = func(input_values.get_x());
 
 	out << "Interpolated value: " << interpolated_value << std::endl;
