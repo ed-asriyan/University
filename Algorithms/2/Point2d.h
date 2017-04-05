@@ -5,6 +5,8 @@
 #ifndef LAB2_POINT2D_H
 #define LAB2_POINT2D_H
 
+#include <ostream>
+
 /**
  * Point in two-dimensional space.
  */
@@ -23,6 +25,10 @@ struct Point2d {
 	Point2d(double x, double y);
 
 	double x, y;
+
+	friend std::ostream& operator<<(std::ostream& out, const Point2d& point);
 };
+
+std::ostream& operator<<(std::ostream& out, const Point2d& point);
 
 #endif //LAB2_POINT2D_H
