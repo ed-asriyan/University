@@ -18,11 +18,16 @@ struct Point2d {
 
 	/**
 	 * Constructor.
-	 *
 	 * @param x x coordinate
 	 * @param y y coordinate
 	 */
 	Point2d(double x, double y);
+
+	/**
+	 * Constructor.
+	 * @param pair pair of x and y coordinate
+	 */
+	Point2d(const std::pair<double, double>& pair);
 
 	double x, y;
 
