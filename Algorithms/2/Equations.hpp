@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <exception>
+#include <functional>
 
 namespace Equations {
 	class SolveErrorException : public std::exception {};
@@ -22,7 +23,7 @@ namespace Equations {
 	 * Tangents method.
 	 * https://en.wikipedia.org/wiki/Newton's_method
 	 */
-	double CalcTangents(double func(double), double a, double b, double eps);
+	double CalcTangents(const std::function<double(double)>& func, double a, double eps);
 }
 
 #endif //LAB2_EQUATIONS_HPP

@@ -2,11 +2,10 @@
 // Created by ed on 04.04.17.
 //
 
+#include <functional>
 #include "Equations.hpp"
 
-double Equations::CalcTangents(double func(double), double a, double b, double eps) {
-	const auto length = std::abs(a - b);
-
+double Equations::CalcTangents(const std::function<double(double)>& func, double a, double eps) {
 	auto df = [&func, &eps](double x) {
 		const double dx = 1e-3;
 		return (func(x + dx) - func(x)) / dx;
