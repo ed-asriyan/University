@@ -3,6 +3,10 @@
 //
 
 #include <cmath>
+#include <functional>
+
+#include "Equations.hpp"
+#include "Utils.hpp"
 
 namespace Functions {
 	namespace Utils {
@@ -21,6 +25,19 @@ namespace Functions {
 		inline auto SectionY(const std::function<double(double, double)>& func, double y) {
 			return [y, func](double x) {
 				return func(x, y);
+			};
+		}
+
+		inline auto CreateTable(
+			const std::function<double(double, double)>& func1,
+			const std::function<double(double, double)>& func2
+		) {
+			return [&func1, &func2](double x) {
+				const double EPS = 1e-3;
+				auto f1 = Equations::CalcTangents(SectionX(func1, x), x, EPS);
+				auto f2 = Equations::CalcTangents(SectionX(func2, x), x, EPS);
+
+				return std::pair<double, double>(f1, f2);
 			};
 		}
 	}
