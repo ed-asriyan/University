@@ -4,6 +4,8 @@
 
 #include <cmath>
 #include <functional>
+#include <iostream>
+#include <iomanip>
 
 #include "Equations.hpp"
 #include "Utils.hpp"
@@ -28,7 +30,7 @@ namespace Functions {
 			};
 		}
 
-		inline auto CreateTable(
+		inline auto MixFunc(
 			const std::function<double(double, double)>& func1,
 			const std::function<double(double, double)>& func2
 		) {
@@ -52,6 +54,36 @@ namespace Functions {
 }
 
 int main(int arc, const char* argv[]) {
+	const double START = 0.1;
+	const double END = 2;
+	const double EPS = 1e-5;
+
+	double n;
+	std::cout << "Enter number of partition: ";
+	std::cin >> n;
+	double step = (END - START) / n;
+
+	double degree;
+	std::cout << "Enter the polynomial degree: ";
+	std::cin >> degree;
+
+	const int COL_WIDTH = 12;
+	std::cout << std::setw(COL_WIDTH) << "x" << ' '
+	          << std::setw(COL_WIDTH) << "F1(x)" << ' '
+	          << std::setw(COL_WIDTH) << "F2(x)" << ' '
+	          << std::setw(COL_WIDTH) << "F1(x)-F2(x)" << ' '
+	          << std::endl;
+	auto table = Functions::Utils::MixFunc(Functions::F1, Functions::F2);
+	for (int i = 0; i < n; ++i) {
+		const auto x = START + i * step;
+		auto pair = table(x);
+		auto diff = pair.first - pair.second;
+		std::cout << std::setw(COL_WIDTH) << x << ' '
+		          << std::setw(COL_WIDTH) << pair.first << ' '
+		          << std::setw(COL_WIDTH) << pair.second << ' '
+		          << std::setw(COL_WIDTH) << diff << ' '
+		          << std::endl;
+	}
 
 	return 0;
 }
