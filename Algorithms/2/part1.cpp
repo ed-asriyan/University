@@ -4,6 +4,7 @@
 
 #include "Interpolation.hpp"
 #include "FuncIterator.hpp"
+#include "Functions.hpp"
 
 class InputValues {
 	public:
@@ -57,12 +58,6 @@ class InputValues {
 		unsigned int degree;
 };
 
-namespace Functions {
-	double F1(double x) {
-		return std::sin(M_PI * x / 6);
-	}
-}
-
 template<class ITERATOR>
 void PrintTable(std::ostream& out, const ITERATOR& begin, const ITERATOR& end) {
 	for (auto it = begin; it != end; ++it) {
@@ -77,7 +72,7 @@ void RunTest(const InputValues& input_values, const std::function<double(double)
 	const auto x = input_values.get_x();
 	const auto degree = input_values.get_degree();
 
-	const auto iterators = FuncIterator::Create(Functions::F1,
+	const auto iterators = FuncIterator::Create(func,
 	                                            left_x,
 	                                            right_x,
 	                                            points_count - 1);
@@ -110,7 +105,7 @@ void RunTest(const InputValues& input_values, const std::function<double(double)
 
 int main() {
 	InputValues input_values;
-	RunTest(input_values, Functions::F1, std::cout);
+	RunTest(input_values, Functions::Store1::F1, std::cout);
 
 	return 0;
 }

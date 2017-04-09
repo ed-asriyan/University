@@ -11,49 +11,20 @@
 #include "Point2d.h"
 #include "Equations.hpp"
 #include "Interpolation.hpp"
+#include "Functions.hpp"
 
-namespace Functions {
-	namespace Utils {
-		inline auto Reverse(const std::function<double(double, double)>& func) {
-			return [&func](double x, double y) {
-				return func(y, x);
-			};
-		}
+inline auto MixFunc(
+	const std::function<double(double, double)>& func1,
+	const std::function<double(double, double)>& func2,
+	double eps
+) {
+	return [&func1, &func2, eps](double x) {
+		const double y = -x * x + 0.1;
+		auto f1 = Equations::CalcTangents(Functions::Store2::SectionX(func1, x), x, eps);
+		auto f2 = Equations::CalcTangents(Functions::Store2::SectionX(func2, x), y, eps);
 
-		inline auto SectionX(const std::function<double(double, double)>& func, double x) {
-			return [x, func](double y) {
-				return func(x, y);
-			};
-		}
-
-		inline auto SectionY(const std::function<double(double, double)>& func, double y) {
-			return [y, func](double x) {
-				return func(x, y);
-			};
-		}
-
-		inline auto MixFunc(
-			const std::function<double(double, double)>& func1,
-			const std::function<double(double, double)>& func2,
-			double eps
-		) {
-			return [&func1, &func2, eps](double x) {
-				const double y = -x * x + 0.1;
-				auto f1 = Equations::CalcTangents(SectionX(func1, x), x, eps);
-				auto f2 = Equations::CalcTangents(SectionX(func2, x), y, eps);
-
-				return std::pair<double, double>(f1, f2);
-			};
-		}
-	}
-
-	inline double F1(double x, double y) {
-		return std::exp(x * x * x - y) - x * x * x * x * x * x + 2 * (y + 1) * (x * x * x) - y * y - 2 * y - 2;
-	}
-
-	inline double F2(double x, double y) {
-		return std::exp(2 * std::log(x) - y) + y * std::exp(-y) - std::exp(x * x) * std::log(x * x + y);
-	}
+		return std::pair<double, double>(f1, f2);
+	};
 }
 
 int main(int arc, const char* argv[]) {
@@ -71,7 +42,7 @@ int main(int arc, const char* argv[]) {
 	std::cout << "Enter the polynomial degree: ";
 	std::cin >> degree;
 
-	auto table_func = Functions::Utils::MixFunc(Functions::F1, Functions::F2, EPS);
+	auto table_func = MixFunc(Functions::Store2::F1, Functions::Store2::F2, EPS);
 	Point2d* table = new Point2d[points_number];
 
 	const int COL_WIDTH = 12;
@@ -108,9 +79,9 @@ int main(int arc, const char* argv[]) {
 	auto y_res = Interpolation::CalcIterpolatedFunc(borders.first, borders.second)(0);
 	auto x_res =
 		Equations::CalcTangents(
-			Functions::Utils::SectionX(
-				Functions::Utils::Reverse(
-					Functions::F1
+			Functions::Store2::SectionX(
+				Functions::Store2::Reverse(
+					Functions::Store2::F1
 				),
 				y_res
 			),
@@ -122,8 +93,8 @@ int main(int arc, const char* argv[]) {
 	std::cout << "x:  " << x_res << std::endl;
 	std::cout << "y:  " << y_res << std::endl;
 	std::cout << std::endl;
-	std::cout << "F1: " << Functions::F1(x_res, y_res) << std::endl;
-	std::cout << "F2: " << Functions::F2(x_res, y_res) << std::endl;
+	std::cout << "F1: " << Functions::Store2::F1(x_res, y_res) << std::endl;
+	std::cout << "F2: " << Functions::Store2::F2(x_res, y_res) << std::endl;
 
 	delete[] table;
 

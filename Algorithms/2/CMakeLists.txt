@@ -10,13 +10,21 @@ set(SOURCE_FILES_INTERPOLATOR
         )
 add_library(Interpolator STATIC ${SOURCE_FILES_INTERPOLATOR})
 
+# functions library (common to all lab parts)
+set(SOURCE_FILES_FUNCTIONS
+        Point2d.h Point2d.cpp
+        Functions.cpp Functions.hpp
+        )
+add_library(Functions STATIC ${SOURCE_FILES_FUNCTIONS})
+target_link_libraries(Functions m)
+
 # 1st lab part (interpolation)
 set(SOURCE_FILES_PART1
         part1.cpp
         FuncIterator.cpp FuncIterator.hpp
         )
 add_executable(Lab2-1 ${SOURCE_FILES_PART1})
-target_link_libraries(Lab2-1 Interpolator m)
+target_link_libraries(Lab2-1 Functions Interpolator)
 
 # 2nd lab part (inverse interpolation)
 set(SOURCE_FILES_PART2
@@ -24,11 +32,11 @@ set(SOURCE_FILES_PART2
         Equations.cpp Equations.hpp
         )
 add_executable(Lab2-2 ${SOURCE_FILES_PART2})
-target_link_libraries(Lab2-2 Interpolator m)
+target_link_libraries(Lab2-2 Functions Interpolator)
 
 # 3rd lab part (3D interpolation)
 set(SOURCE_FILES_PART3
         part3.cpp
         )
 add_executable(Lab2-3 ${SOURCE_FILES_PART3})
-target_link_libraries(Lab2-3 Interpolator m)
+target_link_libraries(Lab2-3 Interpolator)
