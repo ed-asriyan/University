@@ -8,7 +8,6 @@
 #include <iomanip>
 
 #include "Equations.hpp"
-#include "Utils.hpp"
 
 namespace Functions {
 	namespace Utils {

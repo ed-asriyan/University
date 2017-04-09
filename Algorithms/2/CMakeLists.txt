@@ -7,13 +7,13 @@ set(CMAKE_CXX_STANDARD 14)
 set(SOURCE_FILES_INTERPOLATOR
         Point2d.h Point2d.cpp
         Interpolation.hpp
-        part2.cpp)
+        )
 add_library(Interpolator STATIC ${SOURCE_FILES_INTERPOLATOR})
 
 # 1st lab part (interpolation)
 set(SOURCE_FILES_PART1
         part1.cpp
-        Utils.cpp Utils.hpp
+        FuncIterator.cpp FuncIterator.hpp
         )
 add_executable(Lab2-1 ${SOURCE_FILES_PART1})
 target_link_libraries(Lab2-1 Interpolator m)

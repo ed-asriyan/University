@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include "Interpolation.hpp"
-#include "Utils.hpp"
+#include "FuncIterator.hpp"
 
 class InputValues {
 	public:
@@ -15,8 +15,8 @@ class InputValues {
 			in >> x_begin;
 			out << "Enter right border: ";
 			in >> x_end;
-			out << "Enter step: ";
-			in >> x_step;
+			out << "Enter n: ";
+			in >> n;
 			out << "Enter x: ";
 			in >> x;
 			out << "Enter polynomial degree: ";
@@ -37,8 +37,8 @@ class InputValues {
 			return x_end;
 		}
 
-		double get_x_step() const {
-			return x_step;
+		int get_n() const {
+			return n;
 		}
 
 		double get_x() const {
@@ -52,7 +52,7 @@ class InputValues {
 	private:
 		double x_begin;
 		double x_end;
-		double x_step;
+		int n;
 		double x;
 		unsigned int degree;
 };
@@ -63,31 +63,47 @@ namespace Functions {
 	}
 }
 
-void PrintTable(std::ostream& out, const Utils::PointsTable& table) {
-	for (auto& point: table) {
-		out << std::setw(5) << point.x << ": " << point.y << std::endl;
+template<class ITERATOR>
+void PrintTable(std::ostream& out, const ITERATOR& begin, const ITERATOR& end) {
+	for (auto it = begin; it != end; ++it) {
+		out << std::setw(5) << it->x << ": " << it->y << std::endl;
 	}
 }
 
 void RunTest(const InputValues& input_values, const std::function<double(double)>& func, std::ostream& out) {
-	auto table = Utils::GenerateTable(Functions::F1,
-	                                  input_values.get_x_begin(),
-	                                  input_values.get_x_end(),
-	                                  input_values.get_x_step());
+	const auto points_count = input_values.get_n() + 1;
+	const auto left_x = input_values.get_x_begin();
+	const auto right_x = input_values.get_x_end();
+	const auto x = input_values.get_x();
+	const auto degree = input_values.get_degree();
+
+	const auto iterators = FuncIterator::Create(Functions::F1,
+	                                      left_x,
+	                                      right_x,
+	                                      points_count - 1);
+
+	Point2d* table = new Point2d[std::distance(iterators.first, iterators.second)];
+	std::copy(iterators.first, iterators.second, table);
+
 	out << "Points table:" << std::endl;
-	PrintTable(std::cout, table);
+	PrintTable(std::cout, table, table + points_count);
 	out << std::endl;
 
 	auto borders =
-		Interpolation::FindSubTableBorders(table.begin(), table.end(), input_values.get_x(), input_values.get_degree());
+		Interpolation::FindSubTableBorders(table,
+		                                   table + points_count,
+		                                   x,
+		                                   degree);
 
 	auto interpolated_fun = Interpolation::CalcIterpolatedFunc(borders.first, borders.second);
-	auto interpolated_value = interpolated_fun(input_values.get_x());
-	auto real_value = func(input_values.get_x());
+	auto interpolated_value = interpolated_fun(x);
+	auto real_value = func(x);
 
 	out << "Interpolated value: " << interpolated_value << std::endl;
 	out << "Real value        : " << real_value << std::endl;
 	out << "Difference        : " << std::abs(interpolated_value - real_value) << std::endl;
+
+	delete[] table;
 }
 
 int main() {
