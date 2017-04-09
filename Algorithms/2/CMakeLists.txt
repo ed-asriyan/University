@@ -37,6 +37,7 @@ target_link_libraries(Lab2-2 Functions Interpolator)
 # 3rd lab part (3D interpolation)
 set(SOURCE_FILES_PART3
         part3.cpp
+        FuncIterator.cpp FuncIterator.hpp
         )
 add_executable(Lab2-3 ${SOURCE_FILES_PART3})
-target_link_libraries(Lab2-3 Interpolator)
+target_link_libraries(Lab2-3 Functions Interpolator)
