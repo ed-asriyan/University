@@ -78,9 +78,9 @@ void RunTest(const InputValues& input_values, const std::function<double(double)
 	const auto degree = input_values.get_degree();
 
 	const auto iterators = FuncIterator::Create(Functions::F1,
-	                                      left_x,
-	                                      right_x,
-	                                      points_count - 1);
+	                                            left_x,
+	                                            right_x,
+	                                            points_count - 1);
 
 	Point2d* table = new Point2d[std::distance(iterators.first, iterators.second)];
 	std::copy(iterators.first, iterators.second, table);
@@ -90,10 +90,12 @@ void RunTest(const InputValues& input_values, const std::function<double(double)
 	out << std::endl;
 
 	auto borders =
-		Interpolation::FindSubTableBorders(table,
-		                                   table + points_count,
-		                                   x,
-		                                   degree);
+		Interpolation::FindSubTableBorders(
+			table,
+			table + points_count,
+			x,
+			degree
+		);
 
 	auto interpolated_fun = Interpolation::CalcIterpolatedFunc(borders.first, borders.second);
 	auto interpolated_value = interpolated_fun(x);

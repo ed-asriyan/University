@@ -23,7 +23,11 @@ namespace Equations {
 	 * Tangents method.
 	 * https://en.wikipedia.org/wiki/Newton's_method
 	 */
-	double CalcTangents(const std::function<double(double)>& func, double a, double eps);
+	double CalcTangents(
+		const std::function<double(double)>& func,
+		double a,
+		double eps
+	);
 }
 
 #endif //LAB2_EQUATIONS_HPP

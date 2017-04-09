@@ -4,10 +4,13 @@
 
 #include <cmath>
 #include <functional>
+#include <algorithm>
 #include <iostream>
 #include <iomanip>
 
+#include "Point2d.h"
 #include "Equations.hpp"
+#include "Interpolation.hpp"
 
 namespace Functions {
 	namespace Utils {
@@ -31,12 +34,13 @@ namespace Functions {
 
 		inline auto MixFunc(
 			const std::function<double(double, double)>& func1,
-			const std::function<double(double, double)>& func2
+			const std::function<double(double, double)>& func2,
+			double eps
 		) {
-			return [&func1, &func2](double x) {
-				const double EPS = 1e-3;
-				auto f1 = Equations::CalcTangents(SectionX(func1, x), x, EPS);
-				auto f2 = Equations::CalcTangents(SectionX(func2, x), x, EPS);
+			return [&func1, &func2, eps](double x) {
+				const double y = -x * x + 0.1;
+				auto f1 = Equations::CalcTangents(SectionX(func1, x), x, eps);
+				auto f2 = Equations::CalcTangents(SectionX(func2, x), y, eps);
 
 				return std::pair<double, double>(f1, f2);
 			};
@@ -63,12 +67,12 @@ int main(int arc, const char* argv[]) {
 	double step = (END - START) / n;
 	size_t points_number = n + 1;
 
-	double degree;
+	unsigned int degree;
 	std::cout << "Enter the polynomial degree: ";
 	std::cin >> degree;
 
-	auto table = Functions::Utils::MixFunc(Functions::F1, Functions::F2);
-	Point2d* points = new Point2d[points_number];
+	auto table_func = Functions::Utils::MixFunc(Functions::F1, Functions::F2, EPS);
+	Point2d* table = new Point2d[points_number];
 
 	const int COL_WIDTH = 12;
 	std::cout << std::setw(COL_WIDTH) << "x" << ' '
@@ -78,7 +82,7 @@ int main(int arc, const char* argv[]) {
 	          << std::endl;
 	for (int i = 0; i < points_number; ++i) {
 		const auto x = START + i * step;
-		auto pair = table(x);
+		auto pair = table_func(x);
 		auto diff = pair.first - pair.second;
 		std::cout << std::setw(COL_WIDTH) << x << ' '
 		          << std::setw(COL_WIDTH) << pair.first << ' '
@@ -86,12 +90,40 @@ int main(int arc, const char* argv[]) {
 		          << std::setw(COL_WIDTH) << diff << ' '
 		          << std::endl;
 
-		points[i].x = pair.second;
-		points[i].y = diff;
+		table[i].x = diff;
+		table[i].y = pair.second;
 	}
 
-	auto min_iterator = std::min_element(points, points + points_number, [](const Point2d& a, const Point2d& b) {
+	auto min_iterator = std::min_element(table, table + points_number, [](const Point2d& a, const Point2d& b) {
 		return std::abs(a.x) < std::abs(b.x);
 	});
+
+	auto borders = Interpolation::FindSubTableBorders(
+		table,
+		table + points_number,
+		min_iterator->x,
+		degree
+	);
+
+	auto y_res = Interpolation::CalcIterpolatedFunc(borders.first, borders.second)(0);
+	auto x_res =
+		Equations::CalcTangents(
+			Functions::Utils::SectionX(
+				Functions::Utils::Reverse(
+					Functions::F1
+				),
+				y_res
+			),
+			-8,
+			EPS
+		);
+
+	std::cout << std::endl;
+	std::cout << "x:  " << x_res << std::endl;
+	std::cout << "y:  " << y_res << std::endl;
+	std::cout << std::endl;
+	std::cout << "F1: " << Functions::F1(x_res, y_res) << std::endl;
+	std::cout << "F2: " << Functions::F2(x_res, y_res) << std::endl;
+
 	return 0;
 }
