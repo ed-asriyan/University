@@ -125,5 +125,7 @@ int main(int arc, const char* argv[]) {
 	std::cout << "F1: " << Functions::F1(x_res, y_res) << std::endl;
 	std::cout << "F2: " << Functions::F2(x_res, y_res) << std::endl;
 
+	delete[] table;
+
 	return 0;
 }

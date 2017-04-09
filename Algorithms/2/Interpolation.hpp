@@ -6,42 +6,50 @@
 #define LAB2_INTERPOLATION_HPP
 
 #include <cstddef>
-#include <vector>
+#include <memory>
 
 namespace Interpolation {
 	template<class ITERATOR>
 	auto CalcIterpolatedFunc(ITERATOR begin, ITERATOR end) {
+		size_t count = static_cast<size_t>(std::distance(begin, end));
 		auto after_begin = begin;
 
-		std::vector<double> dividers;    // for divided differences calculation
-		std::vector<double> X;
-		std::vector<double> differences; // divided differences
+		double* dividers = new double[count];    // for divided differences calculation
+		double* X = new double[count];
+		double* differences = new double[count]; // divided differences
 
-		for (auto it = begin; it != end; ++it) {
-			X.push_back(it->x);
-			dividers.push_back(it->y);
-			differences.push_back(0);
+		int _i = 0;
+		for (auto it = begin; it != end; ++it, ++_i) {
+			X[_i] = it->x;
+			dividers[_i] = it->y;
+			differences[_i] = 0;
 		}
 
-		auto polynomial_degree = X.size() - 1;
+		auto polynomial_degree = count - 1;
 		differences[0] = dividers[0];
 		for (size_t i = 1; i <= polynomial_degree; ++i) {
 			for (size_t j = 0; j <= polynomial_degree - i; ++j) {
 				dividers[j] = (dividers[j + 1] - dividers[j]) / (X[j + i] - X[j]);
-				differences[i] = dividers[0];
 			}
+			differences[i] = dividers[0];
 		}
 
 		double polynomial_sum = differences[0];
-		double polynomial_ratio = 1;
 
-		return [X, polynomial_degree, polynomial_ratio, polynomial_sum, differences](double x) {
-			auto ratio = polynomial_ratio;
+		delete[] dividers;
+
+		std::shared_ptr<double> x_ptr(X);
+		std::shared_ptr<double> d_ptr(differences);
+
+		return [x_ptr, polynomial_degree, polynomial_sum, d_ptr](double x) {
+			const auto x_values = x_ptr.get();
+			const auto diffs = d_ptr.get();
+			double ratio = 1;
 			auto sum = polynomial_sum;
 
 			for (int i = 1; i <= polynomial_degree; ++i) {
-				ratio *= (x - X[i - 1]);
-				sum += ratio * differences[i];
+				ratio *= (x - x_values[i - 1]);
+				sum += ratio * diffs[i];
 			}
 
 			return sum;
@@ -55,7 +63,7 @@ namespace Interpolation {
 		/* Example for x = 4, degree=6
 		 * Sequence: 0 1 2 3 4 5 6 7 8 9
 		 *             ^     ^     ^
-		 *          left   meddle  right
+		 *          left   middle  right
 		 */
 
 		ITERATOR left = begin;
