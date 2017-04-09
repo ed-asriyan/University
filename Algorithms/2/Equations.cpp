@@ -13,7 +13,7 @@ double Equations::CalcTangents(const std::function<double(double)>& func, double
 
 	auto x1 = a - func(a) / df(a);
 	auto x0 = a;
-	while (std::abs(x0 - x1) > x0 * eps + eps) {
+	while (std::abs(x0 - x1) > std::abs(x0) * eps + eps) {
 		x0 = x1;
 		x1 = x1 - func(x1) / df(x1);
 	}
