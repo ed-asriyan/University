@@ -57,14 +57,18 @@ int main(int arc, const char* argv[]) {
 	const double END = 2;
 	const double EPS = 1e-5;
 
-	double n;
+	size_t n;
 	std::cout << "Enter number of partition: ";
 	std::cin >> n;
 	double step = (END - START) / n;
+	size_t points_number = n + 1;
 
 	double degree;
 	std::cout << "Enter the polynomial degree: ";
 	std::cin >> degree;
+
+	auto table = Functions::Utils::MixFunc(Functions::F1, Functions::F2);
+	Point2d* points = new Point2d[points_number];
 
 	const int COL_WIDTH = 12;
 	std::cout << std::setw(COL_WIDTH) << "x" << ' '
@@ -72,8 +76,7 @@ int main(int arc, const char* argv[]) {
 	          << std::setw(COL_WIDTH) << "F2(x)" << ' '
 	          << std::setw(COL_WIDTH) << "F1(x)-F2(x)" << ' '
 	          << std::endl;
-	auto table = Functions::Utils::MixFunc(Functions::F1, Functions::F2);
-	for (int i = 0; i < n; ++i) {
+	for (int i = 0; i < points_number; ++i) {
 		const auto x = START + i * step;
 		auto pair = table(x);
 		auto diff = pair.first - pair.second;
@@ -82,7 +85,13 @@ int main(int arc, const char* argv[]) {
 		          << std::setw(COL_WIDTH) << pair.second << ' '
 		          << std::setw(COL_WIDTH) << diff << ' '
 		          << std::endl;
+
+		points[i].x = pair.second;
+		points[i].y = diff;
 	}
 
+	auto min_iterator = std::min_element(points, points + points_number, [](const Point2d& a, const Point2d& b) {
+		return std::abs(a.x) < std::abs(b.x);
+	});
 	return 0;
 }
