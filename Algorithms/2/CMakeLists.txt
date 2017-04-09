@@ -25,3 +25,10 @@ set(SOURCE_FILES_PART2
         )
 add_executable(Lab2-2 ${SOURCE_FILES_PART2})
 target_link_libraries(Lab2-2 Interpolator m)
+
+# 3rd lab part (3D interpolation)
+set(SOURCE_FILES_PART3
+        part3.cpp
+        )
+add_executable(Lab2-3 ${SOURCE_FILES_PART3})
+target_link_libraries(Lab2-3 Interpolator m)
