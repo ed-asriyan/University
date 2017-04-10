@@ -13,7 +13,7 @@
 #include "FuncIterator.hpp"
 
 int main(int argc, const char* argv[]) {
-	const auto F1 = Functions::Store2::F1;
+	const auto F1 = Functions::Store2::F3;
 
 	double x_begin;
 	std::cout << "Enter left  x border: ";
