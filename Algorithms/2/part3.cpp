@@ -12,88 +12,152 @@
 #include "Functions.hpp"
 #include "FuncIterator.hpp"
 
-int main(int argc, const char* argv[]) {
-	const auto F1 = Functions::Store2::F3;
+class InputValues {
+	public:
+		struct Range {
+			double begin;
+			double end;
+			unsigned int partitions;
+			unsigned int count;
+			double step;
+		};
 
-	double x_begin;
-	std::cout << "Enter left  x border: ";
-	std::cin >> x_begin;
+		InputValues()
+			: InputValues(std::cin, std::cout) {}
 
-	double x_end;
-	std::cout << "Enter right x border: ";
-	std::cin >> x_end;
+		InputValues(std::istream& in, std::ostream& out) {
+			out << "Enter x range:" << std::endl;
+			out << " left : ";
+			in >> x_range.begin;
+			out << " right: ";
+			in >> x_range.end;
+			out << " partitions: ";
+			in >> x_range.partitions;
+			x_range.count = x_range.partitions + 1;
+			x_range.step = (x_range.end - x_range.begin) / x_range.partitions;
 
-	unsigned x_n;
-	std::cout << "Enter x partition count: ";
-	std::cin >> x_n;
-	unsigned int x_count = x_n + 1;
-	double x_step = (x_end - x_begin) / x_count;
+			out << "Enter y range:" << std::endl;
+			out << " left : ";
+			in >> y_range.begin;
+			out << " right: ";
+			in >> y_range.end;
+			out << " partitions: ";
+			in >> y_range.partitions;
+			y_range.count = y_range.partitions + 1;
+			y_range.step = (y_range.end - y_range.begin) / y_range.partitions;
 
-	double y_begin;
-	std::cout << "Enter left  y border: ";
-	std::cin >> y_begin;
+			out << "Enter degree:" << std::endl;
+			out << " x: ";
+			in >> degree.x;
+			out << " y: ";
+			in >> degree.y;
 
-	double y_end;
-	std::cout << "Enter right y border: ";
-	std::cin >> y_end;
+			out << "Enter point:" << std::endl;
+			out << " x: ";
+			in >> point.x;
+			out << " y: ";
+			in >> point.y;
 
-	unsigned y_n;
-	std::cout << "Enter y partition count: ";
-	std::cin >> y_n;
-	unsigned int y_count = y_n + 1;
-	double y_step = (y_end - y_begin) / y_count;
+			out << std::endl;
+		}
 
-	Point2d point;
-	std::cout << "Enter x: ";
-	std::cin >> point.x;
-	std::cout << "Enter y: ";
-	std::cin >> point.y;
+		InputValues(int argc, const char* argv[]) {
+			// todo:
+		}
 
-	unsigned int x_degree;
-	std::cout << "Enter x degree: ";
-	std::cin >> x_degree;
+		const std::function<double(double, double)>& get_func() const {
+			return func;
+		}
 
-	unsigned int y_degree;
-	std::cout << "Enter y degree: ";
-	std::cin >> y_degree;
+		const Range& get_x_range() const {
+			return x_range;
+		}
 
-	// creating & printing matrix
+		const Range& get_y_range() const {
+			return y_range;
+		}
+
+		const Point2d& get_point() const {
+			return point;
+		}
+
+		const Point2d& get_degree() const {
+			return degree;
+		}
+
+	private:
+		std::function<double(double, double)> func = Functions::Store2::F3;
+		Range x_range;
+		Range y_range;
+		Point2d point;
+		Point2d degree;
+};
+
+void FillMatrix(double* const* matrix, const InputValues& input_values) {
+	auto func = input_values.get_func();
+	auto x_range = input_values.get_x_range();
+	auto y_range = input_values.get_y_range();
+
+	for (unsigned int i = 0; i < y_range.count; ++i) {
+		double y = y_range.begin + i * y_range.step;
+		auto section_y = Functions::Store2::SectionY(func, y);
+		auto iterators_x = FuncIterator::Create(section_y, y_range.begin, y_range.end, y_range.partitions);
+		for (unsigned int j = 0; j < x_range.count; ++j) {
+			double x = x_range.begin + j * x_range.step;
+			double x_res = section_y(x);
+			matrix[i][j] = x_res;
+		}
+	}
+}
+
+void PrintMatrix(std::ostream& out, const double* const* matrix, const InputValues& input_values) {
+	auto x_range = input_values.get_x_range();
+	auto y_range = input_values.get_y_range();
+
 	const unsigned int CELL_WIDTH = 11;
 	const unsigned int CELL_PRECISION = 3;
 	std::cout << "Matrix:" << std::endl;
 	std::cout << ' ' << std::setw(CELL_WIDTH) << ' ';
-	for (unsigned int i = 0; i < x_count; ++i) {
-		double x = x_begin + i * x_step;
+	for (auto i = 0; i < x_range.count; ++i) {
+		double x = x_range.begin + i * x_range.step;
 		std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << x;
 	}
 	std::cout << std::endl;
 	std::cout << ' ' << std::setw(CELL_WIDTH) << ' ';
-	for (unsigned int i = 0; i < x_count; ++i) {
+	for (unsigned int i = 0; i < x_range.count; ++i) {
 		for (unsigned int j = 0; j < CELL_WIDTH; ++j) {
 			std::cout << '-';
 		}
 	}
 	std::cout << std::endl;
-	Point2d** matrix = new Point2d* [x_count];
-	for (unsigned int i = 0; i < x_count; ++i) {
-		double x = x_begin + i * x_step;
-		std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << x << "|";
-
-		auto section_x = Functions::Store2::SectionX(F1, x);
-		auto iterators_x = FuncIterator::Create(section_x, x_begin, x_end, x_n);
-		matrix[i] = new Point2d[y_count];
-		for (unsigned int j = 0; j < y_count; ++j) {
-			double y = y_begin + j * y_step;
-			matrix[i][j].x = x;
-			const auto y_res = section_x(y);
-			matrix[i][j].y = y_res;
-			std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << y_res;
+	for (unsigned int i = 0; i < y_range.count; ++i) {
+		double y = y_range.begin + i * y_range.step;
+		std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << y << "|";
+		auto row = matrix[i];
+		for (unsigned int j = 0; j < x_range.count; ++j) {
+			std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << row[j];
 		}
 		std::cout << std::endl;
 	}
+}
+
+int main(int argc, const char* argv[]) {
+	InputValues input_values;
+	auto func = input_values.get_func();
+	auto x_range = input_values.get_x_range();
+	auto y_range = input_values.get_y_range();
+
+	// creating matrix
+	double** matrix = new double* [y_range.count];
+	for (unsigned int i = 0; i < y_range.count; ++i) {
+		matrix[i] = new double[x_range.count];
+	}
+	FillMatrix(matrix, input_values);
+
+	PrintMatrix(std::cout, (const double**) matrix, input_values);
 
 	// free matrix
-	for (unsigned int i = 0; i < x_count; ++i) {
+	for (int i = y_range.count - 1; i >= 0; --i) {
 		delete[] matrix[i];
 	}
 	delete[] matrix;
