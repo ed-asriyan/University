@@ -12,7 +12,7 @@ class BaseVector {
 		BaseVector() = default;
 		BaseVector(const BaseVector&) = default;
 
-		virtual ~BaseVector() = 0;
+		virtual ~BaseVector() = default;
 
 		bool is_empty() const;
 
