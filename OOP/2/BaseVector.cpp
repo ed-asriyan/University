@@ -7,3 +7,7 @@
 size_t BaseVector::get_size() const {
 	return size;
 }
+
+bool BaseVector::is_empty() const {
+	return !size;
+}

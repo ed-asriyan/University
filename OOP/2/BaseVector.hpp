@@ -14,6 +14,8 @@ class BaseVector {
 
 		virtual ~BaseVector() = 0;
 
+		bool is_empty() const;
+
 		size_t get_size() const;
 
 	protected:
