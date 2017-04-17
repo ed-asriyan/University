@@ -29,15 +29,15 @@ class Iterator {
 		Iterator<T>& operator=(const Iterator<T>& Right);
 		Iterator<T>& operator=(T* Init);
 
-		Iterator<T> operator+=(size_t n);
+		Iterator<T>& operator+=(size_t n);
 		Iterator<T> operator+(size_t n) const;
-		Iterator<T> operator++(int);
 		Iterator<T>& operator++();
+		Iterator<T> operator++(int);
 
-		Iterator<T> operator-=(size_t n);
+		Iterator<T>& operator-=(size_t n);
 		Iterator<T> operator-(size_t n) const;
-		Iterator<T> operator--(int);
 		Iterator<T>& operator--();
+		Iterator<T> operator--(int);
 
 		difference_type operator-(const Iterator<T>& b) const;
 
@@ -97,7 +97,7 @@ Iterator<T>& Iterator<T>::operator=(const Iterator<T>& b) {
 }
 
 template<class T>
-Iterator<T> Iterator<T>::operator+=(size_t n) {
+Iterator<T>& Iterator<T>::operator+=(size_t n) {
 	ptr += n;
 	return *this;
 }
@@ -123,7 +123,7 @@ Iterator<T>& Iterator<T>::operator++() {
 }
 
 template<class T>
-Iterator<T> Iterator<T>::operator-=(size_t n) {
+Iterator<T>& Iterator<T>::operator-=(size_t n) {
 	ptr -= n;
 	return *this;
 }
