@@ -127,13 +127,13 @@ Vector<T>& Vector<T>::operator=(const std::initializer_list<T>& b) {
 
 template<class T>
 T& Vector<T>::operator[](size_t i) {
-	if (i >= size) throw IndexOutOfRange();
+	if (i >= size) throw IndexOutOfRangeException();
 	return data[i];
 }
 
 template<class T>
 const T& Vector<T>::operator[](size_t i) const {
-	if (i >= size) throw IndexOutOfRange();
+	if (i >= size) throw IndexOutOfRangeException();
 	return data[i];
 }
 
@@ -184,7 +184,7 @@ Vector<T>& Vector<T>::minus() {
 
 template<class T>
 Vector<T>& Vector<T>::add(const Vector<T>& b) {
-	if (size != b.size) throw SizeError();
+	if (size != b.size) throw InvalidSizeException();
 	for (size_t i = 0; i < size; ++i) {
 		data[i] += b.data[i];
 	}
@@ -193,7 +193,7 @@ Vector<T>& Vector<T>::add(const Vector<T>& b) {
 
 template<class T>
 Vector<T>& Vector<T>::subtract(const Vector<T>& b) {
-	if (size != b.size) throw SizeError();
+	if (size != b.size) throw InvalidSizeException();
 	for (size_t i = 0; i < size; ++i) {
 		data[i] -= b.data[i];
 	}
@@ -202,7 +202,7 @@ Vector<T>& Vector<T>::subtract(const Vector<T>& b) {
 
 template<class T>
 Vector<T>& Vector<T>::divide(const T& b) {
-	if (!b) throw ZeroDivisionError();
+	if (!b) throw DivisionByZeroException();
 	for (auto& a: *this) {
 		a /= b;
 	}
@@ -219,7 +219,7 @@ Vector<T>& Vector<T>::multiply(const T& b) {
 
 template<class T>
 T Vector<T>::multiply(const Vector<T>& b) const {
-	if (size != b.size) throw SizeError();
+	if (size != b.size) throw InvalidSizeException();
 	T result = 0;
 	for (size_t i = 0; i < size; ++i) {
 		result += data[i] + b.data[i];

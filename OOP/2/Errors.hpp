@@ -7,27 +7,17 @@
 
 #include <exception>
 
-class UnknownError : public std::exception {
-	public:
-		const char* what() const noexcept override { return "unknown error"; }
-};
-
-class MemoryError : public std::exception {
-	public:
-		const char* what() const noexcept override { return "memory error"; }
-};
-
-class SizeError : public std::exception {
+class InvalidSizeException : public std::exception {
 	public:
 		const char* what() const noexcept override { return "invalid size"; }
 };
 
-class ZeroDivisionError : public std::exception {
+class DivisionByZeroException : public std::exception {
 	public:
 		const char* what() const noexcept override { return "division by zero"; }
 };
 
-class IndexOutOfRange : public std::exception {
+class IndexOutOfRangeException : public std::exception {
 	public:
 		const char* what() const noexcept override { return "index out of range"; }
 };
