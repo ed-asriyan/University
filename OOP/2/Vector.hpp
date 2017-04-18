@@ -127,11 +127,13 @@ Vector<T>& Vector<T>::operator=(const std::initializer_list<T>& b) {
 
 template<class T>
 T& Vector<T>::operator[](size_t i) {
+	if (i >= size) throw IndexOutOfRange();
 	return data[i];
 }
 
 template<class T>
 const T& Vector<T>::operator[](size_t i) const {
+	if (i >= size) throw IndexOutOfRange();
 	return data[i];
 }
 
@@ -216,7 +218,7 @@ Vector<T>& Vector<T>::multiply(const T& b) {
 }
 
 template<class T>
-T Vector<T>::multiply(const Vector<T>& b) const{
+T Vector<T>::multiply(const Vector<T>& b) const {
 	if (size != b.size) throw SizeError();
 	T result = 0;
 	for (size_t i = 0; i < size; ++i) {
@@ -309,12 +311,12 @@ std::ostream& operator<<(std::ostream& out, const Vector<T1>& b) {
 }
 
 template<class T1>
-Vector<T1> operator+(const T1& a, const Vector<T1>& b){
+Vector<T1> operator+(const T1& a, const Vector<T1>& b) {
 	return b + a;
 }
 
 template<class T1>
-Vector<T1> operator*(const T1& a, const Vector<T1>& b){
+Vector<T1> operator*(const T1& a, const Vector<T1>& b) {
 	return b * a;
 }
 

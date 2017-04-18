@@ -27,4 +27,9 @@ class ZeroDivisionError : public std::exception {
 		const char* what() const noexcept override { return "division by zero"; }
 };
 
+class IndexOutOfRange : public std::exception {
+	public:
+		const char* what() const noexcept override { return "index out of range"; }
+};
+
 #endif //LAB2_ERRORS_HPP
