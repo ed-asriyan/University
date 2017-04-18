@@ -6,6 +6,7 @@
 #define LAB2_VECTOR_HPP
 
 #include <ostream>
+#include <iomanip>
 #include <initializer_list>
 
 #include "BaseVector.hpp"
@@ -302,7 +303,7 @@ bool Vector<T>::operator&&(const Vector<T>& b) const {
 template<class T1>
 std::ostream& operator<<(std::ostream& out, const Vector<T1>& b) {
 	for (auto& a: b) {
-		out << a << ' ';
+		out << std::setw(6) << a << ' ';
 	}
 	return out;
 }

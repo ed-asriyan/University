@@ -8,6 +8,7 @@ set(SOURCE_FILES
         Iterator.hpp
         BaseVector.cpp BaseVector.hpp
         Vector.hpp
+        test.hpp
         main.cpp
         )
 add_executable(Lab2 ${SOURCE_FILES})
