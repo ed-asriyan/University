@@ -18,7 +18,7 @@ class Iterator {
 		typedef const T* const_pointer;
 		typedef const T& const_reference;
 
-		Iterator(T* init);
+		explicit Iterator(T* init);
 		Iterator(const Iterator<T>& Right);
 
 		reference operator*();

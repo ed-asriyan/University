@@ -16,9 +16,10 @@
 template<class T>
 class Vector : public BaseVector {
 	public:
+		Vector() = default;
 		Vector(const Vector& vector);
 		Vector(Vector&& vector);
-		Vector(size_t _size);
+		explicit Vector(size_t _size);
 		Vector(const std::initializer_list<T>& initializer_list);
 
 		virtual ~Vector();
