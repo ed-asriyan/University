@@ -72,10 +72,12 @@ void RunTest(const InputValues& input_values, const std::function<double(double)
 	const auto x = input_values.get_x();
 	const auto degree = input_values.get_degree();
 
-	const auto iterators = FuncIterator::Create(func,
-	                                            left_x,
-	                                            right_x,
-	                                            points_count - 1);
+	const auto iterators = FuncIterator::Create(
+		func,
+		left_x,
+		right_x,
+		points_count - 1
+	);
 
 	Point2d* table = new Point2d[std::distance(iterators.first, iterators.second)];
 	std::copy(iterators.first, iterators.second, table);
