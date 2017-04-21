@@ -14,6 +14,11 @@
 
 class InputValues {
 	public:
+		struct Degree {
+			unsigned int x;
+			unsigned int y;
+		};
+
 		struct Range {
 			double begin;
 			double end;
@@ -81,7 +86,7 @@ class InputValues {
 			return point;
 		}
 
-		const Point2d& get_degree() const {
+		const Degree& get_degree() const {
 			return degree;
 		}
 
@@ -90,7 +95,7 @@ class InputValues {
 		Range x_range;
 		Range y_range;
 		Point2d point;
-		Point2d degree;
+		Degree degree;
 };
 
 void FillMatrix(double* const* matrix, const InputValues& input_values) {
@@ -110,9 +115,10 @@ void FillMatrix(double* const* matrix, const InputValues& input_values) {
 	}
 }
 
-void PrintMatrix(std::ostream& out, const double* const* matrix, const InputValues& input_values) {
+void PrintMatrix(std::ostream& out, const InputValues& input_values) {
 	auto x_range = input_values.get_x_range();
 	auto y_range = input_values.get_y_range();
+	auto func = input_values.get_func();
 
 	const unsigned int CELL_WIDTH = 11;
 	const unsigned int CELL_PRECISION = 3;
@@ -133,9 +139,9 @@ void PrintMatrix(std::ostream& out, const double* const* matrix, const InputValu
 	for (unsigned int i = 0; i < y_range.count; ++i) {
 		double y = y_range.begin + i * y_range.step;
 		std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << y << "|";
-		auto row = matrix[i];
 		for (unsigned int j = 0; j < x_range.count; ++j) {
-			std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << row[j];
+			double x = x_range.begin + i * x_range.step;
+			std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << func(x, y);
 		}
 		std::cout << std::endl;
 	}
@@ -146,21 +152,53 @@ int main(int argc, const char* argv[]) {
 	auto func = input_values.get_func();
 	auto x_range = input_values.get_x_range();
 	auto y_range = input_values.get_y_range();
+	auto point = input_values.get_point();
+	auto degree = input_values.get_degree();
 
-	// creating matrix
-	double** matrix = new double* [y_range.count];
-	for (unsigned int i = 0; i < y_range.count; ++i) {
-		matrix[i] = new double[x_range.count];
+	PrintMatrix(std::cout, input_values);
+
+	// create init y column (whole y range [y_begin, y_end])
+	auto init_y_col_iterators = FuncIterator::Create(
+		Functions::Store2::SectionX(func, point.x),
+		y_range.begin,
+		y_range.end,
+		y_range.count
+	);
+	auto init_y_col_size = std::distance(init_y_col_iterators.first, init_y_col_iterators.second);
+	Point2d* init_y_col = new Point2d[init_y_col_size];
+	std::copy(init_y_col_iterators.first, init_y_col_iterators.second, init_y_col);
+
+	// find work y_range (for current degree)
+	auto work_y_col_iterators = Interpolation::FindSubTableBorders(
+		init_y_col,
+		init_y_col + init_y_col_size,
+		point.y,
+		degree.y
+	);
+	auto work_y_col_size = std::distance(work_y_col_iterators.first, work_y_col_iterators.second);
+
+	// fill work matrix
+	Point2d** work_map = new Point2d* [work_y_col_size];
+	auto _work_y_col_iterators_i = work_y_col_iterators;
+	for (size_t i = 0; i < work_y_col_size; ++i) {
+		auto row_iterators = FuncIterator::Create(
+			Functions::Store2::SectionY(
+				func, (_work_y_col_iterators_i.first++)->x
+			),
+			x_range.begin,
+			x_range.end,
+			x_range.count
+		);
+		Point2d* row = work_map[i] = new Point2d[std::distance(row_iterators.first, row_iterators.second)];
+		std::copy(row_iterators.first, row_iterators.second, row);
 	}
-	FillMatrix(matrix, input_values);
 
-	PrintMatrix(std::cout, (const double**) matrix, input_values);
-
-	// free matrix
-	for (int i = y_range.count - 1; i >= 0; --i) {
-		delete[] matrix[i];
+	for (int i = degree.y; i >= 0; --i) {
+		delete[] work_map[i];
 	}
-	delete[] matrix;
+	delete[] work_map;
+
+	delete[] init_y_col;
 
 	return 0;
 }
