@@ -145,6 +145,7 @@ void PrintMatrix(std::ostream& out, const InputValues& input_values) {
 		}
 		std::cout << std::endl;
 	}
+	std::cout << std::endl;
 }
 
 int main(int argc, const char* argv[]) {
@@ -177,10 +178,11 @@ int main(int argc, const char* argv[]) {
 	);
 	auto work_y_col_size = std::distance(work_y_col_iterators.first, work_y_col_iterators.second);
 
-	// fill work matrix
-	Point2d** work_map = new Point2d* [work_y_col_size];
+	// fill interpolated row
+	Point2d* interpolated_row = new Point2d[work_y_col_size];
 	auto _work_y_col_iterators_i = work_y_col_iterators;
 	for (size_t i = 0; i < work_y_col_size; ++i) {
+		auto y = y_range.begin + i * y_range.step;
 		auto row_iterators = FuncIterator::Create(
 			Functions::Store2::SectionY(
 				func, (_work_y_col_iterators_i.first++)->x
@@ -189,16 +191,21 @@ int main(int argc, const char* argv[]) {
 			x_range.end,
 			x_range.count
 		);
-		Point2d* row = work_map[i] = new Point2d[std::distance(row_iterators.first, row_iterators.second)];
-		std::copy(row_iterators.first, row_iterators.second, row);
+		auto interpolated_func = Interpolation::CalcIterpolatedFunc(row_iterators.first, row_iterators.second);
+		interpolated_row[i].x = y;
+		interpolated_row[i].y = interpolated_func(point.x);
 	}
 
-	for (int i = degree.y; i >= 0; --i) {
-		delete[] work_map[i];
-	}
-	delete[] work_map;
+	auto row_func = Interpolation::CalcIterpolatedFunc(interpolated_row, interpolated_row + work_y_col_size);
+	const auto interpolated_result = row_func(point.y);
+	const auto real_result = func(point.x, point.y);
 
+	delete[] interpolated_row;
 	delete[] init_y_col;
+
+	std::cout << "Interpolated: " << interpolated_result << std::endl;
+	std::cout << "Real result : " << real_result << std::endl;
+	std::cout << "Difference  : " << std::abs(real_result - interpolated_result) << std::endl;
 
 	return 0;
 }
