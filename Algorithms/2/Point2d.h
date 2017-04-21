@@ -7,10 +7,12 @@
 
 #include <ostream>
 
+#include "Point1d.h"
+
 /**
  * Point in two-dimensional space.
  */
-struct Point2d {
+struct Point2d: public Point1d {
 	/**
 	 * Default constructor.
 	 */
@@ -29,7 +31,7 @@ struct Point2d {
 	 */
 	Point2d(const std::pair<double, double>& pair);
 
-	double x, y;
+	double y;
 
 	friend std::ostream& operator<<(std::ostream& out, const Point2d& point);
 };

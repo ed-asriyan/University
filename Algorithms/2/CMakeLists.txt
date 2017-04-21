@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 # interpolator library (common to all lab parts)
 set(SOURCE_FILES_INTERPOLATOR
+        Point1d.h Point1d.cpp
         Point2d.h Point2d.cpp
         Interpolation.hpp
         )
