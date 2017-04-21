@@ -140,7 +140,7 @@ void PrintMatrix(std::ostream& out, const InputValues& input_values) {
 		double y = y_range.begin + i * y_range.step;
 		std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << y << "|";
 		for (unsigned int j = 0; j < x_range.count; ++j) {
-			double x = x_range.begin + i * x_range.step;
+			double x = x_range.begin + j * x_range.step;
 			std::cout << std::setw(CELL_WIDTH) << std::setprecision(CELL_PRECISION) << func(x, y);
 		}
 		std::cout << std::endl;
