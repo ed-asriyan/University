@@ -163,7 +163,7 @@ int main(int argc, const char* argv[]) {
 		Functions::Store2::SectionX(func, point.x),
 		y_range.begin,
 		y_range.end,
-		y_range.count
+		y_range.partitions
 	);
 	auto init_y_col_size = std::distance(init_y_col_iterators.first, init_y_col_iterators.second);
 	Point2d* init_y_col = new Point2d[init_y_col_size];
@@ -182,14 +182,12 @@ int main(int argc, const char* argv[]) {
 	Point2d* interpolated_row = new Point2d[work_y_col_size];
 	auto _work_y_col_iterators_i = work_y_col_iterators;
 	for (size_t i = 0; i < work_y_col_size; ++i) {
-		auto y = y_range.begin + i * y_range.step;
+		auto y = (_work_y_col_iterators_i.first++)->x;
 		auto row_iterators = FuncIterator::Create(
-			Functions::Store2::SectionY(
-				func, (_work_y_col_iterators_i.first++)->x
-			),
+			Functions::Store2::SectionY(func, y),
 			x_range.begin,
 			x_range.end,
-			x_range.count
+			x_range.partitions
 		);
 		auto interpolated_func = Interpolation::CalcIterpolatedFunc(row_iterators.first, row_iterators.second);
 		interpolated_row[i].x = y;
