@@ -42,3 +42,11 @@ set(SOURCE_FILES_PART3
         )
 add_executable(Lab2-3 ${SOURCE_FILES_PART3})
 target_link_libraries(Lab2-3 Functions Interpolator)
+
+# 4th lab part (spline)
+set(SOURCE_FILES_PART4
+        part4.cpp
+        FuncIterator.cpp FuncIterator.hpp
+        )
+add_executable(Lab2-4 ${SOURCE_FILES_PART4})
+target_link_libraries(Lab2-4 Functions Interpolator)

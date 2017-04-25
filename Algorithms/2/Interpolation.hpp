@@ -90,6 +90,13 @@ namespace Interpolation {
 
 		return std::pair<ITERATOR, ITERATOR>(left, right);
 	}
+
+	template<class ITERATOR>
+	auto CalcSplineFunc(ITERATOR begin, ITERATOR end) {
+		return [](double x) {
+			return -1;
+		};
+	}
 }
 
 #endif //LAB2_INTERPOLATION_HPP
