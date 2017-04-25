@@ -1,1 +1,2 @@
-There are 2D points. Construct the convex hull.
+# Задание № 2
+Построить выпуклую оболочку по точкам на плоскости.
