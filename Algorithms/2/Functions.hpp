@@ -12,6 +12,7 @@
 namespace Functions {
 	namespace Store1 {
 		double F1(double x);
+		double F2(double x);
 	}
 
 	namespace Store2 {

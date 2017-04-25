@@ -13,7 +13,7 @@
 #include "Functions.hpp"
 
 int main(int argc, const char* argv[]) {
-	const auto func = Functions::Store1::F1;
+	const auto func = Functions::Store1::F2;
 
 	double x_begin;
 	std::cout << "Enter left border:  ";

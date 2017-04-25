@@ -8,6 +8,10 @@ double Functions::Store1::F1(double x) {
 	return std::sin(M_PI * x / 6);
 }
 
+double Functions::Store1::F2(double x) {
+	return x * x * x + 2 * x;
+}
+
 double Functions::Store2::F1(double x, double y) {
 	return std::exp(x * x * x - y) - x * x * x * x * x * x + 2 * (y + 1) * (x * x * x) - y * y - 2 * y - 2;
 }
