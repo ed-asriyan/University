@@ -7,7 +7,13 @@ int main() {
 	Vector<double> b = {0.6, 0.7, 0.8, 0.9, 1.0};
 	double c = 2;
 
-	test(std::cout, a, b, c);
+	try {
+		test(std::cout, a, b, c);
+	} catch (std::exception& e) {
+		std::cout << "Exception: " << e.what() << std::endl;
+	} catch (...) {
+		std::cout << "Unknown exception" << std::endl;
+	}
 
 	return 0;
 }
