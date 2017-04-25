@@ -93,8 +93,120 @@ namespace Interpolation {
 
 	template<class ITERATOR>
 	auto CalcSplineFunc(ITERATOR begin, ITERATOR end) {
-		return [](double x) {
-			return -1;
+		int i;
+		ITERATOR it0;
+		ITERATOR it1;
+		ITERATOR it2;
+
+		auto n = std::distance(begin, end);
+
+		auto Ca = new double[n + 2];
+		auto Cb = new double[n + 2];
+		auto Cc = new double[n + 2];
+		auto Cd = new double[n + 2];
+		auto h = new double[n + 1];
+		auto A = new double[n + 2];
+		auto B = new double[n + 2];
+		auto D = new double[n + 2];
+		auto F = new double[n + 2];
+		auto alpha = new double[n + 2];
+		auto beta = new double[n + 2];
+
+		i = 1;
+		it0 = begin;
+		it1 = begin + 1;
+		while (i <= n) {
+			h[i] = it1->x - it0->x;
+
+			++i;
+			++it0;
+			++it1;
+		}
+
+		i = 1;
+		it0 = begin;
+		while (i <= n) {
+			Ca[i] = it0->y;
+
+			++i;
+			++it0;
+		}
+		Cc[1] = Cc[n + 1] = 0;
+		alpha[2] = beta[2] = 0;
+
+		i = 2;
+		it0 = begin;
+		it1 = begin - 1;
+		it2 = begin - 2;
+		while (i <= n) {
+			A[i] = h[i - 1];
+			B[i] = -2 * (h[i - 1] + h[i]);
+			D[i] = h[i];
+			F[i] = -3 * ((it0->y - it1->y) / h[i] - (it1->y - it2->y) / h[i - 1]);
+
+			++i;
+			++it0;
+			++it1;
+			++it2;
+		}
+
+		for (i = static_cast<int>(n); i > 1; i--) {
+			Cc[i] = alpha[i + 1] * Cc[i + 1] + beta[i + 1];
+		}
+
+		i = 1;
+		it0 = begin;
+		it1 = begin - 1;
+		while (i <= n) {
+			Cb[i] = (it0->y - it1->y) / h[i] - h[i] / 3 * (2 * (Cc[i] + Cc[i + 1]));
+			Cd[i] = (Cc[i + 1] - Cc[i]) / (3 * h[i]);
+
+			++i;
+			++it0;
+		}
+
+		delete[] beta;
+		delete[] alpha;
+		delete[] F;
+		delete[] D;
+		delete[] B;
+		delete[] A;
+		delete[] h;
+
+		auto args = new double[n];
+		i = 0;
+		for (auto it = begin; it != end; ++it, ++i) {
+			args[i] = it->x;
+		}
+
+		std::shared_ptr<double> _args(args);
+		std::shared_ptr<double> _Ca(Ca);
+		std::shared_ptr<double> _Cb(Cb);
+		std::shared_ptr<double> _Cc(Cc);
+		std::shared_ptr<double> _Cd(Cd);
+
+		return [n, _args, _Ca, _Cb, _Cc, _Cd](double x) -> double{
+			auto args = _args.get();
+			auto Ca = _Ca.get();
+			auto Cb = _Cb.get();
+			auto Cc = _Cc.get();
+			auto Cd = _Cd.get();
+
+
+			if ((args[0] <= args[n - 1]) && x < args[0])  {
+				return -1;
+			}
+			int pos = 0;
+			for (int i = 1; i < n; i++) {
+				if ((args[i - 1] <= x && x < args[i]) ||
+					(args[i - 1] >= x && x > args[i])) {
+					break;
+				}
+				pos++;
+			}
+
+			return Ca[pos] + Cb[pos] * (x - args[pos - 1]) + Cc[pos] * (x - args[pos - 1]) * (x - args[pos - 1])
+				+ Cd[pos] * (x - args[pos - 1]) * (x - args[pos - 1]) * (x - args[pos - 1]);
 		};
 	}
 }
