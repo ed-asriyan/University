@@ -32,9 +32,12 @@ int main(int argc, const char* argv[]) {
 	Point2d* table = new Point2d[x_count];
 	std::copy(iterators.first, iterators.second, table);
 
+	std::cout << std::endl;
 	for (size_t i = 0; i < x_count; ++i) {
-		std::cout << std::setw(5) << table[i].x << " : " << std::setw(10) << table[i].y << std::endl;
+		std::cout << std::setw(5) << std::setprecision(4) << table[i].x << " : " << std::setw(10) << table[i].y
+		          << std::endl;
 	}
+	std::cout << std::endl;
 
 	const auto interpolated_func = Interpolation::CalcSplineFunc(table, table + x_count);
 
@@ -45,6 +48,7 @@ int main(int argc, const char* argv[]) {
 	const auto interpolated_result = interpolated_func(x);
 	const auto real_result = func(x);
 
+	std::cout << std::endl;
 	std::cout << "Interpolated value: " << interpolated_result << std::endl;
 	std::cout << "Real value        : " << real_result << std::endl;
 	std::cout << "Difference        : " << std::abs(real_result - interpolated_result) << std::endl;

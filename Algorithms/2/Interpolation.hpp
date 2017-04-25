@@ -185,28 +185,27 @@ namespace Interpolation {
 		std::shared_ptr<double> _Cc(Cc);
 		std::shared_ptr<double> _Cd(Cd);
 
-		return [n, _args, _Ca, _Cb, _Cc, _Cd](double x) -> double{
-			auto args = _args.get();
-			auto Ca = _Ca.get();
-			auto Cb = _Cb.get();
-			auto Cc = _Cc.get();
-			auto Cd = _Cd.get();
+		return [n, _args, _Ca, _Cb, _Cc, _Cd](double x) -> double {
+			auto args_ = _args.get();
+			auto Ca_ = _Ca.get();
+			auto Cb_ = _Cb.get();
+			auto Cc_ = _Cc.get();
+			auto Cd_ = _Cd.get();
 
-
-			if ((args[0] <= args[n - 1]) && x < args[0])  {
+			if ((args_[0] <= args_[n - 1]) && x < args_[0]) {
 				return -1;
 			}
 			int pos = 0;
-			for (int i = 1; i < n; i++) {
-				if ((args[i - 1] <= x && x < args[i]) ||
-					(args[i - 1] >= x && x > args[i])) {
+			for (int i_ = 1; i_ < n; i_++) {
+				if ((args_[i_ - 1] <= x && x < args_[i_]) ||
+					(args_[i_ - 1] >= x && x > args_[i_])) {
 					break;
 				}
 				pos++;
 			}
 
-			return Ca[pos] + Cb[pos] * (x - args[pos - 1]) + Cc[pos] * (x - args[pos - 1]) * (x - args[pos - 1])
-				+ Cd[pos] * (x - args[pos - 1]) * (x - args[pos - 1]) * (x - args[pos - 1]);
+			return Ca_[pos] + Cb_[pos] * (x - args_[pos - 1]) + Cc_[pos] * (x - args_[pos - 1]) * (x - args_[pos - 1])
+				+ Cd_[pos] * (x - args_[pos - 1]) * (x - args_[pos - 1]) * (x - args_[pos - 1]);
 		};
 	}
 }
