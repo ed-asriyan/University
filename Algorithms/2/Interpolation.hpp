@@ -100,18 +100,22 @@ namespace Interpolation {
 
 		auto n = std::distance(begin, end);
 
-		auto h = new double[n + 1];
-		auto A = new double[n + 2];
-		auto B = new double[n + 2];
-		auto D = new double[n + 2];
-		auto F = new double[n + 2];
-		auto alpha = new double[n + 2];
-		auto beta = new double[n + 2];
+		auto public_array = new double[5 * n + 8];
+		auto private_array = new double[7 * n + 13];
 
-		auto Ca = new double[n + 2];
-		auto Cb = new double[n + 2];
-		auto Cc = new double[n + 2];
-		auto Cd = new double[n + 2];
+		auto h = private_array; // [n + 1];
+		auto A = h + (n + 1); // [n + 2];
+		auto B = A + (n + 2); // [n + 2];
+		auto D = B + (n + 2); // [n + 2];
+		auto F = D + (n + 2); // [n + 2];
+		auto alpha = F + (n + 2); // [n + 2];
+		auto beta = alpha + (n + 2); // [n + 2];
+
+		auto Ca = public_array; // [n + 2];
+		auto Cb = Ca + (n + 2); // [n + 2];
+		auto Cc = Cb + (n + 2); // [n + 2];
+		auto Cd = Cc + (n + 2); // [n + 2];
+		auto args = Cd + (n + 2); // [n];
 
 		i = 1;
 		it0 = begin + i;
@@ -172,46 +176,29 @@ namespace Interpolation {
 			++it1;
 		}
 
-		delete[] beta;
-		delete[] alpha;
-		delete[] F;
-		delete[] D;
-		delete[] B;
-		delete[] A;
-		delete[] h;
+		delete[] private_array;
 
-		auto args = new double[n];
 		i = 0;
 		for (auto it = begin; it != end; ++it, ++i) {
 			args[i] = it->x;
 		}
 
-		std::shared_ptr<double> _args(args);
-		std::shared_ptr<double> _Ca(Ca);
-		std::shared_ptr<double> _Cb(Cb);
-		std::shared_ptr<double> _Cc(Cc);
-		std::shared_ptr<double> _Cd(Cd);
+		std::shared_ptr<double> public_ptr(public_array);
 
-		return [n, _args, _Ca, _Cb, _Cc, _Cd](double x) -> double {
-			auto args_ = _args.get();
-			auto Ca_ = _Ca.get();
-			auto Cb_ = _Cb.get();
-			auto Cc_ = _Cc.get();
-			auto Cd_ = _Cd.get();
-
-			if (args_[0] <= args_[n - 1] && x < args_[0]) {
+		return [public_ptr, n, args, Ca, Cb, Cc, Cd](double x) -> double {
+			if (args[0] <= args[n - 1] && x < args[0]) {
 				return -1;
 			}
 			int pos = 0;
 			for (int i_ = 1; i_ < n; ++i_) {
-				if ((args_[i_ - 1] <= x && x < args_[i_]) || (args_[i_ - 1] >= x && x > args_[i_])) {
+				if ((args[i_ - 1] <= x && x < args[i_]) || (args[i_ - 1] >= x && x > args[i_])) {
 					break;
 				}
 				++pos;
 			}
 
-			return Ca_[pos] + Cb_[pos] * (x - args_[pos - 1]) + Cc_[pos] * (x - args_[pos - 1]) * (x - args_[pos - 1])
-				+ Cd_[pos] * (x - args_[pos - 1]) * (x - args_[pos - 1]) * (x - args_[pos - 1]);
+			return Ca[pos] + Cb[pos] * (x - args[pos - 1]) + Cc[pos] * (x - args[pos - 1]) * (x - args[pos - 1])
+				+ Cd[pos] * (x - args[pos - 1]) * (x - args[pos - 1]) * (x - args[pos - 1]);
 		};
 	}
 }
