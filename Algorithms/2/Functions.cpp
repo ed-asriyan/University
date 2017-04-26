@@ -9,7 +9,7 @@ double Functions::Store1::F1(double x) {
 }
 
 double Functions::Store1::F2(double x) {
-	return x * x * x + 2 * x;
+	return 1 / (1 + x * x);
 }
 
 double Functions::Store2::F1(double x, double y) {
