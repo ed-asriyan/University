@@ -21,7 +21,7 @@ double Functions::Store2::F2(double x, double y) {
 }
 
 double Functions::Store2::F3(double x, double y) {
-	return (std::sin(x) + std::cos(y)) * std::cos(x * y);
+	return x * x + y;
 }
 
 std::function<double(double, double)> Functions::Store2::Reverse(const std::function<double(double, double)>& func) {
