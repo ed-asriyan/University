@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <queue>
 #include <stdexcept>
+#include <cassert>
 
 #include <boost/signals2/signal.hpp>
 
@@ -25,11 +26,7 @@ class Elevator {
 		 */
 		Elevator(floor_type_t floor_count, floor_type_t current_floor = 0);
 
-		/**
-		 * Teleports the elevator to the floor_number.
-		 * @param floor_number Floor to jump.
-		 */
-		void JumpToFloor(floor_type_t floor_number);
+		void MoveToFloor(floor_type_t floor_number);
 
 		/**
 		 * Returns total floor count.
@@ -49,6 +46,10 @@ class Elevator {
 		boost::signals2::signal<void(const Elevator&)> OnMove;
 
 	private:
+		void jumpToFloor(floor_type_t floor_number);
+
+		void throwIfOverflow(floor_type_t floor_number) const;
+
 		floor_type_t floor_count;
 		floor_type_t current_floor;
 
