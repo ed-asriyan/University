@@ -5,5 +5,5 @@ set(CMAKE_CXX_STANDARD 11)
 
 find_package(Boost COMPONENTS signals)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp Elevator.cpp Elevator.hpp)
 add_executable(Lab4 ${SOURCE_FILES})
