@@ -12,6 +12,7 @@ Elevator::Elevator(floor_type_t floor_count, floor_type_t current_floor)
 void Elevator::JumpToFloor(Elevator::floor_type_t floor_number) {
 	if (floor_number >= floor_count) throw std::invalid_argument("floor_number must be less then floor count");
 	current_floor = floor_number;
+	OnMove(*this);
 }
 
 Elevator::floor_type_t Elevator::get_floor_count() const {

@@ -12,10 +12,15 @@ void ShowElevator(const Elevator& elevator) {
 	}
 }
 
+void OnElevatorMove(const Elevator& elevator) {
+	ShowElevator(elevator);
+}
+
 int main() {
 	Elevator elevator(5);
+	elevator.OnMove.connect(&OnElevatorMove);
+	ShowElevator(elevator);
 	while (true) {
-		ShowElevator(elevator);
 		Elevator::floor_type_t floor;
 		std::cin >> floor;
 		elevator.JumpToFloor(floor - 1);

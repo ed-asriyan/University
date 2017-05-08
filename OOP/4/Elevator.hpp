@@ -9,6 +9,8 @@
 #include <queue>
 #include <stdexcept>
 
+#include <boost/signals2/signal.hpp>
+
 /**
  * Elevator.
  */
@@ -40,6 +42,11 @@ class Elevator {
 		 * @return Floor number which elevator on.
 		 */
 		floor_type_t get_current_floor() const;
+
+		/**
+		 * Signal which raises when current_floor is changed.
+		 */
+		boost::signals2::signal<void(const Elevator&)> OnMove;
 
 	private:
 		floor_type_t floor_count;
