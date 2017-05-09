@@ -12,6 +12,10 @@ double Functions::Store1::F2(double x) {
 	return 1 / (1 + x * x);
 }
 
+double Functions::Store1::F3(double x) {
+	return x * x * x + 2 * x;
+}
+
 double Functions::Store2::F1(double x, double y) {
 	return std::exp(x * x * x - y) - x * x * x * x * x * x + 2 * (y + 1) * (x * x * x) - y * y - 2 * y - 2;
 }
