@@ -120,7 +120,7 @@ namespace Interpolation {
 		i = 1;
 		it0 = begin + i;
 		it1 = begin + i - 1;
-		while (i <= n) {
+		while (i < n) {
 			h[i] = it0->x - it1->x;
 
 			++i;
@@ -130,20 +130,20 @@ namespace Interpolation {
 
 		i = 1;
 		it1 = begin + i - 1;
-		while (i <= n) {
+		while (i < n) {
 			Ca[i] = it1->y;
 
 			++i;
 			++it1;
 		}
-		Cc[1] = Cc[n + 1] = 0;
+		Cc[1] = Cc[n] = 0;
 		alpha[2] = beta[2] = 0;
 
 		i = 2;
 		it0 = begin + i;
 		it1 = begin + i - 1;
 		it2 = begin + i - 2;
-		while (i <= n) {
+		while (i < n) {
 			A[i] = h[i - 1];
 			B[i] = -2 * (h[i - 1] + h[i]);
 			D[i] = h[i];
@@ -155,19 +155,19 @@ namespace Interpolation {
 			++it2;
 		}
 
-		for (i = 2; i <= n; i++) {
+		for (i = 2; i < n; i++) {
 			alpha[i + 1] = D[i] / (B[i] - A[i] * alpha[i]);
 			beta[i + 1] = (A[i] * beta[i] + F[i]) / (B[i] - A[i] * alpha[i]);
 		}
 
-		for (i = static_cast<int>(n); i > 1; i--) {
+		for (i = static_cast<int>(n) - 1; i > 1; i--) {
 			Cc[i] = alpha[i + 1] * Cc[i + 1] + beta[i + 1];
 		}
 
 		i = 1;
 		it0 = begin + i;
 		it1 = begin + i - 1;
-		while (i <= n) {
+		while (i < n) {
 			Cb[i] = (it0->y - it1->y) / h[i] - h[i] / 3 * (2 * Cc[i] + Cc[i + 1]);
 			Cd[i] = (Cc[i + 1] - Cc[i]) / (3 * h[i]);
 
@@ -186,11 +186,11 @@ namespace Interpolation {
 		std::shared_ptr<double> public_ptr(public_array);
 
 		return [public_ptr, n, args, Ca, Cb, Cc, Cd](double x) -> double {
-			if (args[0] <= args[n - 1] && x < args[0]) {
+			if (args[0] <= args[n - 2] && x < args[0]) {
 				return -1;
 			}
 			int pos = 0;
-			for (int i_ = 1; i_ < n; ++i_) {
+			for (int i_ = 1; i_ < n - 1; ++i_) {
 				if ((args[i_ - 1] <= x && x < args[i_]) || (args[i_ - 1] >= x && x > args[i_])) {
 					break;
 				}
