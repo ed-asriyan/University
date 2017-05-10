@@ -33,11 +33,14 @@ int main(int argc, const char* argv[]) {
 	std::copy(iterators.first, iterators.second, table);
 
 	std::cout << std::endl;
+	const std::streamsize default_precision = std::cout.precision();
+	std::setprecision(4);
 	for (size_t i = 0; i < x_count; ++i) {
-		std::cout << std::setw(5) << std::setprecision(4) << table[i].x << " : " << std::setw(10) << table[i].y
+		std::cout << std::setw(5) << table[i].x << " : " << std::setw(10) << table[i].y
 		          << std::endl;
 	}
 	std::cout << std::endl;
+	std::setprecision(static_cast<int>(default_precision));
 
 	const auto interpolated_func = Interpolation::CalcSplineFunc(table, table + x_count);
 
