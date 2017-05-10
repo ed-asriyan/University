@@ -196,6 +196,7 @@ namespace Interpolation {
 				}
 				++pos;
 			}
+			++pos;
 
 			return Ca[pos] + Cb[pos] * (x - args[pos - 1]) + Cc[pos] * (x - args[pos - 1]) * (x - args[pos - 1])
 				+ Cd[pos] * (x - args[pos - 1]) * (x - args[pos - 1]) * (x - args[pos - 1]);
