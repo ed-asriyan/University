@@ -69,6 +69,32 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void BorderDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
+		auto n = std::distance(begin, end);
+
+		auto b2 = begin;
+		auto b0 = b2++;
+		auto b1 = b2++;
+
+		auto e3 = --end;
+		auto e1 = e3--;
+		auto e2 = e3--;
+
+		auto dx0 = b2->x - b0->x;
+		auto dxn = e1->x - e3->x;
+
+		if (dx0) {
+			*result_begin++ = Point(0, (-3 * b0->y + 4 * b1->y - b2->y) / dx0);
+		} else {
+			*result_begin++ = Point(0, INFINITY);
+		}
+		for (size_t i = 2; i < n; ++i) {
+			*result_begin++ = Point(0, INFINITY);
+		}
+		if (dxn) {
+			*result_begin++ = Point(0, (3 * e1->y - 4 * e2->y + e3->y) / dxn);
+		} else {
+			*result_begin++ = Point(0, INFINITY);
+		}
 	};
 
 	/**
