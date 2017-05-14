@@ -107,6 +107,39 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void RungeDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
+		auto n = std::distance(begin, end);
+
+		auto it2 = begin;
+		auto it0 = it2++;
+		auto it1 = it2++;
+
+		const auto h = it1->x - it0->x;
+		const auto h2 = h * 2;
+		const double p = 1.0;
+		const auto d = std::pow(2, p) - 1;
+
+		for (size_t i = 2; i < n; ++i) {
+			auto ksih = (it1->y - it0->y) / h;
+			auto ksi2h = (it2->y - it0->y) / h2;
+			*result_begin++ = Point(0, ksih + (ksih - ksi2h) / d);
+
+			++it0;
+			++it1;
+			++it2;
+		}
+
+		auto e4 = --end;
+		auto e1 = e4--;
+		auto e2 = e4--;
+		auto e3 = e4--;
+
+		auto ksih = (e2->y - e3->y) / h;
+		auto ksi2h = (e2->y - e4->y) / h2;
+		*result_begin++ = Point(0, ksih + (ksih - ksi2h) / d);
+
+		ksih = (e1->y - e2->y) / h;
+		ksi2h = (e1->y - e3->y) / h2;
+		*result_begin++ = Point(0, ksih + (ksih - ksi2h) / d);
 	};
 
 	/**
