@@ -47,19 +47,19 @@ int main() {
 	Point* source = new Point[x_count];
 	GenerateTable(f, x_left, x_right, x_count, source);
 
-	Point* one_way_difference = new Point[x_count];
+	const auto one_way_difference = new double[x_count];
 	Derivative::OneWayDifference(source, source + x_count, one_way_difference);
 
-	Point* central_difference = new Point[x_count];
+	const auto central_difference = new double[x_count];
 	Derivative::CentralDifference(source, source + x_count, central_difference);
 
-	Point* border_difference = new Point[x_count];
+	const auto border_difference = new double[x_count];
 	Derivative::BorderDifference(source, source + x_count, border_difference);
 
-	Point* runge_difference = new Point[x_count];
+	const auto runge_difference = new double[x_count];
 	Derivative::RungeDifference(source, source + x_count, runge_difference);
 
-	Point* leveling_difference = new Point[x_count];
+	const auto leveling_difference = new double[x_count];
 	Derivative::LevelingDifference(source, source + x_count, leveling_difference,
 	                               [](double x) { return x; },
 	                               [](double y) { return std::log(y); }
@@ -79,11 +79,11 @@ int main() {
 		std::cout <<
 		          std::setw(CELL_WIDTH - 2) << source[i].x << " |" <<
 		          std::setw(CELL_WIDTH) << source[i].y <<
-		          std::setw(CELL_WIDTH) << one_way_difference[i].y <<
-		          std::setw(CELL_WIDTH) << central_difference[i].y <<
-		          std::setw(CELL_WIDTH) << border_difference[i].y <<
-		          std::setw(CELL_WIDTH) << runge_difference[i].y <<
-		          std::setw(CELL_WIDTH) << leveling_difference[i].y <<
+		          std::setw(CELL_WIDTH) << one_way_difference[i] <<
+		          std::setw(CELL_WIDTH) << central_difference[i] <<
+		          std::setw(CELL_WIDTH) << border_difference[i] <<
+		          std::setw(CELL_WIDTH) << runge_difference[i] <<
+		          std::setw(CELL_WIDTH) << leveling_difference[i] <<
 		          std::endl;
 	}
 

@@ -24,12 +24,12 @@ namespace Derivative {
 		INPUT_ITER it0 = begin;
 		++it0;
 		while (it0 != end) {
-			*(result_begin++) = Point(it1->x, (it0->y - it1->y) / (it0->x - it1->x));
+			*result_begin++ = (it0->y - it1->y) / (it0->x - it1->x);
 
 			++it1;
 			++it0;
 		}
-		*result_begin = Point((--end)->x, INFINITY);
+		*result_begin = INFINITY;
 	};
 
 	/**
@@ -48,15 +48,15 @@ namespace Derivative {
 		++it0;
 		it1 = it0;
 		++it0;
-		*result_begin = Point(begin->x, INFINITY);
+		*result_begin++ = INFINITY;
 		while (it0 != end) {
-			*(result_begin++) = Point(it1->x, (it0->y - it2->y) / (it0->x - it2->x));
+			*result_begin++ = (it0->y - it2->y) / (it0->x - it2->x);
 
 			++it2;
 			++it1;
 			++it0;
 		}
-		*result_begin = Point((--end)->x, INFINITY);
+		*result_begin = INFINITY;
 	};
 
 	/**
@@ -83,17 +83,17 @@ namespace Derivative {
 		auto dxn = e1->x - e3->x;
 
 		if (dx0) {
-			*result_begin++ = Point(0, (-3 * b0->y + 4 * b1->y - b2->y) / dx0);
+			*result_begin++ = (-3 * b0->y + 4 * b1->y - b2->y) / dx0;
 		} else {
-			*result_begin++ = Point(0, INFINITY);
+			*result_begin++ = INFINITY;
 		}
 		for (size_t i = 2; i < n; ++i) {
-			*result_begin++ = Point(0, INFINITY);
+			*result_begin++ = INFINITY;
 		}
 		if (dxn) {
-			*result_begin++ = Point(0, (3 * e1->y - 4 * e2->y + e3->y) / dxn);
+			*result_begin++ = (3 * e1->y - 4 * e2->y + e3->y) / dxn;
 		} else {
-			*result_begin++ = Point(0, INFINITY);
+			*result_begin++ = INFINITY;
 		}
 	};
 
@@ -121,7 +121,7 @@ namespace Derivative {
 		for (size_t i = 2; i < n; ++i) {
 			auto ksih = (it1->y - it0->y) / h;
 			auto ksi2h = (it2->y - it0->y) / h2;
-			*result_begin++ = Point(0, ksih + (ksih - ksi2h) / d);
+			*result_begin++ = ksih + (ksih - ksi2h) / d;
 
 			++it0;
 			++it1;
@@ -135,11 +135,11 @@ namespace Derivative {
 
 		auto ksih = (e2->y - e3->y) / h;
 		auto ksi2h = (e2->y - e4->y) / h2;
-		*result_begin++ = Point(0, ksih + (ksih - ksi2h) / d);
+		*result_begin++ = ksih + (ksih - ksi2h) / d;
 
 		ksih = (e1->y - e2->y) / h;
 		ksi2h = (e1->y - e3->y) / h2;
-		*result_begin++ = Point(0, ksih + (ksih - ksi2h) / d);
+		*result_begin++ = ksih + (ksih - ksi2h) / d;
 	};
 
 	/**
@@ -156,19 +156,21 @@ namespace Derivative {
 	                        const std::function<double(double)>& eta
 	) {
 		auto n = std::distance(begin, end);
-		Point* table = new Point[n];
+		Point* const table = new Point[n];
 		Point* table_i = table;
 		for (auto it = begin; it != end; ++it) {
-			*(table_i++) = Point(ksi(it->x), eta(it->y));
+			*table_i++ = Point(ksi(it->x), eta(it->y));
 		}
-		OneWayDifference(table, table + n, table);
+		auto result = new double[n];
+		OneWayDifference(table, table + n, result);
 		auto begin_i = begin;
-		for (auto it = table; it != table + n; ++it) {
-			it->y *= begin_i++->y;
+		for (auto it = result; it != result + n; ++it) {
+			*it *= begin_i++->y;
 		}
-		table[n - 1].y = INFINITY;
+		result[n - 1] = INFINITY;
 
-		std::copy(table, table + n, result_begin);
+		std::copy(result, result + n, result_begin);
+		delete[] result;
 		delete[] table;
 	};
 }
