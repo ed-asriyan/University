@@ -92,7 +92,25 @@ namespace Derivative {
 	 * @param result_begin Output iterator to the initial position in the destination sequence.
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
-	void LevelingDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
+	void LevelingDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin,
+	                        const std::function<double(double)>& ksi,
+	                        const std::function<double(double)>& eta
+	) {
+		auto n = std::distance(begin, end);
+		Point* table = new Point[n];
+		Point* table_i = table;
+		for (auto it = begin; it != end; ++it) {
+			*(table_i++) = Point(ksi(it->x), eta(it->y));
+		}
+		OneWayDifference(table, table + n, table);
+		auto begin_i = begin;
+		for (auto it = table; it != table + n; ++it) {
+			it->y *= begin_i++->y;
+		}
+		table[n - 1].y = INFINITY;
+
+		std::copy(table, table + n, result_begin);
+		delete[] table;
 	};
 }
 

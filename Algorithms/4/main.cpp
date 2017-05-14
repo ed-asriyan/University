@@ -83,7 +83,10 @@ int main() {
 	std::cout << std::endl;
 
 	std::cout << "Leveling: ";
-	Derivative::RungeDifference(table, table + x_count, get_stdout_iterator<Point>());
+	Derivative::LevelingDifference(table, table + x_count, get_stdout_iterator<Point>(),
+	                               [](double x) { return x; },
+	                               [](double y) { return std::log(y); }
+	);
 	std::cout << std::endl;
 
 	return 0;
