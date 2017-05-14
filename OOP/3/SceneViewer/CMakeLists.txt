@@ -5,5 +5,6 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
         SceneViewer.cpp SceneViewer.hpp
+        Controller.cpp Controller.hpp
         )
 add_library(Elevator ${SOURCE_FILES})
