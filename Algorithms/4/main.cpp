@@ -29,15 +29,6 @@ void GenerateTable(
 	}
 }
 
-std::ostream& operator<<(std::ostream& out, const Point& point) {
-	return out << std::setw(CELL_WIDTH) << point.y;
-}
-
-template<class T>
-std::ostream_iterator<T> get_stdout_iterator() {
-	return std::ostream_iterator<T>(std::cout);
-}
-
 int main() {
 	std::setprecision(CELL_WIDTH);
 
@@ -53,41 +44,55 @@ int main() {
 	std::cout << "Enter points number: ";
 	std::cin >> x_count;
 
-	Point* table = new Point[x_count];
-	GenerateTable(f, x_left, x_right, x_count, table);
+	Point* source = new Point[x_count];
+	GenerateTable(f, x_left, x_right, x_count, source);
 
-	std::cout << "   X    : ";
-	for (const Point* it = table; it != table + x_count; ++it) {
-		std::cout << std::setw(CELL_WIDTH) << it->x;
-	}
-	std::cout << std::endl;
+	Point* one_way_difference = new Point[x_count];
+	Derivative::OneWayDifference(source, source + x_count, one_way_difference);
 
-	std::cout << " Source : ";
-	std::copy(table, table + x_count, get_stdout_iterator<Point>());
-	std::cout << std::endl;
+	Point* central_difference = new Point[x_count];
+	Derivative::CentralDifference(source, source + x_count, central_difference);
 
-	std::cout << "One-way : ";
-	Derivative::OneWayDifference(table, table + x_count, get_stdout_iterator<Point>());
-	std::cout << std::endl;
+	Point* border_difference = new Point[x_count];
+	Derivative::BorderDifference(source, source + x_count, border_difference);
 
-	std::cout << "Central : ";
-	Derivative::CentralDifference(table, table + x_count, get_stdout_iterator<Point>());
-	std::cout << std::endl;
+	Point* runge_difference = new Point[x_count];
+	Derivative::RungeDifference(source, source + x_count, runge_difference);
 
-	std::cout << " Border : ";
-	Derivative::BorderDifference(table, table + x_count, get_stdout_iterator<Point>());
-	std::cout << std::endl;
-
-	std::cout << " Runge  : ";
-	Derivative::RungeDifference(table, table + x_count, get_stdout_iterator<Point>());
-	std::cout << std::endl;
-
-	std::cout << "Leveling: ";
-	Derivative::LevelingDifference(table, table + x_count, get_stdout_iterator<Point>(),
+	Point* leveling_difference = new Point[x_count];
+	Derivative::LevelingDifference(source, source + x_count, leveling_difference,
 	                               [](double x) { return x; },
 	                               [](double y) { return std::log(y); }
 	);
-	std::cout << std::endl;
+
+	std::cout <<
+	          std::setw(CELL_WIDTH) << "X |" <<
+	          std::setw(CELL_WIDTH) << "Source" <<
+	          std::setw(CELL_WIDTH) << "One-way" <<
+	          std::setw(CELL_WIDTH) << "Central-way" <<
+	          std::setw(CELL_WIDTH) << "Border" <<
+	          std::setw(CELL_WIDTH) << "Runge" <<
+	          std::setw(CELL_WIDTH) << "Leveling" <<
+	          std::endl;
+
+	for (size_t i = 0; i < x_count; ++i) {
+		std::cout <<
+		          std::setw(CELL_WIDTH - 2) << source[i].x << " |" <<
+		          std::setw(CELL_WIDTH) << source[i].y <<
+		          std::setw(CELL_WIDTH) << one_way_difference[i].y <<
+		          std::setw(CELL_WIDTH) << central_difference[i].y <<
+		          std::setw(CELL_WIDTH) << border_difference[i].y <<
+		          std::setw(CELL_WIDTH) << runge_difference[i].y <<
+		          std::setw(CELL_WIDTH) << leveling_difference[i].y <<
+		          std::endl;
+	}
+
+	delete[] leveling_difference;
+	delete[] runge_difference;
+	delete[] border_difference;
+	delete[] central_difference;
+	delete[] one_way_difference;
+	delete[] source;
 
 	return 0;
 }
