@@ -8,7 +8,7 @@
 
 #include "derivative.hpp"
 
-#define PRESISION 10
+#define CELL_WIDTH 15
 
 double f(double x) {
 	return std::exp(x);
@@ -22,7 +22,7 @@ void GenerateTable(
 	size_t points_number,
 	ITERATOR result_first
 ) {
-	auto step = (right - left) / points_number;
+	auto step = (right - left) / (points_number == 1 ? points_number : points_number - 1);
 	for (size_t i = 0; i < points_number; ++i) {
 		double x = left + i * step;
 		*(result_first++) = Point(x, func(x));
@@ -30,7 +30,7 @@ void GenerateTable(
 }
 
 std::ostream& operator<<(std::ostream& out, const Point& point) {
-	return out << std::setw(PRESISION) << point.y;
+	return out << std::setw(CELL_WIDTH) << point.y;
 }
 
 template<class T>
@@ -39,7 +39,7 @@ std::ostream_iterator<T> get_stdout_iterator() {
 }
 
 int main() {
-	std::setprecision(PRESISION);
+	std::setprecision(CELL_WIDTH);
 
 	double x_left;
 	std::cout << "Enter left border:  ";
@@ -56,14 +56,34 @@ int main() {
 	Point* table = new Point[x_count];
 	GenerateTable(f, x_left, x_right, x_count, table);
 
-	std::cout << "X     : ";
+	std::cout << "   X    : ";
 	for (const Point* it = table; it != table + x_count; ++it) {
-		std::cout << std::setw(PRESISION) << it->x;
+		std::cout << std::setw(CELL_WIDTH) << it->x;
 	}
 	std::cout << std::endl;
 
-	std::cout << "Source: ";
+	std::cout << " Source : ";
 	std::copy(table, table + x_count, get_stdout_iterator<Point>());
+	std::cout << std::endl;
+
+	std::cout << "One-way : ";
+	Derivative::OneWayDifference(table, table + x_count, get_stdout_iterator<Point>());
+	std::cout << std::endl;
+
+	std::cout << "Central : ";
+	Derivative::CentralDifference(table, table + x_count, get_stdout_iterator<Point>());
+	std::cout << std::endl;
+
+	std::cout << " Border : ";
+	Derivative::BorderDifference(table, table + x_count, get_stdout_iterator<Point>());
+	std::cout << std::endl;
+
+	std::cout << " Runge  : ";
+	Derivative::RungeDifference(table, table + x_count, get_stdout_iterator<Point>());
+	std::cout << std::endl;
+
+	std::cout << "Leveling: ";
+	Derivative::RungeDifference(table, table + x_count, get_stdout_iterator<Point>());
 	std::cout << std::endl;
 
 	return 0;
