@@ -29,7 +29,7 @@ namespace Derivative {
 			++it1;
 			++it0;
 		}
-		*result_begin = INFINITY;
+		*result_begin = NAN;
 	};
 
 	/**
@@ -48,7 +48,7 @@ namespace Derivative {
 		++it0;
 		it1 = it0;
 		++it0;
-		*result_begin++ = INFINITY;
+		*result_begin++ = NAN;
 		while (it0 != end) {
 			*result_begin++ = (it0->y - it2->y) / (it0->x - it2->x);
 
@@ -56,7 +56,7 @@ namespace Derivative {
 			++it1;
 			++it0;
 		}
-		*result_begin = INFINITY;
+		*result_begin = NAN;
 	};
 
 	/**
@@ -85,15 +85,15 @@ namespace Derivative {
 		if (dx0) {
 			*result_begin++ = (-3 * b0->y + 4 * b1->y - b2->y) / dx0;
 		} else {
-			*result_begin++ = INFINITY;
+			*result_begin++ = NAN;
 		}
 		for (size_t i = 2; i < n; ++i) {
-			*result_begin++ = INFINITY;
+			*result_begin++ = NAN;
 		}
 		if (dxn) {
 			*result_begin++ = (3 * e1->y - 4 * e2->y + e3->y) / dxn;
 		} else {
-			*result_begin++ = INFINITY;
+			*result_begin++ = NAN;
 		}
 	};
 
@@ -167,7 +167,7 @@ namespace Derivative {
 		for (auto it = result; it != result + n; ++it) {
 			*it *= begin_i++->y;
 		}
-		result[n - 1] = INFINITY;
+		result[n - 1] = NAN;
 
 		std::copy(result, result + n, result_begin);
 		delete[] result;
