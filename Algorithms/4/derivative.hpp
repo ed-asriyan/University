@@ -42,8 +42,21 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void CentralDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
-		// todo: implement
-		std::copy(begin, end, result_begin);
+		INPUT_ITER it2 = begin;
+		INPUT_ITER it1;
+		INPUT_ITER it0 = begin;
+		++it0;
+		it1 = it0;
+		++it0;
+		*result_begin = Point(begin->x, INFINITY);
+		while (it0 != end) {
+			*(result_begin++) = Point(it1->x, (it0->y - it2->y) / (it0->x - it2->x));
+
+			++it2;
+			++it1;
+			++it0;
+		}
+		*result_begin = Point((--end)->x, INFINITY);
 	};
 
 	/**
