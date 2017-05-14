@@ -69,8 +69,6 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void BorderDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
-		// todo: implement
-		std::copy(begin, end, result_begin);
 	};
 
 	/**
@@ -83,8 +81,6 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void RungeDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
-		// todo: implement
-		std::copy(begin, end, result_begin);
 	};
 
 	/**
@@ -97,8 +93,6 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void LevelingDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
-		// todo: implement
-		std::copy(begin, end, result_begin);
 	};
 }
 
