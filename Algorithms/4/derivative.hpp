@@ -20,14 +20,14 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void OneWayDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
-		INPUT_ITER it1 = begin;
-		INPUT_ITER it0 = begin;
-		++it0;
-		while (it0 != end) {
-			*result_begin++ = (it0->y - it1->y) / (it0->x - it1->x);
+		auto b1 = begin;
+		auto b0 = b1++;
 
-			++it1;
-			++it0;
+		while (b0 != end) {
+			*result_begin++ = (b0->y - b1->y) / (b0->x - b1->x);
+
+			++b1;
+			++b0;
 		}
 		*result_begin = NAN;
 	};
@@ -42,19 +42,17 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void CentralDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
-		INPUT_ITER it2 = begin;
-		INPUT_ITER it1;
-		INPUT_ITER it0 = begin;
-		++it0;
-		it1 = it0;
-		++it0;
-		*result_begin++ = NAN;
-		while (it0 != end) {
-			*result_begin++ = (it0->y - it2->y) / (it0->x - it2->x);
+		auto b2 = begin;
+		auto b0 = b2++;
+		auto b1 = b2++;
 
-			++it2;
-			++it1;
-			++it0;
+		*result_begin++ = NAN;
+		while (b2 != end) {
+			*result_begin++ = (b2->y - b0->y) / (b2->x - b0->x);
+
+			++b2;
+			++b1;
+			++b0;
 		}
 		*result_begin = NAN;
 	};
@@ -69,7 +67,7 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void BorderDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
-		auto n = std::distance(begin, end);
+		const auto n = std::distance(begin, end);
 
 		auto b2 = begin;
 		auto b0 = b2++;
@@ -91,9 +89,9 @@ namespace Derivative {
 			*result_begin++ = NAN;
 		}
 		if (dxn) {
-			*result_begin++ = (3 * e1->y - 4 * e2->y + e3->y) / dxn;
+			*result_begin = (3 * e1->y - 4 * e2->y + e3->y) / dxn;
 		} else {
-			*result_begin++ = NAN;
+			*result_begin = NAN;
 		}
 	};
 
@@ -107,7 +105,7 @@ namespace Derivative {
 	 */
 	template<class INPUT_ITER, class OUT_ITER>
 	void RungeDifference(INPUT_ITER begin, INPUT_ITER end, OUT_ITER result_begin) {
-		auto n = std::distance(begin, end);
+		const auto n = std::distance(begin, end);
 
 		auto it2 = begin;
 		auto it0 = it2++;
@@ -155,14 +153,18 @@ namespace Derivative {
 	                        const std::function<double(double)>& ksi,
 	                        const std::function<double(double)>& eta
 	) {
-		auto n = std::distance(begin, end);
+		const auto n = std::distance(begin, end);
+
 		Point* const table = new Point[n];
 		Point* table_i = table;
+
 		for (auto it = begin; it != end; ++it) {
 			*table_i++ = Point(ksi(it->x), eta(it->y));
 		}
-		auto result = new double[n];
+
+		const auto result = new double[n];
 		OneWayDifference(table, table + n, result);
+
 		auto begin_i = begin;
 		for (auto it = result; it != result + n; ++it) {
 			*it *= begin_i++->y;
@@ -170,6 +172,7 @@ namespace Derivative {
 		result[n - 1] = NAN;
 
 		std::copy(result, result + n, result_begin);
+
 		delete[] result;
 		delete[] table;
 	};
