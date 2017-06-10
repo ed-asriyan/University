@@ -192,14 +192,14 @@ void mouse_move_handler(int x, int y) {
 
 error_t init_core() {
 	error_t error = NONE;
+
 	command_data_t command_data;
-	if ((error = log_if_error("startup", execute(STARTUP, &command_data))) == NONE) {
-		command_data.transform_camera_data.transformation.type = TRANSLATION;
-		command_data.transform_camera_data.transformation.translation.displacement_x = 1.5;
-		command_data.transform_camera_data.transformation.translation.displacement_y = -1.5;
-		command_data.transform_camera_data.transformation.translation.displacement_z = 10.0;
-		error = log_if_error("camera transformation", execute(TRANSFORM_CAMERA, &command_data));
-	}
+	command_data.transform_camera_data.transformation.type = TRANSLATION;
+	command_data.transform_camera_data.transformation.translation.displacement_x = 1.5;
+	command_data.transform_camera_data.transformation.translation.displacement_y = -1.5;
+	command_data.transform_camera_data.transformation.translation.displacement_z = 10.0;
+	error = log_if_error("camera transformation", execute(TRANSFORM_CAMERA, &command_data));
+
 	return error;
 }
 
@@ -216,7 +216,6 @@ error_t load_core(const char* file_path) {
 	command_data.transform_object_data.transformation.rotation.axis_z = 0;
 	command_data.transform_object_data.transformation.rotation.angle = to_radians(70);
 	log_if_error("object rotation", execute(TRANSFORM_OBJECT, &command_data));
-
 
 	return NONE;
 }
