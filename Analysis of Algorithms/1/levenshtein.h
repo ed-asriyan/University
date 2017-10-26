@@ -8,4 +8,6 @@ int calc_levenshtein_general(const char* src, const char* dst);
 
 int calc_levenshtien_recoursive(const char* source, const char* dst);
 
+int calc_levenshtein_modified(const char* src, const char* dst);
+
 #endif //LAB1_LEVENSHTEIN_H

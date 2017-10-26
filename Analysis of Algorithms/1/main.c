@@ -14,7 +14,8 @@ int main() {
 	scanf("%s", dst);
 
 	printf("\n");
-	printf("General: %d\n", calc_levenshtein_general(source, dst));
+	printf("General   : %d\n", calc_levenshtein_general(source, dst));
+	printf("Modified  : %d\n", calc_levenshtein_modified(source, dst));
 	printf("Recoursive: %d\n", calc_levenshtien_recoursive(source, dst));
 
 	return 0;

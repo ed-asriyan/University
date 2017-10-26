@@ -71,3 +71,47 @@ int _calc_levenshtien_recoursive(const char* source, int source_len, const char*
 int calc_levenshtien_recoursive(const char* source, const char* dst) {
 	return _calc_levenshtien_recoursive(source, (int) strlen(source), dst, (int) strlen(dst));
 }
+
+int calc_levenshtein_modified(const char* src, const char* dst) {
+	const int src_len = strlen(src);
+	const int dst_len = strlen(dst);
+
+	int** const matrix = (int**) malloc((src_len) * sizeof(int*));
+
+	for (int i = 0; i <= src_len; i++) {
+		matrix[i] = (int*) malloc((dst_len + 1) * sizeof(int));
+		matrix[i][0] = i;
+	}
+	for (int j = 0; j <= dst_len; j++) {
+		matrix[0][j] = j;
+	}
+	for (int i = 1; i <= src_len; i++) {
+		for (int j = 1; j <= dst_len; j++) {
+			const int cost = src[i - 1] != dst[j - 1];
+
+			matrix[i][j] = MIN3(
+				matrix[i - 1][j] + 1,
+				matrix[i][j - 1] + 1,
+				matrix[i - 1][j - 1] + cost
+			);
+			if ((i > 1) &&
+				(j > 1) &&
+				(src[i - 1] == dst[j - 2]) &&
+				(src[i - 2] == dst[j - 1])
+				) {
+				matrix[i][j] = MIN(
+					matrix[i][j],
+					matrix[i - 2][j - 2] + cost
+				);
+			}
+		}
+	}
+
+	const int result = matrix[src_len][dst_len];
+	for (int i = src_len; i >= 0; --i) {
+		free(matrix[i]);
+	}
+	free(matrix);
+
+	return result;
+}
