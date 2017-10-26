@@ -76,7 +76,7 @@ int calc_levenshtein_modified(const char* src, const char* dst) {
 	const int src_len = strlen(src);
 	const int dst_len = strlen(dst);
 
-	int** const matrix = (int**) malloc((src_len) * sizeof(int*));
+	int** const matrix = (int**) malloc((src_len + 1) * sizeof(int*));
 
 	for (int i = 0; i <= src_len; i++) {
 		matrix[i] = (int*) malloc((dst_len + 1) * sizeof(int));
