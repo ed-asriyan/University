@@ -54,22 +54,22 @@ int calc_levenshtein_general(const char* src, const char* dst) {
 	return result;
 }
 
-int _calc_levenshtien_recoursive(const char* source, int source_len, const char* dst, int dst_len) {
+int _calc_levenshtien_recoursive(const char* src, int src_len, const char* dst, int dst_len) {
 	// base case: empty strings
-	if (source_len == 0) return dst_len;
-	if (dst_len == 0) return source_len;
+	if (src_len == 0) return dst_len;
+	if (dst_len == 0) return src_len;
 
-	const int cost = source[source_len - 1] != dst[dst_len - 1];
+	const int cost = src[src_len - 1] != dst[dst_len - 1];
 
-	// return minimum of delete char from source, delete char from dst, and delete char from both
-	return MIN3(_calc_levenshtien_recoursive(source, source_len - 1, dst, dst_len) + 1,
-	            _calc_levenshtien_recoursive(source, source_len, dst, dst_len - 1) + 1,
-	            _calc_levenshtien_recoursive(source, source_len - 1, dst, dst_len - 1) + cost);
+	// return minimum of delete char from src, delete char from dst, and delete char from both
+	return MIN3(_calc_levenshtien_recoursive(src, src_len - 1, dst, dst_len) + 1,
+	            _calc_levenshtien_recoursive(src, src_len, dst, dst_len - 1) + 1,
+	            _calc_levenshtien_recoursive(src, src_len - 1, dst, dst_len - 1) + cost);
 
 }
 
-int calc_levenshtien_recoursive(const char* source, const char* dst) {
-	return _calc_levenshtien_recoursive(source, (int) strlen(source), dst, (int) strlen(dst));
+int calc_levenshtein_recoursive(const char* src, const char* dst) {
+	return _calc_levenshtien_recoursive(src, (int) strlen(src), dst, (int) strlen(dst));
 }
 
 int calc_levenshtein_modified(const char* src, const char* dst) {
