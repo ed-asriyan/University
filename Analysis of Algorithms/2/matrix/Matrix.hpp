@@ -9,6 +9,7 @@
 #include <ostream>
 #include <algorithm>
 #include <iomanip>
+#include <cstring>
 
 namespace matrix {
 	template<typename T>
@@ -94,6 +95,12 @@ namespace matrix {
 		size_t get_columns() const {
 			return width;
 		}
+
+		template<class T1>
+		friend Matrix<T1> multiplyClassic(const Matrix<T1>&, const Matrix<T1>&);
+
+		template<class T1>
+		friend Matrix<T1> multiplyGrape(const Matrix<T1>&, const Matrix<T1>&);
 
 	private:
 		T** data;

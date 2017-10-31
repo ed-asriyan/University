@@ -5,5 +5,6 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
         Matrix.hpp
+        MatrixMultiplication.hpp
         )
 add_library(matrix INTERFACE)
