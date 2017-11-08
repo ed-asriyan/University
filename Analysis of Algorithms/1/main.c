@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "levenshtein.h"
+#include "levenshtein/levenshtein.h"
 
 #define BUFFER_SIZE 128
 
@@ -8,9 +8,9 @@ int main() {
 	char source[BUFFER_SIZE];
 	char dst[BUFFER_SIZE];
 
-	printf("First string  : ");
+	printf("Source string    : ");
 	scanf("%s", source);
-	printf("Second  string: ");
+	printf("Comparable string: ");
 	scanf("%s", dst);
 
 	printf("\n");
