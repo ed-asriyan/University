@@ -68,7 +68,7 @@ int _calc_levenshtien_recoursive(const char* src, int src_len, const char* dst, 
 
 }
 
-int calc_levenshtein_recoursive(const char* src, const char* dst) {
+int calc_levenshtein_recursive(const char* src, const char* dst) {
 	return _calc_levenshtien_recoursive(src, (int) strlen(src), dst, (int) strlen(dst));
 }
 

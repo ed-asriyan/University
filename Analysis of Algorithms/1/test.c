@@ -30,7 +30,7 @@ clock_t test_recoursive(unsigned int tests_number, const char* src, const char* 
     clock_t result = 0;
     for (unsigned int i = 0; i < tests_number; ++i ) {
         clock_t start_time = clock();
-        calc_levenshtein_recoursive(src, dst);
+        calc_levenshtein_recursive(src, dst);
         result += clock() - start_time;
     }
     return result;
