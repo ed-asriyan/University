@@ -41,7 +41,7 @@ int calc_levenshtein_general(const char* src, const char* dst) {
 			const int above = matrix[i - 1][j];
 			const int left = matrix[i][j - 1];
 			const int diag = matrix[i - 1][j - 1];
-			matrix[i][j] = MIN(MIN(above + 1, left + 1), diag + cost);
+			matrix[i][j] = MIN3(above + 1, left + 1, diag + cost);
 		}
 	}
 
@@ -73,8 +73,8 @@ int calc_levenshtein_recoursive(const char* src, const char* dst) {
 }
 
 int calc_levenshtein_modified(const char* src, const char* dst) {
-	const int src_len = strlen(src);
-	const int dst_len = strlen(dst);
+	const int src_len = (const int) strlen(src);
+	const int dst_len = (const int) strlen(dst);
 
 	int** const matrix = (int**) malloc((src_len + 1) * sizeof(int*));
 
@@ -86,22 +86,28 @@ int calc_levenshtein_modified(const char* src, const char* dst) {
 		matrix[0][j] = j;
 	}
 	for (int i = 1; i <= src_len; i++) {
-		for (int j = 1; j <= dst_len; j++) {
-			const int cost = src[i - 1] != dst[j - 1];
+		int* const row = matrix[i];
+		int* const row_prev = matrix[i - 1];
+		int* const row_prev2 = matrix[i - 2];
 
-			matrix[i][j] = MIN3(
-				matrix[i - 1][j] + 1,
-				matrix[i][j - 1] + 1,
-				matrix[i - 1][j - 1] + cost
-			);
-			if ((i > 1) &&
+		const char src_char_prev = src[i - 1];
+		const char src_char_prev2 = src[i - 2];
+
+		const int i_gt_1 = i > 1;
+
+		for (int j = 1; j <= dst_len; j++) {
+			const int cost = src_char_prev != dst[j - 1];
+
+			row[j] = MIN3(row_prev[j] + 1, row[j - 1] + 1, row_prev[j - 1] + cost);
+			if (i_gt_1 &&
 				(j > 1) &&
-				(src[i - 1] == dst[j - 2]) &&
-				(src[i - 2] == dst[j - 1])
+				(src_char_prev == dst[j - 2]) &&
+				(src_char_prev2 == dst[j - 1])
 				) {
-				matrix[i][j] = MIN(
-					matrix[i][j],
-					matrix[i - 2][j - 2] + cost
+
+				row[j] = MIN(
+					row[j],
+					row_prev2[j - 2] + cost
 				);
 			}
 		}
