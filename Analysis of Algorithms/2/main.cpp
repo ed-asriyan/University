@@ -23,6 +23,7 @@ int main() {
 	std::cout << b << std::endl;
 	std::cout << matrix::multiplyClassic(a, b) << std::endl;
 	std::cout << matrix::multiplyGrape(a, b) << std::endl;
+	std::cout << matrix::multiplyGrapeOptimized(a, b) << std::endl;
 
 	return 0;
 }

@@ -102,6 +102,9 @@ namespace matrix {
 		template<class T1>
 		friend Matrix<T1> multiplyGrape(const Matrix<T1>&, const Matrix<T1>&);
 
+		template<class T1>
+		friend Matrix<T1> multiplyGrapeOptimized(const Matrix<T1>&, const Matrix<T1>&);
+
 	private:
 		T** data;
 		size_t width;
