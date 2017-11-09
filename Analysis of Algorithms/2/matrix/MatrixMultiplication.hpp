@@ -138,7 +138,7 @@ namespace matrix {
 			for (int j = 1; j < a_width; j += 2) {
 				// F: 12
 				//   1  1      1  1            1   2   1            1    3
-				mul_h[i] += a.data[i][j - 1] * a.data[i][j];
+				mul_h[i] -= a.data[i][j - 1] * a.data[i][j];
 			}
 
 		}
@@ -151,7 +151,7 @@ namespace matrix {
 			for (int j = 1; j < a_width; j += 2) {
 				// F: 12
 				//   1  1      1  1             2   1  1              3    1
-				mul_w[i] += b.data[j - 1][i] * b.data[j][i];
+				mul_w[i] -= b.data[j - 1][i] * b.data[j][i];
 			}
 		}
 
@@ -160,7 +160,7 @@ namespace matrix {
 			// F: 2 + q(2 + F{})
 			for (int j = 0; j < b_width; j++) {
 				// F: 7
-				result.data[i][j] = -mul_h[i] - mul_w[j];
+				result.data[i][j] = mul_h[i] + mul_w[j];
 				// F: 3 + n/2(3 + F{})
 				for (int k = 1; k < a_width; k += 2) {
 					// F: 21
