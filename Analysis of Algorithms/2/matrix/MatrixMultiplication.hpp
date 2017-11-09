@@ -155,31 +155,38 @@ namespace matrix {
 			}
 		}
 
-		// F: 2 + m(2 + F{})
-		for (int i = 0; i < a_height; i++) {
-			// F: 2 + q(2 + F{})
-			for (int j = 0; j < b_width; j++) {
-				// F: 7
-				result.data[i][j] = mul_h[i] + mul_w[j];
-				// F: 3 + n/2(3 + F{})
-				for (int k = 1; k < a_width; k += 2) {
-					// F: 21
-					//         1  1  1            1  1  1             1   2   1              3    1   1             1    3    1             2   1
-					result.data[i][j] += (a.data[i][k - 1] + b.data[k][j])
-						* (a.data[i][k] + b.data[k - 1][j]);
-				}
-			}
-		}
-
-		// F: 1
 		if (a_width % 2) {
 			// F: 2 + m(2 + F{})
 			for (int i = 0; i < a_height; i++) {
 				// F: 2 + q(2 + F{})
 				for (int j = 0; j < b_width; j++) {
-					// F: 13
-					//         1  1  1            1  1  1            1   2   1             2   1
+					// F: 7
+					result.data[i][j] = mul_h[i] + mul_w[j];
+					// F: 3 + n/2(3 + F{})
+					for (int k = 1; k < a_width; k += 2) {
+						// F: 21
+						//         1  1  1            1  1  1             1   2   1              3    1   1             1    3    1             2   1
+						result.data[i][j] += (a.data[i][k - 1] + b.data[k][j])
+							* (a.data[i][k] + b.data[k - 1][j]);
+					}
+
 					result.data[i][j] += a.data[i][a_width - 1] * b.data[a_width - 1][j];
+				}
+			}
+		} else {
+			// F: 2 + m(2 + F{})
+			for (int i = 0; i < a_height; i++) {
+				// F: 2 + q(2 + F{})
+				for (int j = 0; j < b_width; j++) {
+					// F: 7
+					result.data[i][j] = mul_h[i] + mul_w[j];
+					// F: 3 + n/2(3 + F{})
+					for (int k = 1; k < a_width; k += 2) {
+						// F: 21
+						//         1  1  1            1  1  1             1   2   1              3    1   1             1    3    1             2   1
+						result.data[i][j] += (a.data[i][k - 1] + b.data[k][j])
+							* (a.data[i][k] + b.data[k - 1][j]);
+					}
 				}
 			}
 		}
