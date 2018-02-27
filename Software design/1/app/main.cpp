@@ -1,19 +1,23 @@
 #include <iostream>
-#include <string>
 
-#include "RouteTranslator.hpp"
+#include "crow_all.h"
 
 #include "core/deserializer/RouteDeserializerGpx.hpp"
 #include "core/serializers/RouteSerializerPolyline.hpp"
 
+#include "RouteTranslator.hpp"
+
 using namespace app;
 
+RouteTranslator<core::deserializers::RouteDeserializerGpx, core::serializers::RouteSerializerPolyline> translator;
+
+crow::response gpx_polyline(const crow::request& req) {
+	return crow::response{translator.translate(req.body)};
+}
+
 int main() {
-	RouteTranslator<core::deserializers::RouteDeserializerGpx, core::serializers::RouteSerializerPolyline> translator;
+	crow::SimpleApp crow;
 
-	std::string input;
-	std::cin >> input;
-	std::cout << translator.translate(input);
-
-	return 0;
+	CROW_ROUTE(crow, "/gpx/polyline").methods("POST"_method)(&gpx_polyline);
+	crow.port(8080).multithreaded().run();
 }
