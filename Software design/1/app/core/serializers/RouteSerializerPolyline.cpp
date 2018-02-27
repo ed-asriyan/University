@@ -41,7 +41,7 @@ inline void encode(std::string& str, double value) {
 			charVar |= s_6bitMask;
 		}
 		charVar += s_asciiOffset;
-		str += (u_char) charVar;
+		str += (unsigned char) charVar;
 
 		e5 = nextChunk;
 	} while (hasNextChunk);
