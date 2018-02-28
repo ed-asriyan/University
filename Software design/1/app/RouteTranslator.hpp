@@ -30,7 +30,7 @@ public:
 	 * @param data input data.
 	 * @return translated data.
 	 */
-	std::string translate(const std::string& data) {
+	std::string translate(const std::string& data) const {
 		const auto route = static_cast<Deserializer>(deserializer).deserialize(data);
 		return static_cast<Serializer>(serializer).serialize(route);
 	}
@@ -40,6 +40,7 @@ private:
 	Deserializer deserializer;
 
 };
+
 }
 
 #endif //APP_CORE_ROUTETRANSLATOR_HPP
