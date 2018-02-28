@@ -21,8 +21,8 @@ template<class Deserializer, class Serializer>
 class RouteTranslator {
 public:
 	constexpr RouteTranslator() {
-		static_assert(std::is_base_of<core::serializers::RouteSerializer, Serializer>());
-		static_assert(std::is_base_of<core::deserializers::RouteDeserializer, Deserializer>());
+		static_assert(std::is_base_of<core::deserializers::RouteDeserializer, Deserializer>(), "Deserializer must be inherited from app::core::deserializers::RouteDeserializer");
+		static_assert(std::is_base_of<core::serializers::RouteSerializer, Serializer>(), "Serializer must be inherited from app::core::serializers::RouteSerializer");
 	}
 
 	/**
