@@ -1,4 +1,4 @@
-package key_generator
+package license
 
 import (
 	"github.com/shirou/gopsutil/disk"

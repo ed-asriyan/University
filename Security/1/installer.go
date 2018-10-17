@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"./key_generator"
+	"./license"
 )
 
 func main() {
-	key, error := key_generator.Generate()
+	key, error := license.Generate()
 
 	if error != nil {
 		fmt.Println(error)

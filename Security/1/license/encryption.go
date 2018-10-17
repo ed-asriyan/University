@@ -1,4 +1,4 @@
-package key_generator
+package license
 
 import (
 	"crypto/aes"

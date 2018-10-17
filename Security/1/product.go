@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"./key_generator"
+	"./license"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 		return
 	}
 
-	checkResult, err := key_generator.Check(string(key))
+	checkResult, err := license.Check(string(key))
 
 	if err != nil {
 		fmt.Println(err)
