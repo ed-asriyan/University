@@ -1,3 +1,3 @@
 package main
 
-const KEY_PATH = "./.key"
+const LICENSE_PATH = "./.key"

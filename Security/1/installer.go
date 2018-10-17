@@ -8,12 +8,15 @@ import (
 )
 
 func main() {
-	key, error := license.Generate()
+	key, err := license.Generate()
 
-	if error != nil {
-		fmt.Println(error)
+	if err != nil {
+		fmt.Println(err)
 		return
 	}
 
-	ioutil.WriteFile(KEY_PATH, []byte(key), 0644)
+	if ioutil.WriteFile(LICENSE_PATH, []byte(key), 0644) != nil {
+		fmt.Println("Can not save the license file")
+		return
+	}
 }

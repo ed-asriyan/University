@@ -8,10 +8,10 @@ import (
 )
 
 func main() {
-	key, err := ioutil.ReadFile(KEY_PATH)
+	key, err := ioutil.ReadFile(LICENSE_PATH)
 
 	if err != nil {
-		fmt.Println("Key file not found")
+		fmt.Println("License file not found")
 		return
 	}
 
