@@ -10,5 +10,5 @@ func (g GeneratorError) Error() string {
 }
 
 func (g CheckerError) Error() string {
-	return "Can not check a key"
+	return "Can not check the key"
 }

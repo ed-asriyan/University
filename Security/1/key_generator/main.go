@@ -4,39 +4,33 @@ import (
 	"github.com/shirou/gopsutil/disk"
 )
 
-func getSecret() (string, error) {
-	serial := disk.GetDiskSerialNumber("/dev/sda")
+const aesKey = "the-key-has-to-be-32-bytes-long!"
 
-	if serial == "" {
-		return "", GeneratorError{}
-	}
-
-	return serial, nil
+func getSecret() string {
+	return disk.GetDiskSerialNumber("/dev/sda")
 }
 
 func Generate() (string, error) {
-	secret, err := getSecret()
-	if err != nil {
-		return "", err
+	secret := getSecret()
+	if secret == "" {
+		return "", GeneratorError{}
 	}
 
-	result, err := encrypt(secret, AES_KEY)
+	result, err := encrypt(secret, aesKey)
 	if err != nil {
-		return "", err
+		return "", GeneratorError{}
 	}
-	return string(result), nil
+
+	return result, nil
 }
 
 func Check(key string) (bool, error) {
-	secret, err := getSecret()
+	secret := getSecret()
+
+	result, err := decrypt(key, aesKey)
 	if err != nil {
-		return false, err
+		return false, CheckerError{}
 	}
 
-	result, err := decrypt(key, AES_KEY)
-	if err != nil {
-		return false, err
-	}
-
-	return secret == string(result), nil
+	return secret == result, nil
 }
