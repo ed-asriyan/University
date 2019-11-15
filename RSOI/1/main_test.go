@@ -24,6 +24,14 @@ func (m *MockedStore) SetValue(key, value string) error {
 	return nil
 }
 
+func (m *MockedStore) DeleteValue(key string) error {
+	if _, ok := (*m)[key]; !ok {
+		return errors.New("key does not exists")
+	}
+	delete(*m, key)
+	return nil
+}
+
 func getResponse(method, path string, body io.Reader, initialStore *MockedStore) (*httptest.ResponseRecorder, error) {
 	req, err := http.NewRequest(method, path, body)
 	if err != nil {
@@ -102,7 +110,7 @@ func TestSetExistingKey(t *testing.T) {
 	}
 
 	if status := rr.Code; status != http.StatusCreated {
-		t.Errorf("Handler returned wrong status code: got %v want %v", status, http.StatusOK)
+		t.Errorf("Handler returned wrong status code: got %v want %v", status, http.StatusCreated)
 	}
 
 	if rr.Body.String() != "" {
@@ -111,5 +119,47 @@ func TestSetExistingKey(t *testing.T) {
 
 	if store[key] != expectedValue {
 		t.Errorf("wrong value in store: %v", store[key])
+	}
+}
+
+func TestDeleteNonExistingKey(t *testing.T) {
+	const key = "/key-to-delete"
+	store := MockedStore{"anotherKey": "anotherValue"}
+	rr, err := getResponse("DELETE", key, nil, &store)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if status := rr.Code; status != http.StatusNotFound {
+		t.Errorf("Handler returned wrong status code: got %v want %v", status, http.StatusNotFound)
+	}
+
+	if rr.Body.String() != "" {
+		t.Errorf("Handler returned unexpected body: %v", rr.Body.String())
+	}
+
+	if _, ok := store[key]; ok {
+		t.Errorf("Key %v presents in the store", key)
+	}
+}
+
+func TestDeleteExistingKey(t *testing.T) {
+	const key = "/key-to-delete"
+	store := MockedStore{key: "anotherValue"}
+	rr, err := getResponse("DELETE", key, nil, &store)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("Handler returned wrong status code: got %v want %v", status, http.StatusOK)
+	}
+
+	if rr.Body.String() != "" {
+		t.Errorf("Handler returned unexpected body: %v", rr.Body.String())
+	}
+
+	if _, ok := store[key]; ok {
+		t.Errorf("Key %v presents in the store", key)
 	}
 }

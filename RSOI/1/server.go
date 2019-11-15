@@ -14,6 +14,18 @@ type KeyValueStoreServer struct {
 func (server *KeyValueStoreServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	key := r.URL.Path
 	switch r.Method {
+	case "DELETE":
+		err := server.store.DeleteValue(key)
+		if err == nil {
+			w.WriteHeader(http.StatusOK)
+		} else {
+			if err.Error() == "key does not exists" {
+				w.WriteHeader(http.StatusNotFound)
+			} else {
+				w.WriteHeader(http.StatusInternalServerError)
+				fmt.Fprintln(w, err)
+			}
+		}
 	case "GET":
 		value, err := server.store.GetValue(key)
 		if err == nil {
